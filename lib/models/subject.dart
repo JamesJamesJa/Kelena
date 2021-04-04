@@ -1,0 +1,3 @@
+class subject {
+  String a;
+}
