@@ -53,11 +53,11 @@ class _FirstComeBottomState extends State<FirstComeBottom> {
                 ],
               ),
               onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return DialogAddSchedule();
-                    });
+                // showDialog(
+                //     context: context,
+                //     builder: (context) {
+                //       return DialogAddSchedule();
+                //     });
               },
             ),
             ElevatedButton(

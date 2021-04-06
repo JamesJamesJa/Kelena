@@ -20,17 +20,12 @@ class _FirstComeNavBarState extends State<FirstComeNavBar> {
   ];
   Widget build(BuildContext context) {
     return Container(
-      // color: Color(0xFF8675A9),
       color: Colors.white,
-      // width: MediaQuery.of(context).size.width,
-      // height: MediaQuery.of(context).size.height * 0.22,
-      // height: 130.0,
       child: Column(children: [
         Container(
           child: Align(
             alignment: Alignment.centerLeft,
             child: Container(
-              // width: MediaQuery.of(context).size.width * 0.65,
               margin: EdgeInsets.only(top: 50.0, left: 30.0),
               child: Text("Welcome Supawit",
                   style: GoogleFonts.montserrat(
@@ -45,7 +40,6 @@ class _FirstComeNavBarState extends State<FirstComeNavBar> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: Container(
-              // width: MediaQuery.of(context).size.width * 0.65,
               margin: EdgeInsets.only(top: 2.0, left: 30.0),
               child: Text("Let's setup your schedule",
                   style: GoogleFonts.montserrat(
@@ -61,7 +55,6 @@ class _FirstComeNavBarState extends State<FirstComeNavBar> {
             top: 10.0,
             bottom: 20,
           ),
-          // height: MediaQuery.of(context).size.height * 0.06,
           color: Colors.white,
           child: TabBar(
             indicatorPadding: EdgeInsets.all(3),
