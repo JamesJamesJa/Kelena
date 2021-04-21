@@ -6,20 +6,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 class SubjectBox extends StatefulWidget {
   final Appointment appointment;
   const SubjectBox({Key key, this.appointment}) : super(key: key);
-  // final TabController tabController;
-  // final String subjectID;
-  // final String subjectName;
-  // final String subjectTime;
-  // final String subjectBuilding;
-  // final String subjectPlatform;
-  // const SubjectBox(
-  //     {Key key,
-  //     this.subjectID,
-  //     this.subjectName,
-  //     this.subjectTime,
-  //     this.subjectBuilding,
-  //     this.subjectPlatform})
-  //     : super(key: key);
   @override
   _SubjectBoxState createState() => _SubjectBoxState();
 }

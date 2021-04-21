@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'firstCome.dart';
+import 'instructorList.dart';
+import 'student.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -53,7 +55,8 @@ class Login extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => FirstCome()),
+                    MaterialPageRoute(builder: (context) => Student()),
+                    // MaterialPageRoute(builder: (context) => InstructorsList()),
                   );
                 },
                 style: ButtonStyle(
