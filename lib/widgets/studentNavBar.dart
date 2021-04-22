@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kelena/widgets/InstructorBox.dart';
+import 'package:kelena/models/instructor.dart';
 
 class StudentNavBar extends StatefulWidget {
   final int tabIndex;
@@ -19,6 +20,50 @@ class _StudentNavBarState extends State<StudentNavBar> {
       0,
       0,
       1,
+    ];
+    List<Instructor> instructors = [
+      Instructor(
+        name: "Narogrit Eiei",
+        place: "CB2301",
+        time: "16:20",
+        fav: 0,
+      ),
+      Instructor(
+        name: "Wirawan Calcal",
+        place: "CB2302",
+        time: "12:30",
+        fav: 1,
+      ),
+      Instructor(
+        name: "Pornchai Yo",
+        place: "CB2303",
+        time: "14:20",
+        fav: 1,
+      ),
+      Instructor(
+        name: "P'jo Kitiphod",
+        place: "CB2304",
+        time: "16:20",
+        fav: 1,
+      ),
+      Instructor(
+        name: "Cholaa Makub",
+        place: "CB2305",
+        time: "19:20",
+        fav: 1,
+      ),
+      Instructor(
+        name: "Siam Sri",
+        place: "CB2306",
+        time: "11:20",
+        fav: 1,
+      ),
+      Instructor(
+        name: "Non Nontra",
+        place: "CB2307",
+        time: "11:11",
+        fav: 1,
+      ),
     ];
     if (widget.tabIndex == 0) {
       return Container(
@@ -154,68 +199,17 @@ class _StudentNavBarState extends State<StudentNavBar> {
                 ),
             width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.height * 0.63,
-            child: ListView(
+            child: ListView.builder(
               scrollDirection: Axis.vertical,
-              children: [
-                InstructorBox(
-                    name: "Narogrit Eiei",
-                    place: "CB2301",
-                    time: "16:20",
-                    fav: fav[0],
-                    onUpdateFav: (newFav) {
-                      setState(() => fav[0] = newFav);
-                    }),
-                InstructorBox(
-                    name: "Wirawan Calcal",
-                    place: "CB2302",
-                    time: "12:30",
-                    fav: fav[1],
-                    onUpdateFav: (newFav) {
-                      setState(() => fav[1] = newFav);
-                    }),
-                InstructorBox(
-                    name: "Pornchai Yo",
-                    place: "CB2303",
-                    time: "14:20",
-                    fav: fav[2],
-                    onUpdateFav: (newFav) {
-                      setState(() => fav[2] = newFav);
-                    }),
-                InstructorBox(
-                    name: "P'jo Kitiphod",
-                    place: "CB2304",
-                    time: "16:20",
-                    fav: fav[3],
-                    onUpdateFav: (newFav) {
-                      setState(() => fav[3] = newFav);
-                    }),
-                InstructorBox(
-                    name: "Cholaa Makub",
-                    place: "CB2305",
-                    time: "19:20",
-                    fav: fav[4],
-                    onUpdateFav: (newFav) {
-                      setState(() => fav[4] = newFav);
-                    }),
-                InstructorBox(
-                    name: "Siam Sri",
-                    place: "CB2306",
-                    time: "11:20",
-                    fav: fav[5],
-                    onUpdateFav: (newFav) {
-                      setState(() => fav[5] = newFav);
-                    }),
-                InstructorBox(
-                    name: "Non Nontra",
-                    place: "CB2307",
-                    time: "11:11",
-                    fav: fav[6],
-                    onUpdateFav: (newFav) {
-                      setState(() => fav[6] = newFav);
-                    }),
-              ],
+              itemBuilder: (ctx, index) => InstructorBox(
+                name: instructors[index].name,
+                time: instructors[index].time,
+                place: instructors[index].place,
+                fav: instructors[index].fav,
+              ),
+              itemCount: instructors.length,
             ),
-          ),
+          )
         ]),
       );
     } else if (widget.tabIndex == 1) {

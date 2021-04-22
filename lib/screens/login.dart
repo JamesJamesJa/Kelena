@@ -53,7 +53,7 @@ class Login extends StatelessWidget {
               margin: EdgeInsets.only(top: 40.0),
               child: OutlinedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => Student()),
                     // MaterialPageRoute(builder: (context) => InstructorsList()),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kelena/screens/firstCome.dart';
 import 'package:kelena/widgets/dialogAddSchedule.dart';
 
 class InstructorBox extends StatefulWidget {
@@ -13,6 +14,25 @@ class InstructorBox extends StatefulWidget {
 }
 
 class _InstructorBoxState extends State<InstructorBox> {
+  // final int favTemp = widget.fav;
+  // widget.fav = 0;
+  // @override
+  //  void initState(){
+  //    super.initState();
+  //    int favTemp = widget..fav = 0;
+  //    widget.onUpdateFav(favTemp);
+  //  }
+  // initState() {
+  //   super.initState();
+  //   if (widget.fav == 0) {
+  //     widget.onUpdateFav(1);
+  //     debugPrint('Fav in In: ${widget.fav}');
+  //   } else {
+  //     widget.onUpdateFav(0);
+  //     debugPrint('Fav in In: ${widget.fav}');
+  //   }
+  // }
+
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
@@ -74,28 +94,52 @@ class _InstructorBoxState extends State<InstructorBox> {
               ),
             ),
             Container(
+              // color: Colors.green,
               padding: EdgeInsets.only(right: 0, left: 10),
-              width: 60.0,
+              width: 40.0,
               child: IconButton(
                 icon: Icon(
                   widget.fav == 0 ? Icons.favorite_outline : Icons.favorite,
                   size: 24,
                   color: Color(0xFF8675A9),
                 ),
-                tooltip: 'Increase volume by 10',
+                // tooltip: 'Increase volume by 10',
                 onPressed: () {
-                  setState(() {
-                    if (widget.fav == 0) {
-                      widget.onUpdateFav(1);
-                    } else {
-                      widget.onUpdateFav(0);
-                    }
-                    // showDialog(
-                    //     context: context,
-                    //     builder: (context) {
-                    //       return DialogAddSchedule();
-                    //     });
-                  });
+                  // setState(() {
+                  //   // initState();
+                  //   if (widget.fav == 0) {
+                  //     widget.onUpdateFav(1);
+                  //     debugPrint('Fav in In: ${widget.fav}');
+                  //   } else {
+                  //     widget.onUpdateFav(0);
+                  //     debugPrint('Fav in In: ${widget.fav}');
+                  //   }
+
+                  //   // showDialog(
+                  //   //     context: context,
+                  //   //     builder: (context) {
+                  //   //       return DialogAddSchedule();
+                  //   //     });
+                  // });
+                },
+              ),
+            ),
+            Container(
+              // padding: EdgeInsets.only(right: 0, left: 0),
+              width: 30.0,
+              child: IconButton(
+                icon: Icon(
+                  Icons.navigate_next_rounded,
+                  size: 20,
+                  color: Color(0xFF8675A9),
+                ),
+                // tooltip: 'Increase volume by 10',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FirstCome()),
+                    // MaterialPageRoute(builder: (context) => InstructorsList()),
+                  );
                 },
               ),
             ),

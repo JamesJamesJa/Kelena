@@ -1,31 +1,9 @@
 import 'package:flutter/material.dart';
 
-class BottomNavBar extends StatefulWidget {
-  @override
-  _BottomNavBarState createState() => _BottomNavBarState();
-}
-
-class _BottomNavBarState extends State<BottomNavBar> {
-  int _selectedTabIndex = 0;
-
-  List _pages = [
-    Text("Instructor List"),
-    Text("Instructor List"),
-    Text("Your Schedule"),
-  ];
-
-  List _nameNavBar = [
-    Text("Instructor List", style: TextStyle(color: Colors.white)),
-    Text("Instructor List", style: TextStyle(color: Colors.white)),
-    Text("Your Schedule", style: TextStyle(color: Colors.white)),
-  ];
-
-  _changeIndex(int index) {
-    setState(() {
-      _selectedTabIndex = index;
-    });
-  }
-
+class BottomNavBar extends StatelessWidget {
+  final int selectedTabIndex;
+  final Function changeIndex;
+  const BottomNavBar({this.selectedTabIndex, this.changeIndex});
   Widget build(BuildContext context) {
     //Bottom Nav Bar Widget
     return new Theme(
@@ -35,11 +13,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
       child: SizedBox(
         height: 54,
         child: new BottomNavigationBar(
-          currentIndex: _selectedTabIndex,
-          onTap: _changeIndex,
+          currentIndex: selectedTabIndex,
+          onTap: changeIndex,
           items: [
             BottomNavigationBarItem(
-                icon: _selectedTabIndex == 0
+                icon: selectedTabIndex == 0
                     ? Icon(
                         Icons.person,
                         size: 26,
@@ -53,7 +31,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 title: Text("Instructors",
                     style: TextStyle(fontSize: 11, color: Color(0xFF8675A9)))),
             BottomNavigationBarItem(
-                icon: _selectedTabIndex == 1
+                icon: selectedTabIndex == 1
                     ? Icon(
                         Icons.favorite,
                         size: 26,
@@ -67,7 +45,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 title: Text("Favorite",
                     style: TextStyle(fontSize: 11, color: Color(0xFF8675A9)))),
             BottomNavigationBarItem(
-                icon: _selectedTabIndex == 2
+                icon: selectedTabIndex == 2
                     ? Icon(
                         Icons.calendar_today,
                         size: 26,
@@ -85,64 +63,71 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
     );
   }
-
-  // Widget build(BuildContext context) {
-  //   //Bottom Nav Bar Widget
-  //   return new Theme(
-  //     data: Theme.of(context).copyWith(
-  //       canvasColor: Color(0xFF8675A9), //Purple Color
-  //     ),
-  //     child: SizedBox(
-  //       height: 80,
-  //       child: new BottomNavigationBar(
-  //         currentIndex: _selectedTabIndex,
-  //         onTap: _changeIndex,
-  //         items: [
-  //           BottomNavigationBarItem(
-  //               icon: Icon(
-  //                 Icons.person,
-  //                 size: 35,
-  //                 color:
-  //                     _selectedTabIndex == 0 ? Color(0xFFEFBBCF) : Colors.white,
-  //               ),
-  //               title: Text("Instructors",
-  //                   style: TextStyle(
-  //                       fontSize: 11,
-  //                       color: _selectedTabIndex == 0
-  //                           ? Color(0xFFEFBBCF) //Pink Color
-  //                           : Colors.white))),
-  //           BottomNavigationBarItem(
-  //               icon: Icon(
-  //                 Icons.favorite,
-  //                 size: 35,
-  //                 color:
-  //                     _selectedTabIndex == 1 ? Color(0xFFEFBBCF) : Colors.white,
-  //               ),
-  //               title: Text("Favorite",
-  //                   style: TextStyle(
-  //                       fontSize: 11,
-  //                       color: _selectedTabIndex == 1
-  //                           ? Color(0xFFEFBBCF)
-  //                           : Colors.white))),
-  //           BottomNavigationBarItem(
-  //               icon: Icon(
-  //                 Icons.calendar_today,
-  //                 size: 35,
-  //                 color:
-  //                     _selectedTabIndex == 2 ? Color(0xFFEFBBCF) : Colors.white,
-  //               ),
-  //               title: Text("Caalendar",
-  //                   style: TextStyle(
-  //                       fontSize: 11,
-  //                       color: _selectedTabIndex == 2
-  //                           ? Color(0xFFEFBBCF)
-  //                           : Colors.white))),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 }
+
+// class BottomNavBar extends StatefulWidget {
+//   final int tabIndex;
+//   const BottomNavBar({Key key, this.tabIndex}) : super(key: key);
+//   @override
+//   _BottomNavBarState createState() => _BottomNavBarState();
+// }
+
+// Widget build(BuildContext context) {
+//   //Bottom Nav Bar Widget
+//   return new Theme(
+//     data: Theme.of(context).copyWith(
+//       canvasColor: Color(0xFF8675A9), //Purple Color
+//     ),
+//     child: SizedBox(
+//       height: 80,
+//       child: new BottomNavigationBar(
+//         currentIndex: _selectedTabIndex,
+//         onTap: _changeIndex,
+//         items: [
+//           BottomNavigationBarItem(
+//               icon: Icon(
+//                 Icons.person,
+//                 size: 35,
+//                 color:
+//                     _selectedTabIndex == 0 ? Color(0xFFEFBBCF) : Colors.white,
+//               ),
+//               title: Text("Instructors",
+//                   style: TextStyle(
+//                       fontSize: 11,
+//                       color: _selectedTabIndex == 0
+//                           ? Color(0xFFEFBBCF) //Pink Color
+//                           : Colors.white))),
+//           BottomNavigationBarItem(
+//               icon: Icon(
+//                 Icons.favorite,
+//                 size: 35,
+//                 color:
+//                     _selectedTabIndex == 1 ? Color(0xFFEFBBCF) : Colors.white,
+//               ),
+//               title: Text("Favorite",
+//                   style: TextStyle(
+//                       fontSize: 11,
+//                       color: _selectedTabIndex == 1
+//                           ? Color(0xFFEFBBCF)
+//                           : Colors.white))),
+//           BottomNavigationBarItem(
+//               icon: Icon(
+//                 Icons.calendar_today,
+//                 size: 35,
+//                 color:
+//                     _selectedTabIndex == 2 ? Color(0xFFEFBBCF) : Colors.white,
+//               ),
+//               title: Text("Caalendar",
+//                   style: TextStyle(
+//                       fontSize: 11,
+//                       color: _selectedTabIndex == 2
+//                           ? Color(0xFFEFBBCF)
+//                           : Colors.white))),
+//         ],
+//       ),
+//     ),
+//   );
+// }
 
 // import 'package:flutter/material.dart';
 
