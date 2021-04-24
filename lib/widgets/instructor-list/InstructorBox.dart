@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:kelena/screens/firstCome.dart';
-import 'package:kelena/widgets/dialogAddSchedule.dart';
+import 'package:kelena/screens/instructorTime.dart';
+import 'package:kelena/widgets/student/dialogAddSchedule.dart';
 
 class InstructorBox extends StatefulWidget {
   final String name, place, time;
   final int fav;
   final Function(int fav) onUpdateFav;
+  final int selectedTabIndex;
+  final Function changeIndex;
   const InstructorBox(
-      {Key key, this.name, this.place, this.time, this.fav, this.onUpdateFav})
+      {Key key,
+      this.name,
+      this.place,
+      this.time,
+      this.fav,
+      this.onUpdateFav,
+      this.selectedTabIndex,
+      this.changeIndex})
       : super(key: key);
   @override
   _InstructorBoxState createState() => _InstructorBoxState();
@@ -136,10 +146,16 @@ class _InstructorBoxState extends State<InstructorBox> {
                 // tooltip: 'Increase volume by 10',
                 onPressed: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FirstCome()),
-                    // MaterialPageRoute(builder: (context) => InstructorsList()),
-                  );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => InstructTime(
+                              selectedTabIndex: widget.selectedTabIndex,
+                              changeIndex: widget.changeIndex)));
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => FirstCome()),
+                  //   // MaterialPageRoute(builder: (context) => InstructorsList()),
+                  // );
                 },
               ),
             ),

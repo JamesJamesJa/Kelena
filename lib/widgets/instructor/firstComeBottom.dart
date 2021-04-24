@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
-import '../widgets/dialogAddSchedule.dart';
+import '../student/dialogAddSchedule.dart';
 
 class FirstComeBottom extends StatefulWidget {
   // final TabController tabController;

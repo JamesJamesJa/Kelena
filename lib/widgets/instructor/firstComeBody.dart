@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kelena/widgets/subjectBox.dart';
+import 'package:kelena/widgets/student/subjectBox.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import 'subjectBox.dart';
+import '../student/subjectBox.dart';
 
 class FirstComeBody extends StatefulWidget {
   final TabController tabController;

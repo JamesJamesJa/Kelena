@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/firstComeNavBar.dart';
-import '../widgets/firstComeBody.dart';
-import '../widgets/firstComeBottom.dart';
+import '../widgets/instructor/firstComeNavBar.dart';
+import '../widgets/instructor/firstComeBody.dart';
+import '../widgets/instructor/firstComeBottom.dart';
 
 class FirstCome extends StatefulWidget {
   @override
