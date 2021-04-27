@@ -18,14 +18,14 @@ class BottomNavBar extends StatelessWidget {
           onTap: (_) {
             changeIndex(_);
             if (isPop) {
-              if (selectedTabIndex == 0) {
-                Navigator.pop(context);
-                print("Kuay");
-              } else {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => Student()));
-                print("asd");
-              }
+              // if (selectedTabIndex == 0) {
+              Navigator.pop(context);
+              // print("Kuay");
+              // } else {
+              //   Navigator.pushReplacement(context,
+              //       MaterialPageRoute(builder: (context) => Student()));
+              //   print("asd");
+              // }
             }
           },
           items: [

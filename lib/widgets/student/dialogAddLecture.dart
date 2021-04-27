@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DialogAddLecture extends StatefulWidget {
   @override
@@ -16,11 +18,16 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
     int onWhatSelected = -1;
     bool _value = true;
     Function onChanged;
+    DateTime initialTimerStart = DateTime(2020, 12, 1, 8, 00),
+        initialTimerEnd = DateTime(2020, 12, 1, 12, 00);
+    String startTime = "Start Time";
+    String endTime = "End Time";
+    int _selectedValue = 0;
     return Scaffold(
         body: Container(
       // color: Colors.red,
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: MediaQuery.of(context).size.height * 0.6,
       child: Column(
         children: [
           Row(
@@ -28,7 +35,7 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
             children: [
               Container(
                 padding: EdgeInsets.only(
-                  top: 0,
+                  top: 8,
                   left: 20,
                 ),
                 child: IconButton(
@@ -41,7 +48,7 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  top: 10,
+                  top: 8,
                   right: 40,
                 ),
                 child: ElevatedButton(
@@ -79,7 +86,7 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
             child: TextFormField(
               decoration: const InputDecoration(
                 labelText: 'Subject ID',
-                hintText: 'Add subject id',
+                hintText: 'Add your Subject ID',
               ),
               // onSaved: (String value) {
               //   // This optional block of code can be used to run
@@ -98,7 +105,7 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
             child: TextFormField(
               decoration: const InputDecoration(
                 labelText: 'Subject Name',
-                hintText: 'Add subject name',
+                hintText: 'Add your Subject Name',
               ),
               // onSaved: (String value) {
               //   // This optional block of code can be used to run
@@ -116,8 +123,8 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
             height: 56,
             child: TextFormField(
               decoration: const InputDecoration(
-                labelText: 'Subject Name',
-                hintText: 'Add subject name',
+                labelText: 'Location',
+                hintText: 'Add your Location',
               ),
               // onSaved: (String value) {
               //   // This optional block of code can be used to run
@@ -130,42 +137,186 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
               // },
             ),
           ),
-          Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  onChanged(!_value);
-                },
-                child: Checkbox(
-                  value: _value,
-                  onChanged: (_) {
-                    setState(() {
-                      _value = !_value;
-                    });
+          Container(
+            padding: EdgeInsets.only(left: 38),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () {
+                    onChanged(!_value);
                   },
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: !_value,
+                        onChanged: (_) {
+                          setState(() {
+                            _value = !_value;
+                          });
+                        },
+                      ),
+                      Text("Onsite"),
+                    ],
+                  ),
                 ),
-              ),
-              Checkbox(
-                value: _value,
-                onChanged: (_) {
-                  print(_value);
-                  setState(() {
-                    _value = !_value;
-                    print(_value);
-                  });
-                },
-              ),
-              Checkbox(
-                value: _value,
-                onChanged: (_) {
-                  print(_value);
-                  setState(() {
-                    _value = !_value;
-                    print(_value);
-                  });
-                },
-              ),
-            ],
+                InkWell(
+                  onTap: () {
+                    onChanged(!_value);
+                  },
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: !_value,
+                        onChanged: (_) {
+                          setState(() {
+                            _value = !_value;
+                          });
+                        },
+                      ),
+                      Text("Online"),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    onChanged(!_value);
+                  },
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _value,
+                        onChanged: (_) {
+                          setState(() {
+                            _value = !_value;
+                          });
+                        },
+                      ),
+                      Text("Hybrid"),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 50, top: 10),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.access_time_outlined,
+                  size: 20,
+                  color: Color(0xFF8675A9),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        child: Text(
+                          startTime,
+                          style: TextStyle(color: Color(0xffA3A3A3)),
+                        ),
+                        onTap: () {
+                          return showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return CupertinoDatePicker(
+                                  initialDateTime: initialTimerStart,
+                                  onDateTimeChanged: (DateTime newdate) {
+                                    initialTimerStart = newdate;
+                                    startTime = DateFormat('kk:mm a')
+                                        .format(initialTimerStart);
+                                    // print(startTime);
+                                  },
+                                  mode: CupertinoDatePickerMode.time,
+                                );
+                              });
+                        },
+                      ),
+                      Text(
+                        " - ",
+                        style: TextStyle(color: Color(0xffA3A3A3)),
+                      ),
+                      GestureDetector(
+                        child: Text(
+                          endTime,
+                          style: TextStyle(color: Color(0xffA3A3A3)),
+                        ),
+                        onTap: () {
+                          return showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return CupertinoDatePicker(
+                                  initialDateTime: initialTimerEnd,
+                                  onDateTimeChanged: (DateTime newdate) {
+                                    initialTimerEnd = newdate;
+                                    endTime = DateFormat('kk:mm a')
+                                        .format(initialTimerEnd);
+                                    // print(newdate);
+                                  },
+                                  mode: CupertinoDatePickerMode.time,
+                                );
+                              });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 50, top: 20),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.access_time_outlined,
+                  size: 20,
+                  color: Color(0xFF8675A9),
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                    left: 20,
+                  ),
+                  child: GestureDetector(
+                    child: Text(
+                      // weeklyDay,
+                      "Monday",
+                      style: TextStyle(color: Color(0xffA3A3A3)),
+                    ),
+                    onTap: () {
+                      return showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoPicker(
+                              // key: _selectedValue,
+                              backgroundColor: Colors.white,
+                              itemExtent: 30,
+                              scrollController: FixedExtentScrollController(
+                                  initialItem: _selectedValue),
+                              children: [
+                                Text('Monday'),
+                                Text('Tuesday'),
+                                Text('Wednesday'),
+                                Text('Thursday'),
+                                Text('Fridday'),
+                                Text('Saturday'),
+                                Text('Sunday'),
+                              ],
+                              onSelectedItemChanged: (value) {
+                                setState(() {
+                                  _selectedValue = value;
+                                  // print(_selectedValue);
+                                });
+                              },
+                            );
+                          });
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
 
           // Divider(

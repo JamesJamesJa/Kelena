@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:kelena/models/user.dart';
 import 'package:kelena/screens/firstCome.dart';
 import 'package:kelena/screens/instructorTime.dart';
 import 'package:kelena/widgets/student/dialogAddSchedule.dart';
 
 class InstructorBox extends StatefulWidget {
-  final String name, place, time;
-  final int fav;
-  final Function(int fav) onUpdateFav;
+  final User teacher;
+  final User student;
+  // final String name, place, time;
+  // final int fav;
+  // final Function(int fav) onUpdateFav;
   final int selectedTabIndex;
   final Function changeIndex;
-  const InstructorBox(
-      {Key key,
-      this.name,
-      this.place,
-      this.time,
-      this.fav,
-      this.onUpdateFav,
-      this.selectedTabIndex,
-      this.changeIndex})
-      : super(key: key);
+  const InstructorBox({
+    Key key,
+    this.teacher,
+    this.student,
+    // this.name,
+    // this.place,
+    // this.time,
+    // this.fav,
+    // this.onUpdateFav,
+    this.selectedTabIndex,
+    this.changeIndex,
+  }) : super(key: key);
   @override
   _InstructorBoxState createState() => _InstructorBoxState();
 }
@@ -42,6 +47,16 @@ class _InstructorBoxState extends State<InstructorBox> {
   //     debugPrint('Fav in In: ${widget.fav}');
   //   }
   // }
+  bool isFav() {
+    for (var i = 0; i < widget.student.favoriteLectures.length; i++) {
+      // print(widget.student.favoriteLectures[i]);
+      // print(widget.teacher.id);
+      if (widget.student.favoriteLectures[i].lectureId == widget.teacher.id) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   Widget build(BuildContext context) {
     return Container(
@@ -83,7 +98,7 @@ class _InstructorBoxState extends State<InstructorBox> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      widget.name,
+                      widget.teacher.name,
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -93,7 +108,8 @@ class _InstructorBoxState extends State<InstructorBox> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "At " + widget.place + " until " + widget.time,
+                      // "At " + widget.place + " until " + widget.time,
+                      "No Class",
                       style: TextStyle(
                           color: Color(0xff666666),
                           fontWeight: FontWeight.w100,
@@ -109,7 +125,7 @@ class _InstructorBoxState extends State<InstructorBox> {
               width: 40.0,
               child: IconButton(
                 icon: Icon(
-                  widget.fav == 0 ? Icons.favorite_outline : Icons.favorite,
+                  isFav() ? Icons.favorite_outline : Icons.favorite,
                   size: 24,
                   color: Color(0xFF8675A9),
                 ),

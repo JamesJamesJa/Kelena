@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:kelena/main.dart';
 
 class User {
@@ -59,6 +60,14 @@ class AppointmentDetails {
     this.lectureId,
     this.status,
   });
+}
+
+class UserUpdate with ChangeNotifier {
+  void addFav(User student, String lectureId) {
+    // FavoriteLectureLists tempLectureId;
+    // tempLectureId.lectureId = lectureId;
+    // student.favoriteLectures.add(lectureId);
+  }
 }
 
 // List<LectureDetails> studentLec = [

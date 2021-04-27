@@ -15,7 +15,7 @@ class Student extends StatefulWidget {
 
 class _StudentState extends State<Student> with SingleTickerProviderStateMixin {
   int _selectedTabIndex = 0;
-  User user1 = User(
+  User student = User(
     id: "id1",
     name: "Thanawat Benjachatriroj",
     email: "thanawat.bcr@gmail.com",
@@ -104,7 +104,7 @@ class _StudentState extends State<Student> with SingleTickerProviderStateMixin {
     ],
     favoriteLectures: [
       FavoriteLectureLists(lectureId: "teacher1"),
-      FavoriteLectureLists(lectureId: "teacher3"),
+      // FavoriteLectureLists(lectureId: "teacher2"),
     ],
     appointments: [
       AppointmentDetails(id: "app1", lectureId: "lec2", status: "Approved"),
@@ -112,6 +112,92 @@ class _StudentState extends State<Student> with SingleTickerProviderStateMixin {
       AppointmentDetails(id: "app3", lectureId: "lec1", status: "Pending"),
     ],
   );
+  List<User> teachers = [
+    User(
+      id: "teacher1",
+      name: "Ben Malaja",
+      email: "ben.mala@gmail.com",
+      role: "teacher",
+      lectures: [
+        LectureDetails(
+          id: "lec2",
+          subjectId: "CSC217",
+          name: "Operating Systems",
+          room: "CB2308",
+          day: "Tue",
+          from: "10:30",
+          to: "12:00",
+          type: "Hybrid",
+        ),
+        LectureDetails(
+          id: "lec8",
+          subjectId: "CSC217",
+          name: "Operating Systems",
+          room: "CB2306",
+          day: "Fri",
+          from: "12:50",
+          to: "14:20",
+          type: "Hybrid",
+        ),
+      ],
+    ),
+    User(
+      id: "teacher2",
+      name: "Noname Nolastname",
+      email: "no.no@gmail.com",
+      role: "teacher",
+      lectures: [
+        LectureDetails(
+          id: "lec1",
+          subjectId: "MTH102",
+          name: "Mathematics II",
+          room: "CB2312",
+          day: "Mon",
+          from: "10:30",
+          to: "12:30",
+          type: "Hybrid",
+        ),
+        LectureDetails(
+          id: "lec5",
+          subjectId: "MTH102",
+          name: "Mathematics II",
+          room: "CB2301",
+          day: "Thu",
+          from: "10:30",
+          to: "12:30",
+          type: "Hybrid",
+        ),
+        LectureDetails(
+          id: "lec9",
+          subjectId: "MTH103",
+          name: "Mathematics I",
+          room: "CB2306",
+          day: "Fri",
+          from: "10:50",
+          to: "12:20",
+          type: "Hybrid",
+        ),
+      ],
+    ),
+  ];
+  List<User> favTeacher = [];
+  void filterFavTeacher() {
+    for (var i = 0; i < teachers.length; i++) {
+      for (var j = 0; j < student.favoriteLectures.length; j++) {
+        if (teachers[i].id == student.favoriteLectures[j].lectureId) {
+          favTeacher.add(teachers[i]);
+          // print("asd");
+        }
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    filterFavTeacher();
+    super.initState();
+  }
+
   @override
   _changeIndex(int index) {
     setState(() {
@@ -127,9 +213,16 @@ class _StudentState extends State<Student> with SingleTickerProviderStateMixin {
           (_selectedTabIndex == 0)
               ? InstructorList(
                   selectedTabIndex: _selectedTabIndex,
-                  changeIndex: _changeIndex)
+                  changeIndex: _changeIndex,
+                  teachers: teachers,
+                  student: student)
               : (_selectedTabIndex == 1)
-                  ? FavoriteInstructor()
+                  ? FavoriteInstructor(
+                      selectedTabIndex: _selectedTabIndex,
+                      changeIndex: _changeIndex,
+                      teachers: favTeacher,
+                      student: student,
+                    )
                   : StudentSchedule()
         ],
       ),

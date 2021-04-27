@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:kelena/models/instructor.dart';
+import 'package:kelena/models/user.dart';
 import 'package:kelena/widgets/instructor-list/InstructorBox.dart';
 import 'package:kelena/widgets/student/studentNavBar.dart';
 
 class FavoriteInstructor extends StatefulWidget {
-  const FavoriteInstructor({Key key}) : super(key: key);
+  final int selectedTabIndex;
+  final Function changeIndex;
+  final List<User> teachers;
+  final User student;
+  const FavoriteInstructor({
+    Key key,
+    this.selectedTabIndex,
+    this.changeIndex,
+    this.teachers,
+    this.student,
+  }) : super(key: key);
   @override
   _FavoriteInstructorState createState() => _FavoriteInstructorState();
 }
@@ -49,12 +60,16 @@ class _FavoriteInstructorState extends State<FavoriteInstructor> {
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemBuilder: (ctx, index) => InstructorBox(
-                name: instructors[index].name,
-                time: instructors[index].time,
-                place: instructors[index].place,
-                fav: instructors[index].fav,
+                // name: instructors[index].name,
+                // time: instructors[index].time,
+                // place: instructors[index].place,
+                // fav: instructors[index].fav,
+                selectedTabIndex: widget.selectedTabIndex,
+                changeIndex: widget.changeIndex,
+                teacher: widget.teachers[index],
+                student: widget.student,
               ),
-              itemCount: instructors.length,
+              itemCount: widget.teachers.length,
             ),
           )
         ]));

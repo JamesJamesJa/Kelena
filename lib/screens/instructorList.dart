@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kelena/models/user.dart';
 import 'package:kelena/widgets/instructor-list/InstructorBox.dart';
 import 'package:kelena/models/instructor.dart';
 import 'package:kelena/widgets/student/studentNavBar.dart';
@@ -7,8 +8,15 @@ import 'package:kelena/widgets/student/studentNavBar.dart';
 class InstructorList extends StatefulWidget {
   final int selectedTabIndex;
   final Function changeIndex;
-  const InstructorList({Key key, this.selectedTabIndex, this.changeIndex})
-      : super(key: key);
+  final List<User> teachers;
+  final User student;
+  const InstructorList({
+    Key key,
+    this.selectedTabIndex,
+    this.changeIndex,
+    this.teachers,
+    this.student,
+  }) : super(key: key);
   @override
   _InstructorListState createState() => _InstructorListState();
 }
@@ -118,13 +126,16 @@ class _InstructorListState extends State<InstructorList> {
           child: ListView.builder(
             scrollDirection: Axis.vertical,
             itemBuilder: (ctx, index) => InstructorBox(
-                name: instructors[index].name,
-                time: instructors[index].time,
-                place: instructors[index].place,
-                fav: instructors[index].fav,
-                selectedTabIndex: widget.selectedTabIndex,
-                changeIndex: widget.changeIndex),
-            itemCount: instructors.length,
+              teacher: widget.teachers[index],
+              student: widget.student,
+              // name: instructors[index].name,
+              // time: instructors[index].time,
+              // place: instructors[index].place,
+              // fav: instructors[index].fav,
+              selectedTabIndex: widget.selectedTabIndex,
+              changeIndex: widget.changeIndex,
+            ),
+            itemCount: widget.teachers.length,
           ),
         )
       ]),

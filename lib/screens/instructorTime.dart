@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kelena/widgets/instructor/instructorScheduleBody.dart';
 import 'package:kelena/widgets/student/bottomNavBar.dart';
 import 'package:kelena/widgets/instructor-list/instructorTimeNavBar.dart';
 
@@ -11,19 +12,28 @@ class InstructTime extends StatefulWidget {
   _InstructTimeState createState() => _InstructTimeState();
 }
 
-class _InstructTimeState extends State<InstructTime> {
+class _InstructTimeState extends State<InstructTime>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 7);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
           color: Colors.white,
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.91,
+          height: MediaQuery.of(context).size.height * 0.9,
           child: Column(children: <Widget>[
             InstructorTimeNavBar(
               headline1: "Ronald Robertson",
               headline2: "At CB2304 until 16.00",
             ),
-            // FirstComeBody(),
+            InstructorScheduleBody(
+              tabController: _tabController,
+            ),
           ])),
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.white),
