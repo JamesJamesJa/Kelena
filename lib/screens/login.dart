@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kelena/providers/teachers.dart';
 
 import 'firstCome.dart';
 import 'instructorList.dart';
-import 'student.dart';
+import 'studentPage.dart';
 
 class Login extends StatelessWidget {
+  final Teachers teachers;
+  const Login({Key key, this.teachers}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +58,10 @@ class Login extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Student()),
+                    MaterialPageRoute(
+                        builder: (context) => StudentPage(
+                              teachers: teachers,
+                            )),
                     // MaterialPageRoute(builder: (context) => InstructorsList()),
                   );
                 },

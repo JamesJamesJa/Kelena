@@ -1,5 +1,6 @@
-import 'package:flutter/foundation.dart';
-import 'package:kelena/main.dart';
+// import 'package:kelena/providers/lectures.dart';
+
+import 'package:flutter/material.dart';
 
 class User {
   final String id;
@@ -7,6 +8,7 @@ class User {
   final String email;
   // Role 1 is Student, Role 2 is Teacher
   final String role;
+  // final Lectures lectures;
   final List<LectureDetails> lectures;
   final List<FavoriteLectureLists> favoriteLectures;
   final List<AppointmentDetails> appointments;
@@ -62,8 +64,46 @@ class AppointmentDetails {
   });
 }
 
-class UserUpdate with ChangeNotifier {
-  void addFav(User student, String lectureId) {
+class Lectures with ChangeNotifier {
+  Map<String, LectureDetails> _lectures = {};
+
+  Map<String, LectureDetails> get getAll {
+    return {..._lectures};
+  }
+
+  int get length {
+    return _lectures.length;
+  }
+
+  void addLecture(String id, String subjectId, String name, String room,
+      String day, String from, String to, String type) {
+    // if (_lectures.containsKey(id)) {
+    //   _lectures.update(
+    //       id,
+    //       (value) => LectureDetails(
+    //             id: value.id,
+    //             name: value.name,
+    //             email: value.email,
+    //             role: "teacher",
+    //           ));
+    // } else {
+    // _lectures.addEntries(newEntries)
+    _lectures.putIfAbsent(
+        id,
+        () => LectureDetails(
+            id: id,
+            name: name,
+            subjectId: subjectId,
+            room: room,
+            day: day,
+            from: from,
+            to: to,
+            type: type));
+    // }
+    notifyListeners();
+  }
+
+  void addFav(LectureDetails student, String lectureId) {
     // FavoriteLectureLists tempLectureId;
     // tempLectureId.lectureId = lectureId;
     // student.favoriteLectures.add(lectureId);

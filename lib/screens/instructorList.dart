@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kelena/models/user.dart';
+import 'package:kelena/providers/teachers.dart';
 import 'package:kelena/widgets/instructor-list/InstructorBox.dart';
 import 'package:kelena/models/instructor.dart';
 import 'package:kelena/widgets/student/studentNavBar.dart';
+import 'package:provider/provider.dart';
 
 class InstructorList extends StatefulWidget {
   final int selectedTabIndex;
   final Function changeIndex;
-  final List<User> teachers;
+  // final List<User> teachers;
   final User student;
   const InstructorList({
     Key key,
     this.selectedTabIndex,
     this.changeIndex,
-    this.teachers,
+    // this.teachers,
     this.student,
   }) : super(key: key);
   @override
@@ -22,6 +24,11 @@ class InstructorList extends StatefulWidget {
 }
 
 class _InstructorListState extends State<InstructorList> {
+  void initState() {
+    print(teachers.length);
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     List<Instructor> instructors = [
       Instructor(
@@ -118,26 +125,28 @@ class _InstructorListState extends State<InstructorList> {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(
-              // top: 10.0,
-              ),
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.63,
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemBuilder: (ctx, index) => InstructorBox(
-              teacher: widget.teachers[index],
-              student: widget.student,
-              // name: instructors[index].name,
-              // time: instructors[index].time,
-              // place: instructors[index].place,
-              // fav: instructors[index].fav,
-              selectedTabIndex: widget.selectedTabIndex,
-              changeIndex: widget.changeIndex,
-            ),
-            itemCount: widget.teachers.length,
-          ),
-        )
+            padding: EdgeInsets.only(
+                // top: 10.0,
+                ),
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.63,
+            child: Consumer<Teachers>(builder: (context, teachers, child) {
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemBuilder: (ctx, index) => InstructorBox(
+                  id: teachers.id(index),
+                  name: teachers.name(index),
+                  student: widget.student,
+                  // name: instructors[index].name,
+                  // time: instructors[index].time,
+                  // place: instructors[index].place,
+                  // fav: instructors[index].fav,
+                  selectedTabIndex: widget.selectedTabIndex,
+                  changeIndex: widget.changeIndex,
+                ),
+                itemCount: teachers.length,
+              );
+            }))
       ]),
     );
   }

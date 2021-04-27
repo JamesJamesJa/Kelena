@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kelena/screens/student.dart';
+import 'package:kelena/screens/studentPage.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedTabIndex;

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kelena/models/user.dart';
+import 'package:kelena/providers/student.dart';
 import 'package:kelena/screens/firstCome.dart';
 import 'package:kelena/screens/instructorTime.dart';
 import 'package:kelena/widgets/student/dialogAddSchedule.dart';
+import 'package:provider/provider.dart';
 
 class InstructorBox extends StatefulWidget {
   final User teacher;
   final User student;
-  // final String name, place, time;
+  final String id, name, classNow;
   // final int fav;
   // final Function(int fav) onUpdateFav;
   final int selectedTabIndex;
@@ -16,11 +18,9 @@ class InstructorBox extends StatefulWidget {
     Key key,
     this.teacher,
     this.student,
-    // this.name,
-    // this.place,
-    // this.time,
-    // this.fav,
-    // this.onUpdateFav,
+    this.id,
+    this.name,
+    this.classNow,
     this.selectedTabIndex,
     this.changeIndex,
   }) : super(key: key);
@@ -59,6 +59,8 @@ class _InstructorBoxState extends State<InstructorBox> {
   }
 
   Widget build(BuildContext context) {
+    final students = Provider.of<Student>(context);
+    // return Consumer<Teachers>(builder: (context, teachers, child) {
     return Container(
       padding: EdgeInsets.only(
         top: 0.0,
@@ -98,7 +100,8 @@ class _InstructorBoxState extends State<InstructorBox> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      widget.teacher.name,
+                      widget.name,
+                      // widget.teacher.name,
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -131,6 +134,7 @@ class _InstructorBoxState extends State<InstructorBox> {
                 ),
                 // tooltip: 'Increase volume by 10',
                 onPressed: () {
+                  // students.delFav("teacher1");
                   // setState(() {
                   //   // initState();
                   //   if (widget.fav == 0) {
@@ -201,5 +205,6 @@ class _InstructorBoxState extends State<InstructorBox> {
         ),
       ),
     );
+    // });
   }
 }

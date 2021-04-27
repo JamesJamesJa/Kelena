@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:kelena/providers/student.dart';
 
 class DialogAddLecture extends StatefulWidget {
   @override
@@ -10,6 +12,7 @@ class DialogAddLecture extends StatefulWidget {
 class _DialogAddLectureState extends State<DialogAddLecture> {
   @override
   Widget build(BuildContext context) {
+    final student = Provider.of<Student>(context);
     Map<String, bool> onWhat = {
       'Onsite': false,
       'Online': false,
@@ -69,7 +72,10 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                     ),
                   ),
                   onPressed: () {
+                    // student.addLecture("lec10", "MTH999", "Mathematics II",
+                    //     "CB2312", "Mon", "5:30", "06:30", "Hybrid");
                     Navigator.of(context).pop();
+                    // print("$student");
                     // showDialog(
                     //     context: context,
                     //     builder: (context) {
