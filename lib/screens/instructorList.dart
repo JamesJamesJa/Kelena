@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kelena/models/user.dart';
+import 'package:kelena/providers/student.dart';
 import 'package:kelena/providers/teachers.dart';
 import 'package:kelena/widgets/instructor-list/InstructorBox.dart';
 import 'package:kelena/models/instructor.dart';
@@ -10,14 +11,10 @@ import 'package:provider/provider.dart';
 class InstructorList extends StatefulWidget {
   final int selectedTabIndex;
   final Function changeIndex;
-  // final List<User> teachers;
-  final User student;
   const InstructorList({
     Key key,
     this.selectedTabIndex,
     this.changeIndex,
-    // this.teachers,
-    this.student,
   }) : super(key: key);
   @override
   _InstructorListState createState() => _InstructorListState();
@@ -25,7 +22,8 @@ class InstructorList extends StatefulWidget {
 
 class _InstructorListState extends State<InstructorList> {
   void initState() {
-    print(teachers.length);
+    // Teachers teachers;
+    // print(teachers.teacherLength());
     super.initState();
   }
 
@@ -130,21 +128,19 @@ class _InstructorListState extends State<InstructorList> {
                 ),
             width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.height * 0.63,
-            child: Consumer<Teachers>(builder: (context, teachers, child) {
+            child: Consumer2<Teachers, Student>(
+                builder: (context, teachers, student, child) {
               return ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemBuilder: (ctx, index) => InstructorBox(
                   id: teachers.id(index),
                   name: teachers.name(index),
-                  student: widget.student,
-                  // name: instructors[index].name,
-                  // time: instructors[index].time,
-                  // place: instructors[index].place,
-                  // fav: instructors[index].fav,
+                  fav: student.checkFav(teachers.id(index)),
+                  index: index,
                   selectedTabIndex: widget.selectedTabIndex,
                   changeIndex: widget.changeIndex,
                 ),
-                itemCount: teachers.length,
+                itemCount: teachers.teacherLength(),
               );
             }))
       ]),

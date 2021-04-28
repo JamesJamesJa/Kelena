@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kelena/models/user.dart';
+import 'package:kelena/providers/teachers.dart';
 import 'package:kelena/widgets/student/dialogAddLecture.dart';
 import 'package:kelena/widgets/student/subjectBox.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../student/subjectBox.dart';
 
 class InstructorScheduleBody extends StatefulWidget {
   final TabController tabController;
-  const InstructorScheduleBody({Key key, this.tabController}) : super(key: key);
+  final String id;
+  final Teachers teachers;
+  final int index;
+  const InstructorScheduleBody(
+      {Key key, this.tabController, this.id, this.teachers, this.index})
+      : super(key: key);
   @override
   _InstructorScheduleBodyState createState() => _InstructorScheduleBodyState();
 }
@@ -30,6 +38,39 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
       _calendarController = CalendarController();
       _calendarController.selectedDate = DateTime(2020, 04, 5);
       super.initState();
+    }
+
+    _AppointmentDataSource _getCalendarDataSource() {
+      List<Appointment> appointments = <Appointment>[];
+      for (var i = 0; i < widget.teachers.lectureLength(widget.index); i++) {
+        appointments.add(Appointment(
+          startTime: DateTime(
+              2021,
+              4,
+              4 + widget.teachers.day(widget.index, i),
+              widget.teachers.fromHr(widget.index, i),
+              widget.teachers.fromMn(widget.index, i),
+              0,
+              0,
+              0),
+          endTime: DateTime(
+              2021,
+              4,
+              4 + widget.teachers.day(widget.index, i),
+              widget.teachers.toHr(widget.index, i),
+              widget.teachers.toMn(widget.index, i),
+              0,
+              0,
+              0),
+          subject: widget.teachers.subjectId(widget.index, i),
+          color: Colors.purple.shade200,
+          location:
+              "${widget.teachers.room(widget.index, i)} (${widget.teachers.type})",
+          notes: widget.teachers.subjectName(widget.index, i),
+        ));
+      }
+      print(widget.teachers.subjectId(widget.index, 0));
+      return _AppointmentDataSource(appointments);
     }
 
     return Container(
@@ -64,7 +105,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
           ),
           Container(
             padding: EdgeInsets.only(top: 10),
-            height: MediaQuery.of(context).size.height * 0.52,
+            height: MediaQuery.of(context).size.height * 0.55,
             width: MediaQuery.of(context).size.width * 0.9,
             child: TabBarView(
               controller: widget.tabController,
@@ -76,10 +117,10 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   // allowViewNavigation: true,
                   showCurrentTimeIndicator: false,
                   // onTap: showSubjectDetail(),
-                  // dataSource: _getCalendarDataSource(),
+                  dataSource: _getCalendarDataSource(),
                   minDate: DateTime(2021, 04, 04, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 04, 23, 59, 59),
-                  initialDisplayDate: DateTime(2021, 04, 04, 09, 30, 00),
+                  initialDisplayDate: DateTime(2021, 04, 04, 07, 30, 00),
                   controller: _calendarController,
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
@@ -91,11 +132,11 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  dataSource: _getCalendarDataSourceMon(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 05, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 05, 23, 59, 59),
-                  initialDisplayDate: DateTime(2021, 04, 05, 09, 30, 00),
+                  initialDisplayDate: DateTime(2021, 04, 05, 07, 30, 00),
                   controller: _calendarController,
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
@@ -107,11 +148,11 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  dataSource: _getCalendarDataSourceTue(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 06, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 06, 23, 59, 59),
-                  initialDisplayDate: DateTime(2021, 04, 06, 09, 30, 00),
+                  initialDisplayDate: DateTime(2021, 04, 06, 07, 30, 00),
                   controller: _calendarController,
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
@@ -123,7 +164,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  dataSource: _getCalendarDataSourceWed(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 07, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 07, 23, 59, 59),
@@ -139,11 +180,11 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  dataSource: _getCalendarDataSourceThu(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 08, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 08, 23, 59, 59),
-                  initialDisplayDate: DateTime(2021, 04, 08, 09, 30, 00),
+                  initialDisplayDate: DateTime(2021, 04, 08, 07, 30, 00),
                   controller: _calendarController,
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
@@ -155,7 +196,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  dataSource: _getCalendarDataSourceFri(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 09, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 09, 23, 59, 59),
@@ -171,11 +212,11 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  // dataSource: _getCalendarDataSource(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 10, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 10, 23, 59, 59),
-                  initialDisplayDate: DateTime(2021, 04, 10, 09, 30, 00),
+                  initialDisplayDate: DateTime(2021, 04, 10, 07, 30, 00),
                   controller: _calendarController,
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
@@ -191,6 +232,9 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
     );
   }
 }
+// Consumer<Teachers>(builder: (context, teachers, child){
+
+// })
 
 _AppointmentDataSource _getCalendarDataSourceMon() {
   List<Appointment> appointments = <Appointment>[];

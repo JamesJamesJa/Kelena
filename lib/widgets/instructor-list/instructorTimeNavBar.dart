@@ -65,7 +65,7 @@ class InstructorTimeNavBar extends StatelessWidget {
               // left: MediaQuery.of(context).size.width * 0.1,
             ),
             child: Image.asset(
-              'images/user.png',
+              'images/teacher1.png',
               height: 44,
               width: 44,
             ),

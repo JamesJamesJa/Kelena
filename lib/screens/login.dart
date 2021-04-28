@@ -8,8 +8,6 @@ import 'instructorList.dart';
 import 'studentPage.dart';
 
 class Login extends StatelessWidget {
-  final Teachers teachers;
-  const Login({Key key, this.teachers}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,10 +56,7 @@ class Login extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => StudentPage(
-                              teachers: teachers,
-                            )),
+                    MaterialPageRoute(builder: (context) => StudentPage()),
                     // MaterialPageRoute(builder: (context) => InstructorsList()),
                   );
                 },

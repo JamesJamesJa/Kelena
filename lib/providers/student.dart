@@ -90,7 +90,8 @@ class Student with ChangeNotifier {
       ),
     ],
     favoriteLectures: [
-      FavoriteLectureLists(lectureId: "teacher1"),
+      "teacher1",
+      "teacher2",
       // FavoriteLectureLists(lectureId: "teacher2"),
     ],
     appointments: [
@@ -101,28 +102,32 @@ class Student with ChangeNotifier {
   );
   // _student.lectures.addLecture();
 
-  String print() {
-    return _student.toString();
-  }
+  // String print() {
+  //   return _student.toString();
+  // }
 
   String name() {
     return _student.name;
   }
 
+  String printFav() {
+    return _student.favoriteLectures.toString();
+  }
+
   void manageFav(String id) {
-    int index =
-        _student.favoriteLectures.indexOf(FavoriteLectureLists(lectureId: id));
+    int index = _student.favoriteLectures.indexOf(id);
+    // print(_student.favoriteLectures.toString());
     if (index == -1) {
-      _student.favoriteLectures.add(FavoriteLectureLists(lectureId: id));
+      _student.favoriteLectures.add(id);
     } else {
-      _student.favoriteLectures.remove(FavoriteLectureLists(lectureId: id));
+      _student.favoriteLectures.remove(id);
     }
     notifyListeners();
   }
 
   bool checkFav(String id) {
-    int index =
-        _student.favoriteLectures.indexOf(FavoriteLectureLists(lectureId: id));
+    int index = _student.favoriteLectures.indexOf(id);
+    // print(_student.favoriteLectures[1]);
     if (index == -1) {
       return false;
     } else {

@@ -10,7 +10,7 @@ class User {
   final String role;
   // final Lectures lectures;
   final List<LectureDetails> lectures;
-  final List<FavoriteLectureLists> favoriteLectures;
+  final List<String> favoriteLectures;
   final List<AppointmentDetails> appointments;
 
   const User({
@@ -65,15 +65,11 @@ class AppointmentDetails {
 }
 
 class Lectures with ChangeNotifier {
-  Map<String, LectureDetails> _lectures = {};
+  List<LectureDetails> _lectures = [];
 
-  Map<String, LectureDetails> get getAll {
-    return {..._lectures};
-  }
-
-  int get length {
-    return _lectures.length;
-  }
+  // int length() {
+  //   return _lectures.length;
+  // }
 
   void addLecture(String id, String subjectId, String name, String room,
       String day, String from, String to, String type) {
@@ -88,19 +84,19 @@ class Lectures with ChangeNotifier {
     //           ));
     // } else {
     // _lectures.addEntries(newEntries)
-    _lectures.putIfAbsent(
-        id,
-        () => LectureDetails(
-            id: id,
-            name: name,
-            subjectId: subjectId,
-            room: room,
-            day: day,
-            from: from,
-            to: to,
-            type: type));
-    // }
-    notifyListeners();
+    // _lectures.putIfAbsent(
+    //     id,
+    //     () => LectureDetails(
+    //         id: id,
+    //         name: name,
+    //         subjectId: subjectId,
+    //         room: room,
+    //         day: day,
+    //         from: from,
+    //         to: to,
+    //         type: type));
+    // // }
+    // notifyListeners();
   }
 
   void addFav(LectureDetails student, String lectureId) {

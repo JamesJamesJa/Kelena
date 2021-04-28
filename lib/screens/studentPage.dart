@@ -10,8 +10,6 @@ import 'package:kelena/screens/favoriteInstructor.dart';
 import 'package:kelena/screens/studentSchedule.dart';
 
 class StudentPage extends StatefulWidget {
-  final Teachers teachers;
-  const StudentPage({Key key, this.teachers}) : super(key: key);
   @override
   _StudentPageState createState() => _StudentPageState();
 }
@@ -25,7 +23,7 @@ class _StudentPageState extends State<StudentPage>
     email: "thanawat.bcr@gmail.com",
     role: "student",
     favoriteLectures: [
-      FavoriteLectureLists(lectureId: "teacher1"),
+      // FavoriteLectureLists(lectureId: "teacher1"),
       // FavoriteLectureLists(lectureId: "teacher2"),
     ],
     appointments: [
@@ -68,15 +66,11 @@ class _StudentPageState extends State<StudentPage>
               ? InstructorList(
                   selectedTabIndex: _selectedTabIndex,
                   changeIndex: _changeIndex,
-                  // teachers: teachers,
-                  // student: student,
                 )
               : (_selectedTabIndex == 1)
                   ? FavoriteInstructor(
                       selectedTabIndex: _selectedTabIndex,
                       changeIndex: _changeIndex,
-                      // teachers: favTeacher,
-                      // student: student,
                     )
                   : StudentSchedule()
         ],

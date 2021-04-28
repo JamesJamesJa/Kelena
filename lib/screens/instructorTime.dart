@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:kelena/providers/teachers.dart';
 import 'package:kelena/widgets/instructor/instructorScheduleBody.dart';
 import 'package:kelena/widgets/student/bottomNavBar.dart';
 import 'package:kelena/widgets/instructor-list/instructorTimeNavBar.dart';
+import 'package:provider/provider.dart';
 
 class InstructTime extends StatefulWidget {
   final int selectedTabIndex;
   final Function changeIndex;
-  const InstructTime({Key key, this.selectedTabIndex, this.changeIndex})
+  final String name;
+  final String id;
+  final int index;
+  const InstructTime(
+      {Key key,
+      this.selectedTabIndex,
+      this.changeIndex,
+      this.name,
+      this.id,
+      this.index})
       : super(key: key);
   @override
   _InstructTimeState createState() => _InstructTimeState();
@@ -28,12 +39,17 @@ class _InstructTimeState extends State<InstructTime>
           height: MediaQuery.of(context).size.height * 0.9,
           child: Column(children: <Widget>[
             InstructorTimeNavBar(
-              headline1: "Ronald Robertson",
-              headline2: "At CB2304 until 16.00",
+              headline1: widget.name,
+              headline2: "No class...",
             ),
-            InstructorScheduleBody(
-              tabController: _tabController,
-            ),
+            Consumer<Teachers>(builder: (context, teachers, child) {
+              return InstructorScheduleBody(
+                tabController: _tabController,
+                id: widget.id,
+                teachers: teachers,
+                index: widget.index,
+              );
+            }),
           ])),
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.white),
