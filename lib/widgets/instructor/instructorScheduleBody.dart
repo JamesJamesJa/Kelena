@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/teachers.dart';
+import 'package:kelena/widgets/instructor-list/dialogSubjectDetails.dart';
 import 'package:kelena/widgets/student/dialogAddLecture.dart';
 import 'package:kelena/widgets/student/subjectBox.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +70,6 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
           notes: widget.teachers.subjectName(widget.index, i),
         ));
       }
-      print(widget.teachers.subjectId(widget.index, 0));
       return _AppointmentDataSource(appointments);
     }
 
@@ -154,10 +154,21 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   maxDate: DateTime(2021, 04, 06, 23, 59, 59),
                   initialDisplayDate: DateTime(2021, 04, 06, 07, 30, 00),
                   controller: _calendarController,
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      print("asd");
+                      // I want to access the appointment details like eventName, from, to, background, isAllDay etc. if I tap over an event
+                    }
+                  },
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
-                    return SubjectBox(appointment: appointment);
+                    return GestureDetector(
+                      child: SubjectBox(appointment: appointment),
+                      onTap: () {
+                        // print("Subjecbox");
+                      },
+                    );
                   },
                 ),
                 SfCalendar(
@@ -186,6 +197,17 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   maxDate: DateTime(2021, 04, 08, 23, 59, 59),
                   initialDisplayDate: DateTime(2021, 04, 08, 07, 30, 00),
                   controller: _calendarController,
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      print(details.appointments[0].subject);
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogSubjectDetails();
+                          });
+                      // I want to access the appointment details like eventName, from, to, background, isAllDay etc. if I tap over an event
+                    }
+                  },
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;

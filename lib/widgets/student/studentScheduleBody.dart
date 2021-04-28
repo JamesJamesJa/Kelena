@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kelena/widgets/instructor-list/dialogSubjectDetails.dart';
 import 'package:kelena/widgets/student/dialogAddLecture.dart';
 import 'package:kelena/widgets/student/subjectBox.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -221,6 +222,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   showModalBottomSheet(
                       context: context,
                       builder: (context) {
+                        // return DialogSubjectDetails();
                         return DialogAddLecture();
                       });
                 },
