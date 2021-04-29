@@ -1,20 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kelena/providers/student.dart';
 import 'package:kelena/widgets/instructor-list/dialogSubjectDetails.dart';
 import 'package:kelena/widgets/student/dialogAddLecture.dart';
 import 'package:kelena/widgets/student/subjectBox.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../student/subjectBox.dart';
 
 class StudentScheduleBody extends StatefulWidget {
+  final Student student;
   final TabController tabController;
-  const StudentScheduleBody({Key key, this.tabController}) : super(key: key);
+  const StudentScheduleBody({Key key, this.tabController, this.student})
+      : super(key: key);
   @override
   _StudentScheduleBodyState createState() => _StudentScheduleBodyState();
 }
 
 class _StudentScheduleBodyState extends State<StudentScheduleBody> {
+  // Student student;
+  _AppointmentDataSource _getCalendarDataSource() {
+    List<Appointment> appointments = <Appointment>[];
+    for (var i = 0; i < widget.student.lectureLength(); i++) {
+      appointments.add(Appointment(
+        startTime: DateTime(2021, 4, 4 + widget.student.day(i),
+            widget.student.fromHr(i), widget.student.fromMn(i), 0, 0, 0),
+        endTime: DateTime(2021, 4, 4 + widget.student.day(i),
+            widget.student.toHr(i), widget.student.toMn(i), 0, 0, 0),
+        subject: widget.student.subjectId(i),
+        color: Colors.purple.shade200,
+        location: "${widget.student.room(i)} (${widget.student.type})",
+        notes: widget.student.subjectName(i),
+      ));
+    }
+    return _AppointmentDataSource(appointments);
+  }
+
   Widget build(BuildContext context) {
     final List<Widget> myTabs = [
       Tab(text: "SUN"),
@@ -75,10 +97,10 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   // allowViewNavigation: true,
                   showCurrentTimeIndicator: false,
                   // onTap: showSubjectDetail(),
-                  // dataSource: _getCalendarDataSource(),
+                  dataSource: _getCalendarDataSource(),
                   minDate: DateTime(2021, 04, 04, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 04, 23, 59, 59),
-                  initialDisplayDate: DateTime(2021, 04, 04, 09, 30, 00),
+                  initialDisplayDate: DateTime(2021, 04, 04, 07, 30, 00),
                   controller: _calendarController,
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
@@ -90,11 +112,11 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  dataSource: _getCalendarDataSourceMon(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 05, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 05, 23, 59, 59),
-                  initialDisplayDate: DateTime(2021, 04, 05, 09, 30, 00),
+                  initialDisplayDate: DateTime(2021, 04, 05, 07, 30, 00),
                   controller: _calendarController,
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
@@ -106,23 +128,34 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  dataSource: _getCalendarDataSourceTue(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 06, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 06, 23, 59, 59),
-                  initialDisplayDate: DateTime(2021, 04, 06, 09, 30, 00),
+                  initialDisplayDate: DateTime(2021, 04, 06, 07, 30, 00),
                   controller: _calendarController,
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      print("asd");
+                      // I want to access the appointment details like eventName, from, to, background, isAllDay etc. if I tap over an event
+                    }
+                  },
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
-                    return SubjectBox(appointment: appointment);
+                    return GestureDetector(
+                      child: SubjectBox(appointment: appointment),
+                      onTap: () {
+                        // print("Subjecbox");
+                      },
+                    );
                   },
                 ),
                 SfCalendar(
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  dataSource: _getCalendarDataSourceWed(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 07, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 07, 23, 59, 59),
@@ -138,12 +171,23 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  dataSource: _getCalendarDataSourceThu(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 08, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 08, 23, 59, 59),
-                  initialDisplayDate: DateTime(2021, 04, 08, 09, 30, 00),
+                  initialDisplayDate: DateTime(2021, 04, 08, 07, 30, 00),
                   controller: _calendarController,
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      print(details.appointments[0].subject);
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogSubjectDetails();
+                          });
+                      // I want to access the appointment details like eventName, from, to, background, isAllDay etc. if I tap over an event
+                    }
+                  },
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
@@ -154,7 +198,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  dataSource: _getCalendarDataSourceFri(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 09, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 09, 23, 59, 59),
@@ -170,11 +214,11 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  // dataSource: _getCalendarDataSource(),
+                  dataSource: _getCalendarDataSource(),
                   showCurrentTimeIndicator: false,
                   minDate: DateTime(2021, 04, 10, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 10, 23, 59, 59),
-                  initialDisplayDate: DateTime(2021, 04, 10, 09, 30, 00),
+                  initialDisplayDate: DateTime(2021, 04, 10, 07, 30, 00),
                   controller: _calendarController,
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
@@ -355,33 +399,3 @@ class _AppointmentDataSource extends CalendarDataSource {
     appointments = source;
   }
 }
-
-// ListView.builder(
-//   padding: EdgeInsets.only(top: 0, right: 40, bottom: 5, left: 40),
-//   // controller: widget.tabController,
-//   itemBuilder: (ctx, i) => Container(
-//     padding: EdgeInsets.only(top: 10, right: 0, bottom: 10, left: 10),
-//     child: Row(
-//       children: [
-//         Container(
-//             width: 50,
-//             child: Text(
-//               timeFormat(i),
-//               style: TextStyle(
-//                 fontSize: 10,
-//                 color: Color(0xffB9B9B9),
-//               ),
-//             )),
-//         Expanded(
-//           child: Divider(
-//             thickness: 1.2,
-//             indent: 10,
-//             endIndent: 10,
-//             color: Color(0xff9C8CBE),
-//           ),
-//         ),
-//       ],
-//     ),
-//   ),
-//   itemCount: 25,
-// ),

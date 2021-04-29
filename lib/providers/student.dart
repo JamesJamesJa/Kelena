@@ -90,9 +90,8 @@ class Student with ChangeNotifier {
       ),
     ],
     favoriteLectures: [
-      "teacher1",
-      "teacher2",
-      // FavoriteLectureLists(lectureId: "teacher2"),
+      // "teacher1",
+      // "teacher2",
     ],
     appointments: [
       AppointmentDetails(id: "app1", lectureId: "lec2", status: "Approved"),
@@ -141,6 +140,14 @@ class Student with ChangeNotifier {
 
   void addLecture(String id, String subjectId, String name, String room,
       String day, String from, String to, String type) {
+    print(id);
+    print(subjectId);
+    print(name);
+    print(room);
+    print(day);
+    print(from);
+    print(to);
+    print(type);
     // if (_lectures.containsKey(id)) {
     //   _lectures.update(
     //       id,
@@ -162,5 +169,89 @@ class Student with ChangeNotifier {
         to: to,
         type: type));
     notifyListeners();
+  }
+
+  int lectureLength() {
+    return _student.lectures.length;
+  }
+
+  String subjectId(int lectureIndex) {
+    return _student.lectures[lectureIndex].subjectId;
+  }
+
+  String subjectName(int lectureIndex) {
+    return _student.lectures[lectureIndex].name;
+  }
+
+  String room(int lectureIndex) {
+    return _student.lectures[lectureIndex].room;
+  }
+
+  int day(int lectureIndex) {
+    switch (_student.lectures[lectureIndex].day) {
+      case "Sun":
+        {
+          return 0;
+        }
+        break;
+      case "Mon":
+        {
+          return 1;
+        }
+        break;
+      case "Tue":
+        {
+          return 2;
+        }
+        break;
+      case "Wed":
+        {
+          return 3;
+        }
+        break;
+      case "Thu":
+        {
+          return 4;
+        }
+        break;
+      case "Fri":
+        {
+          return 5;
+        }
+        break;
+      case "Sat":
+        {
+          return 6;
+        }
+        break;
+    }
+  }
+
+  int fromHr(int lectureIndex) {
+    String temp = _student.lectures[lectureIndex].from;
+    temp = temp.substring(0, 2);
+    return int.parse(temp);
+  }
+
+  int toHr(int lectureIndex) {
+    String temp = _student.lectures[lectureIndex].to;
+    temp = temp.substring(0, 2);
+    return int.parse(temp);
+  }
+
+  int fromMn(int lectureIndex) {
+    String temp = _student.lectures[lectureIndex].from;
+    temp = temp.substring(3, 5);
+    return int.parse(temp);
+  }
+
+  int toMn(int lectureIndex) {
+    String temp = _student.lectures[lectureIndex].to;
+    temp = temp.substring(3, 5);
+    return int.parse(temp);
+  }
+
+  String type(int lectureIndex) {
+    return _student.lectures[lectureIndex].type;
   }
 }

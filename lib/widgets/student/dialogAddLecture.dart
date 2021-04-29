@@ -104,15 +104,18 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                           ),
                         ),
                         onPressed: () {
-                          student.addLecture(
-                              "lecTemp",
-                              subjectId,
-                              subjectName,
-                              location,
-                              allDayStringData[weeklyDay],
-                              startTime,
-                              endTime,
-                              typeCheck());
+                          setState(() {
+                            student.addLecture(
+                                "lecTemp",
+                                subjectId,
+                                subjectName,
+                                location,
+                                allDayStringData[weeklyDay],
+                                startTime,
+                                endTime,
+                                typeCheck());
+                          });
+
                           // student.addLecture("lec10", "MTH999", "Mathematics II",
                           //     "CB2312", "Mon", "5:30", "06:30", "Hybrid");
                           Navigator.of(context).pop();
