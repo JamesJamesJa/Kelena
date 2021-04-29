@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:kelena/providers/student.dart';
 import 'package:kelena/widgets/instructor-list/dialogSubjectDetails.dart';
 import 'package:kelena/widgets/student/dialogAddLecture.dart';
@@ -30,7 +31,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
             widget.student.toHr(i), widget.student.toMn(i), 0, 0, 0),
         subject: widget.student.subjectId(i),
         color: Colors.purple.shade200,
-        location: "${widget.student.room(i)} (${widget.student.type})",
+        location: "${widget.student.room(i)} (${widget.student.type(i)})",
         notes: widget.student.subjectName(i),
       ));
     }
@@ -38,6 +39,46 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
   }
 
   Widget build(BuildContext context) {
+    int checkDay(DateTime startDate) {
+      switch (DateFormat('d').format(startDate)) {
+        case "4":
+          {
+            return 6;
+          }
+          break;
+        case "5":
+          {
+            return 0;
+          }
+          break;
+        case "6":
+          {
+            return 1;
+          }
+          break;
+        case "7":
+          {
+            return 2;
+          }
+          break;
+        case "8":
+          {
+            return 3;
+          }
+          break;
+        case "9":
+          {
+            return 4;
+          }
+          break;
+        case "10":
+          {
+            return 5;
+          }
+          break;
+      }
+    }
+
     final List<Widget> myTabs = [
       Tab(text: "SUN"),
       Tab(text: "MON"),
@@ -94,9 +135,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   view: CalendarView.day,
                   headerHeight: 0,
                   viewHeaderHeight: 0,
-                  // allowViewNavigation: true,
                   showCurrentTimeIndicator: false,
-                  // onTap: showSubjectDetail(),
                   dataSource: _getCalendarDataSource(),
                   minDate: DateTime(2021, 04, 04, 0, 0, 0),
                   maxDate: DateTime(2021, 04, 04, 23, 59, 59),
@@ -106,6 +145,26 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
+                  },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogAddLecture(
+                              startTime: details.appointments[0].startTime,
+                              endTime: details.appointments[0].endTime,
+                              location: ((details.appointments[0].location)
+                                  .split(" ("))[0],
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              type: (((details.appointments[0].location)
+                                      .split(" ("))[1])
+                                  .substring(0, 6),
+                              day: checkDay(details.appointments[0].startTime),
+                            );
+                          });
+                    }
                   },
                 ),
                 SfCalendar(
@@ -123,6 +182,26 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
                   },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogAddLecture(
+                              startTime: details.appointments[0].startTime,
+                              endTime: details.appointments[0].endTime,
+                              location: ((details.appointments[0].location)
+                                  .split(" ("))[0],
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              type: (((details.appointments[0].location)
+                                      .split(" ("))[1])
+                                  .substring(0, 6),
+                              day: checkDay(details.appointments[0].startTime),
+                            );
+                          });
+                    }
+                  },
                 ),
                 SfCalendar(
                   view: CalendarView.day,
@@ -134,21 +213,33 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   maxDate: DateTime(2021, 04, 06, 23, 59, 59),
                   initialDisplayDate: DateTime(2021, 04, 06, 07, 30, 00),
                   controller: _calendarController,
-                  onTap: (CalendarTapDetails details) {
-                    if (details.targetElement == CalendarElement.appointment) {
-                      print("asd");
-                      // I want to access the appointment details like eventName, from, to, background, isAllDay etc. if I tap over an event
-                    }
-                  },
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
                     return GestureDetector(
                       child: SubjectBox(appointment: appointment),
-                      onTap: () {
-                        // print("Subjecbox");
-                      },
+                      onTap: () {},
                     );
+                  },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogAddLecture(
+                              startTime: details.appointments[0].startTime,
+                              endTime: details.appointments[0].endTime,
+                              location: ((details.appointments[0].location)
+                                  .split(" ("))[0],
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              type: (((details.appointments[0].location)
+                                      .split(" ("))[1])
+                                  .substring(0, 6),
+                              day: checkDay(details.appointments[0].startTime),
+                            );
+                          });
+                    }
                   },
                 ),
                 SfCalendar(
@@ -166,6 +257,26 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
                   },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogAddLecture(
+                              startTime: details.appointments[0].startTime,
+                              endTime: details.appointments[0].endTime,
+                              location: ((details.appointments[0].location)
+                                  .split(" ("))[0],
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              type: (((details.appointments[0].location)
+                                      .split(" ("))[1])
+                                  .substring(0, 6),
+                              day: checkDay(details.appointments[0].startTime),
+                            );
+                          });
+                    }
+                  },
                 ),
                 SfCalendar(
                   view: CalendarView.day,
@@ -177,21 +288,30 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   maxDate: DateTime(2021, 04, 08, 23, 59, 59),
                   initialDisplayDate: DateTime(2021, 04, 08, 07, 30, 00),
                   controller: _calendarController,
-                  onTap: (CalendarTapDetails details) {
-                    if (details.targetElement == CalendarElement.appointment) {
-                      print(details.appointments[0].subject);
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return DialogSubjectDetails();
-                          });
-                      // I want to access the appointment details like eventName, from, to, background, isAllDay etc. if I tap over an event
-                    }
-                  },
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
+                  },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogAddLecture(
+                              startTime: details.appointments[0].startTime,
+                              endTime: details.appointments[0].endTime,
+                              location: ((details.appointments[0].location)
+                                  .split(" ("))[0],
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              type: (((details.appointments[0].location)
+                                      .split(" ("))[1])
+                                  .substring(0, 6),
+                              day: checkDay(details.appointments[0].startTime),
+                            );
+                          });
+                    }
                   },
                 ),
                 SfCalendar(
@@ -209,6 +329,26 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
                   },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogAddLecture(
+                              startTime: details.appointments[0].startTime,
+                              endTime: details.appointments[0].endTime,
+                              location: ((details.appointments[0].location)
+                                  .split(" ("))[0],
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              type: (((details.appointments[0].location)
+                                      .split(" ("))[1])
+                                  .substring(0, 6),
+                              day: checkDay(details.appointments[0].startTime),
+                            );
+                          });
+                    }
+                  },
                 ),
                 SfCalendar(
                   view: CalendarView.day,
@@ -224,6 +364,26 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
+                  },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogAddLecture(
+                              startTime: details.appointments[0].startTime,
+                              endTime: details.appointments[0].endTime,
+                              location: ((details.appointments[0].location)
+                                  .split(" ("))[0],
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              type: (((details.appointments[0].location)
+                                      .split(" ("))[1])
+                                  .substring(0, 6),
+                              day: checkDay(details.appointments[0].startTime),
+                            );
+                          });
+                    }
                   },
                 ),
               ],
@@ -266,8 +426,15 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                   showModalBottomSheet(
                       context: context,
                       builder: (context) {
-                        // return DialogSubjectDetails();
-                        return DialogAddLecture();
+                        return DialogAddLecture(
+                          startTime: DateTime(2021, 4, 4, 8, 00),
+                          endTime: DateTime(2021, 4, 4, 12, 00),
+                          location: "",
+                          subjectId: "",
+                          subjectName: "",
+                          type: "",
+                          day: 0,
+                        );
                       });
                 },
               ),

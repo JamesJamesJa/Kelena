@@ -5,6 +5,23 @@ import 'package:intl/intl.dart';
 import 'package:kelena/providers/student.dart';
 
 class DialogAddLecture extends StatefulWidget {
+  final DateTime startTime;
+  final DateTime endTime;
+  final String subjectId;
+  final String subjectName;
+  final String location;
+  final String type;
+  final int day;
+  const DialogAddLecture(
+      {Key key,
+      this.startTime,
+      this.endTime,
+      this.subjectId,
+      this.subjectName,
+      this.location,
+      this.type,
+      this.day})
+      : super(key: key);
   @override
   _DialogAddLectureState createState() => new _DialogAddLectureState();
 }
@@ -13,7 +30,7 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
   String startTime = "Start Time";
   String endTime = "End Time";
   String subjectId, subjectName, location;
-  List<bool> type = [false, false, false];
+  List<bool> typeList = [false, false, false];
   int weeklyDay = 0;
   List<String> allDayStringData = [
     "Mon",
@@ -42,16 +59,37 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
     Text('Saturday'),
     Text('Sunday'),
   ];
-  DateTime initialTimerStart = DateTime(2020, 12, 1, 8, 00),
-      initialTimerEnd = DateTime(2020, 12, 1, 12, 00);
+  DateTime initialTimerStart = DateTime(2021, 4, 4, 8, 00),
+      initialTimerEnd = DateTime(2021, 4, 4, 12, 00);
   String typeCheck() {
-    if (type[0]) {
+    if (typeList[0]) {
       return "Onsite";
-    } else if (type[1]) {
+    } else if (typeList[1]) {
       return "Online";
     } else {
       return "Hybrid";
     }
+  }
+
+  @override
+  void initState() {
+    startTime = DateFormat('hh:mm a').format(widget.startTime);
+    endTime = DateFormat('hh:mm a').format(widget.endTime);
+    initialTimerStart = widget.startTime;
+    initialTimerEnd = widget.endTime;
+    subjectId = widget.subjectId;
+    // print(widget.day);
+    subjectName = widget.subjectName;
+    location = widget.location;
+    weeklyDay = widget.day;
+    if (widget.type == 'Onsite') {
+      typeList[0] = true;
+    } else if (widget.type == 'Online') {
+      typeList[1] = true;
+    } else if (widget.type == 'Hybrid') {
+      typeList[2] = true;
+    }
+    super.initState();
   }
 
   @override
@@ -104,6 +142,7 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                           ),
                         ),
                         onPressed: () {
+                          // print(startTime);
                           setState(() {
                             student.addLecture(
                                 "lecTemp",
@@ -134,11 +173,12 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                   width: MediaQuery.of(context).size.width * 0.6,
                   height: 56,
                   child: TextFormField(
+                    initialValue: subjectId,
                     decoration: const InputDecoration(
                       labelText: 'Subject ID',
                       hintText: 'Add your Subject ID',
                     ),
-                    onSaved: (String value) {
+                    onChanged: (String value) {
                       setState(() {
                         subjectId = value;
                       });
@@ -157,11 +197,12 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                   width: MediaQuery.of(context).size.width * 0.6,
                   height: 56,
                   child: TextFormField(
+                    initialValue: subjectName,
                     decoration: const InputDecoration(
                       labelText: 'Subject Name',
                       hintText: 'Add your Subject Name',
                     ),
-                    onSaved: (String value) {
+                    onChanged: (String value) {
                       setState(() {
                         subjectName = value;
                       });
@@ -180,11 +221,12 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                   width: MediaQuery.of(context).size.width * 0.6,
                   height: 56,
                   child: TextFormField(
+                    initialValue: location,
                     decoration: const InputDecoration(
                       labelText: 'Location',
                       hintText: 'Add your Location',
                     ),
-                    onSaved: (String value) {
+                    onChanged: (String value) {
                       setState(() {
                         location = value;
                       });
@@ -207,16 +249,16 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            type = [true, false, false];
+                            typeList = [true, false, false];
                           });
                         },
                         child: Row(
                           children: [
                             Checkbox(
-                              value: type[0],
+                              value: typeList[0],
                               onChanged: (_) {
                                 setState(() {
-                                  type = [true, false, false];
+                                  typeList = [true, false, false];
                                 });
                               },
                             ),
@@ -227,16 +269,16 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            type = [false, true, false];
+                            typeList = [false, true, false];
                           });
                         },
                         child: Row(
                           children: [
                             Checkbox(
-                              value: type[1],
+                              value: typeList[1],
                               onChanged: (_) {
                                 setState(() {
-                                  type = [false, true, false];
+                                  typeList = [false, true, false];
                                 });
                               },
                             ),
@@ -247,16 +289,16 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            type = [false, false, true];
+                            typeList = [false, false, true];
                           });
                         },
                         child: Row(
                           children: [
                             Checkbox(
-                              value: type[2],
+                              value: typeList[2],
                               onChanged: (_) {
                                 setState(() {
-                                  type = [false, false, true];
+                                  typeList = [false, false, true];
                                 });
                               },
                             ),
@@ -367,7 +409,7 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                                     itemExtent: 30,
                                     scrollController:
                                         FixedExtentScrollController(
-                                            initialItem: _selectedValue),
+                                            initialItem: weeklyDay),
                                     children: allDay,
                                     onSelectedItemChanged: (value) {
                                       setState(() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/teachers.dart';
 import 'package:kelena/widgets/instructor-list/dialogSubjectDetails.dart';
@@ -66,7 +67,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
           subject: widget.teachers.subjectId(widget.index, i),
           color: Colors.purple.shade200,
           location:
-              "${widget.teachers.room(widget.index, i)} (${widget.teachers.type})",
+              "${widget.teachers.room(widget.index, i)} (${widget.teachers.type(widget.index, i)})",
           notes: widget.teachers.subjectName(widget.index, i),
         ));
       }
@@ -125,7 +126,27 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
-                    return SubjectBox(appointment: appointment);
+                    return SubjectBox(
+                      appointment: appointment,
+                    );
+                  },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogSubjectDetails(
+                              index: widget.index,
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              from: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].startTime),
+                              to: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].endTime),
+                              location: details.appointments[0].location,
+                            );
+                          });
+                    }
                   },
                 ),
                 SfCalendar(
@@ -143,6 +164,24 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
                   },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogSubjectDetails(
+                              index: widget.index,
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              from: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].startTime),
+                              to: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].endTime),
+                              location: details.appointments[0].location,
+                            );
+                          });
+                    }
+                  },
                 ),
                 SfCalendar(
                   view: CalendarView.day,
@@ -154,12 +193,6 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   maxDate: DateTime(2021, 04, 06, 23, 59, 59),
                   initialDisplayDate: DateTime(2021, 04, 06, 07, 30, 00),
                   controller: _calendarController,
-                  onTap: (CalendarTapDetails details) {
-                    if (details.targetElement == CalendarElement.appointment) {
-                      print("asd");
-                      // I want to access the appointment details like eventName, from, to, background, isAllDay etc. if I tap over an event
-                    }
-                  },
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
@@ -169,6 +202,24 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                         // print("Subjecbox");
                       },
                     );
+                  },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogSubjectDetails(
+                              index: widget.index,
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              from: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].startTime),
+                              to: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].endTime),
+                              location: details.appointments[0].location,
+                            );
+                          });
+                    }
                   },
                 ),
                 SfCalendar(
@@ -186,6 +237,24 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
                   },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogSubjectDetails(
+                              index: widget.index,
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              from: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].startTime),
+                              to: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].endTime),
+                              location: details.appointments[0].location,
+                            );
+                          });
+                    }
+                  },
                 ),
                 SfCalendar(
                   view: CalendarView.day,
@@ -197,21 +266,28 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                   maxDate: DateTime(2021, 04, 08, 23, 59, 59),
                   initialDisplayDate: DateTime(2021, 04, 08, 07, 30, 00),
                   controller: _calendarController,
-                  onTap: (CalendarTapDetails details) {
-                    if (details.targetElement == CalendarElement.appointment) {
-                      print(details.appointments[0].subject);
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return DialogSubjectDetails();
-                          });
-                      // I want to access the appointment details like eventName, from, to, background, isAllDay etc. if I tap over an event
-                    }
-                  },
                   appointmentBuilder: (context, calendarAppointmentDetails) {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
+                  },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogSubjectDetails(
+                              index: widget.index,
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              from: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].startTime),
+                              to: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].endTime),
+                              location: details.appointments[0].location,
+                            );
+                          });
+                    }
                   },
                 ),
                 SfCalendar(
@@ -229,6 +305,24 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
                   },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogSubjectDetails(
+                              index: widget.index,
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              from: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].startTime),
+                              to: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].endTime),
+                              location: details.appointments[0].location,
+                            );
+                          });
+                    }
+                  },
                 ),
                 SfCalendar(
                   view: CalendarView.day,
@@ -244,6 +338,24 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                     final Appointment appointment =
                         calendarAppointmentDetails.appointments.first;
                     return SubjectBox(appointment: appointment);
+                  },
+                  onTap: (CalendarTapDetails details) {
+                    if (details.targetElement == CalendarElement.appointment) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return DialogSubjectDetails(
+                              index: widget.index,
+                              subjectId: details.appointments[0].subject,
+                              subjectName: details.appointments[0].notes,
+                              from: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].startTime),
+                              to: DateFormat('hh:mm a')
+                                  .format(details.appointments[0].endTime),
+                              location: details.appointments[0].location,
+                            );
+                          });
+                    }
                   },
                 ),
               ],

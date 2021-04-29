@@ -8,6 +8,21 @@ import 'package:kelena/providers/student.dart';
 import 'dialogAddAppointment.dart';
 
 class DialogSubjectDetails extends StatefulWidget {
+  final int index;
+  final String subjectId;
+  final String subjectName;
+  final String from;
+  final String to;
+  final String location;
+  const DialogSubjectDetails(
+      {Key key,
+      this.index,
+      this.subjectId,
+      this.subjectName,
+      this.from,
+      this.to,
+      this.location})
+      : super(key: key);
   @override
   _DialogSubjectDetailsState createState() => new _DialogSubjectDetailsState();
 }
@@ -58,18 +73,11 @@ class _DialogSubjectDetailsState extends State<DialogSubjectDetails> {
                 ),
               ),
             ],
-            // onTap: () {
-            //             showModalBottomSheet(
-            //                 context: context,
-            //                 builder: (context) {
-            //                   return DialogSubjectDetails();
-            //                 });
-            //           },
           ),
           Container(
             padding: EdgeInsets.only(left: 100),
             child: Text(
-              "MTH102",
+              widget.subjectId,
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.black,
@@ -79,7 +87,7 @@ class _DialogSubjectDetailsState extends State<DialogSubjectDetails> {
           Container(
             padding: EdgeInsets.only(left: 100, top: 8),
             child: Text(
-              "Mathematics II",
+              widget.subjectName,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.black,
@@ -89,7 +97,7 @@ class _DialogSubjectDetailsState extends State<DialogSubjectDetails> {
           Container(
             padding: EdgeInsets.only(left: 100, top: 6),
             child: Text(
-              "01.30 PM - 03.30 PM",
+              "${widget.from} - ${widget.to}",
               style: TextStyle(
                 fontSize: 10,
                 color: Color(0xff2D2D2D),
@@ -107,7 +115,7 @@ class _DialogSubjectDetailsState extends State<DialogSubjectDetails> {
                   color: Color(0xff757575),
                 ),
                 Text(
-                  "CB2301 (Online)",
+                  widget.location,
                   style: TextStyle(
                     fontSize: 10,
                     color: Color(0xff2D2D2D),
