@@ -14,15 +14,17 @@ class DialogSubjectDetails extends StatefulWidget {
   final String from;
   final String to;
   final String location;
-  const DialogSubjectDetails(
-      {Key key,
-      this.index,
-      this.subjectId,
-      this.subjectName,
-      this.from,
-      this.to,
-      this.location})
-      : super(key: key);
+  final String teacherName;
+  const DialogSubjectDetails({
+    Key key,
+    this.index,
+    this.subjectId,
+    this.subjectName,
+    this.from,
+    this.to,
+    this.location,
+    this.teacherName,
+  }) : super(key: key);
   @override
   _DialogSubjectDetailsState createState() => new _DialogSubjectDetailsState();
 }
@@ -67,7 +69,14 @@ class _DialogSubjectDetailsState extends State<DialogSubjectDetails> {
                     showModalBottomSheet(
                         context: context,
                         builder: (context) {
-                          return DialogAddAppointment();
+                          return DialogAddAppointment(
+                            index: widget.index,
+                            subjectId: widget.subjectId,
+                            subjectName: widget.subjectName,
+                            to: widget.to,
+                            location: widget.location,
+                            teacherName: widget.teacherName,
+                          );
                         });
                   },
                 ),

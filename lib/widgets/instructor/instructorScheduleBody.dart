@@ -144,6 +144,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
+                              teacherName: widget.teachers.name(widget.index),
                             );
                           });
                     }
@@ -178,6 +179,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
+                              teacherName: widget.teachers.name(widget.index),
                             );
                           });
                     }
@@ -217,6 +219,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
+                              teacherName: widget.teachers.name(widget.index),
                             );
                           });
                     }
@@ -251,6 +254,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
+                              teacherName: widget.teachers.name(widget.index),
                             );
                           });
                     }
@@ -285,6 +289,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
+                              teacherName: widget.teachers.name(widget.index),
                             );
                           });
                     }
@@ -319,6 +324,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
+                              teacherName: widget.teachers.name(widget.index),
                             );
                           });
                     }
@@ -353,6 +359,7 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
+                              teacherName: widget.teachers.name(widget.index),
                             );
                           });
                     }

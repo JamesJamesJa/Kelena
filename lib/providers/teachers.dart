@@ -186,6 +186,10 @@ class Teachers with ChangeNotifier {
     return _users[index].name;
   }
 
+  String lecId(int teacherIndex, int lectureIndex) {
+    return _users[teacherIndex].lectures[lectureIndex].id;
+  }
+
   // String name(int index) {
   //   return _users[index].name;
   // }

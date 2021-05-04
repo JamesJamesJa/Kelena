@@ -138,6 +138,10 @@ class Student with ChangeNotifier {
     notifyListeners();
   }
 
+  int appointmentLength() {
+    return _student.appointments.length;
+  }
+
   void addLecture(String id, String subjectId, String name, String room,
       String day, String from, String to, String type) {
     print(id);

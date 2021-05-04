@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kelena/providers/student.dart';
+import 'package:provider/provider.dart';
 
 import 'appointmentBox.dart';
 
@@ -59,18 +61,34 @@ class _DialogAppointmentState extends State<DialogAppointment> {
               )
             ],
           ),
-          AppointmentBox(
-              textLine1: "Dr. Ronald Robertson",
-              textLine2: "at CB 2301 after CSC261 Statistics for data science",
-              status: "Approved"),
-          AppointmentBox(
-              textLine1: "Dr. Ronald Robertson",
-              textLine2: "at CB 2301 after CSC261 Statistics for data science",
-              status: "Rejected"),
-          AppointmentBox(
-              textLine1: "Dr. Ronald Robertson",
-              textLine2: "at CB 2301 after CSC261 Statistics for data science",
-              status: "Pending"),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: Consumer<Student>(builder: (context, student, child) {
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemBuilder: (ctx, index) => AppointmentBox(
+                    textLine1: "Dr. Ronald Robertson",
+                    textLine2:
+                        "at CB 2301 after CSC261 Statistics for data science",
+                    status: "Approved"),
+                itemCount: student.appointmentLength(),
+              );
+            }),
+          )
+
+          // AppointmentBox(
+          //     textLine1: "Dr. Ronald Robertson",
+          //     textLine2: "at CB 2301 after CSC261 Statistics for data science",
+          //     status: "Approved"),
+          // AppointmentBox(
+          //     textLine1: "Dr. Ronald Robertson",
+          //     textLine2: "at CB 2301 after CSC261 Statistics for data science",
+          //     status: "Rejected"),
+          // AppointmentBox(
+          //     textLine1: "Dr. Ronald Robertson",
+          //     textLine2: "at CB 2301 after CSC261 Statistics for data science",
+          //     status: "Pending"),
         ],
       ),
     ));
