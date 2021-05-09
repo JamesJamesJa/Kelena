@@ -5,10 +5,77 @@
 //   }
 // }
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kelena/models/user.dart';
 
 class Teachers with ChangeNotifier {
+  List<User> _teacher = [];
+  List<User> get teacher {
+    return _teacher;
+  }
+
+  Future<void> teachersFromDB() async {
+    try {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
+
+      await FirebaseFirestore.instance.collection('users').get().then((value) {
+        value.docs.forEach((element) {
+          if (element.get('role') == "teacher") {
+            _teacher.add(User(
+              id: element.id,
+              name: element.get('name'),
+              email: element.get('email'),
+              role: element.get('role'),
+              lectures: [],
+              appointments: [],
+            ));
+          }
+        });
+      });
+      for (var i = 0; i < _teacher.length; i++) {
+        await FirebaseFirestore.instance
+            .collection('users/${_teacher[i].id}/lectures')
+            .get()
+            .then((value) {
+          value.docs.forEach((element) {
+            _teacher[i].lectures.add(
+                  LectureDetails(
+                    id: element.id,
+                    subjectId: element.get('subjectId'),
+                    name: element.get('subjectName'),
+                    room: element.get('room'),
+                    day: element.get('day'),
+                    from: element.get('from'),
+                    to: element.get('to'),
+                    type: element.get('type'),
+                  ),
+                );
+            // print(element.data());
+          });
+        });
+        await FirebaseFirestore.instance
+            .collection('users/${_teacher[i].id}/appointment')
+            .get()
+            .then((value) {
+          value.docs.forEach((element) {
+            _teacher[i].appointments.add(AppointmentDetails(
+                  id: element.id,
+                  lectureId: element.data()['lectureId'],
+                  lecturerId: element.data()['lecturerId'],
+                  status: element.data()['status'],
+                ));
+          });
+        });
+      }
+      notifyListeners();
+    } catch (err) {
+      return throw (err);
+    }
+  }
+
   List<User> get users {
     return _users;
   }
@@ -90,6 +157,66 @@ class Teachers with ChangeNotifier {
     for (var i = 0; i < _users.length; i++) {
       if (_users[i].id == id) {
         return _users[i];
+      }
+    }
+  }
+
+  // int length(){
+  //   return _teacher.length;
+  // }
+
+  String teacherNameFromLecturerId(String lecturerId) {
+    for (var i = 0; i < _teacher.length; i++) {
+      if (_teacher[i].id == lecturerId) {
+        return _teacher[i].name;
+      }
+    }
+  }
+
+  String appointmentDayFromLecturerId(String lecturerId, String lectureId) {
+    for (var i = 0; i < _teacher.length; i++) {
+      if (_teacher[i].id == lecturerId) {
+        for (var j = 0; j < _teacher[i].lectures.length; j++) {
+          if (_teacher[i].lectures[j].id == lectureId) {
+            switch (_teacher[i].lectures[j].day) {
+              case "Mon":
+                {
+                  return "Monday";
+                }
+                break;
+              case "Tue":
+                {
+                  return "Tuesday";
+                }
+                break;
+              case "Wed":
+                {
+                  return "Wednesday";
+                }
+                break;
+              case "Thu":
+                {
+                  return "Thursday";
+                }
+                break;
+              case "Fri":
+                {
+                  return "Friday";
+                }
+                break;
+              case "Sat":
+                {
+                  return "Saturday";
+                }
+                break;
+              case "Sun":
+                {
+                  return "Sunday";
+                }
+                break;
+            }
+          }
+        }
       }
     }
   }

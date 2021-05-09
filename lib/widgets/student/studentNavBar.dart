@@ -5,7 +5,8 @@ import 'package:kelena/widgets/appointment/dialogAppointment.dart';
 class StudentNavBar extends StatelessWidget {
   final String headline1;
   final String headline2;
-  const StudentNavBar({this.headline1, this.headline2});
+  final int amountNoti;
+  const StudentNavBar({this.headline1, this.headline2, this.amountNoti});
   Widget build(BuildContext context) {
     //Bottom Nav Bar Widget
     return Column(children: [
@@ -65,7 +66,7 @@ class StudentNavBar extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.only(left: 30, top: 24),
                       child: Text(
-                        "2",
+                        amountNoti.toString(),
                         style: TextStyle(color: Colors.white, fontSize: 6),
                       ),
                     ),

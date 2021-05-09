@@ -11,6 +11,7 @@ class Student with ChangeNotifier {
 
   Future<void> studentDetails() async {
     try {
+      // await Future.delayed(Duration(seconds: 5));
       WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp();
 
@@ -50,10 +51,15 @@ class Student with ChangeNotifier {
           element,
         ) {
           _student.appointments.add(AppointmentDetails(
-              id: element.id,
-              lectureId: element.get('lectureId'),
-              status: element.get('status')));
-          // print(_student.appointments[0].lectureId);
+            id: element.id,
+            lectureId: element.get('lectureId'),
+            lecturerId: element.get('lecturerId'),
+            status: element.get('status'),
+            //   id: element.id,
+            // lectureId: element.data()['lectureId'],
+            // lecturerId: element.data()['lecturerId'],
+            // status: element.data()['status'],
+          ));
         });
       });
 
@@ -96,6 +102,19 @@ class Student with ChangeNotifier {
     try {
       WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp();
+
+      // FirebaseFirestore.instance
+      //     .collection('users/cjreWa9KOQom1YywjMBw/lectures')
+      //     .doc(lectureId)
+      //     .set({
+      //   'subjectId': subjectId,
+      //   'subjectName': subjectName,
+      //   'room': location,
+      //   'day': day,
+      //   'from': from,
+      //   'to': to,
+      //   'type': type
+      // });
 
       if (addBool) {
         FirebaseFirestore.instance
@@ -350,6 +369,22 @@ class Student with ChangeNotifier {
         to: to,
         type: type));
     notifyListeners();
+  }
+
+  String subjectIdFromAppointment(int appointmentIndex) {
+    return _student.appointments[appointmentIndex].lectureId;
+  }
+
+  String appointmentStatus(int appointmentIndex) {
+    return _student.appointments[appointmentIndex].status;
+  }
+
+  String lecturerIdFromAppointment(int appointmentIndex) {
+    return _student.appointments[appointmentIndex].lecturerId;
+  }
+
+  String lectureIdFromAppointment(int appointmentIndex) {
+    return _student.appointments[appointmentIndex].lectureId;
   }
 
   int lectureLength() {

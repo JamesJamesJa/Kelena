@@ -56,10 +56,12 @@ class FavoriteLectureLists {
 class AppointmentDetails {
   final String id;
   final String lectureId;
+  final String lecturerId;
   final String status;
   const AppointmentDetails({
     this.id,
     this.lectureId,
+    this.lecturerId,
     this.status,
   });
 }

@@ -23,6 +23,7 @@ class InstructorList extends StatefulWidget {
 class _InstructorListState extends State<InstructorList> {
   void initState() {
     Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
+    Provider.of<Teachers>(context, listen: false).teachersFromDB().then((_) {});
     // Teachers teachers;
     // print(teachers.teacherLength());
     super.initState();
@@ -30,6 +31,7 @@ class _InstructorListState extends State<InstructorList> {
 
   Widget build(BuildContext context) {
     User student = Provider.of<Student>(context).student;
+    List<User> teachersTest = Provider.of<Teachers>(context).teacher;
     List<User> teachers = Provider.of<Teachers>(context).users;
     List<Instructor> instructors = [
       Instructor(
@@ -83,6 +85,7 @@ class _InstructorListState extends State<InstructorList> {
         StudentNavBar(
           headline1: "Instructors list",
           headline2: "Find  your  Instructors",
+          amountNoti: student.appointments.length,
         ),
         Container(
           // color: Colors.yellow,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
+import 'package:kelena/providers/teachers.dart';
 import 'package:provider/provider.dart';
 
 import 'appointmentBox.dart';
@@ -12,7 +14,13 @@ class DialogAppointment extends StatefulWidget {
 
 class _DialogAppointmentState extends State<DialogAppointment> {
   @override
+  // void initState() {
+  //   Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
+  //   super.initState();
+  // }
+  @override
   Widget build(BuildContext context) {
+    // User student = Provider.of<Student>(context).student;
     Map<String, bool> onWhat = {
       'Onsite': false,
       'Online': false,
@@ -64,14 +72,16 @@ class _DialogAppointmentState extends State<DialogAppointment> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.7,
-            child: Consumer<Student>(builder: (context, student, child) {
+            child: Consumer2<Student, Teachers>(
+                builder: (context, student, teachers, child) {
               return ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemBuilder: (ctx, index) => AppointmentBox(
-                    textLine1: "Dr. Ronald Robertson",
+                    textLine1:
+                        "With ${teachers.teacherNameFromLecturerId(student.lecturerIdFromAppointment(index))} on ${teachers.appointmentDayFromLecturerId(student.lecturerIdFromAppointment(index), student.lectureIdFromAppointment(index))}",
                     textLine2:
-                        "at CB 2301 after CSC261 Statistics for data science",
-                    status: "Approved"),
+                        "at ${student.room(student.subjectIdFromAppointment(index))} after ${student.subjectId(student.subjectIdFromAppointment(index))} ${student.subjectName(student.subjectIdFromAppointment(index))}",
+                    status: "${student.appointmentStatus(index)}"),
                 itemCount: student.appointmentLength(),
               );
             }),
