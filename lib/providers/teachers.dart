@@ -9,6 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:kelena/models/user.dart';
 
 class Teachers with ChangeNotifier {
+  List<User> get users {
+    return _users;
+  }
+
   List<User> _users = [
     User(
       id: "teacher1",

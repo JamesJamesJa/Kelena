@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
 import 'package:kelena/widgets/instructor-list/dialogSubjectDetails.dart';
 import 'package:kelena/widgets/student/dialogAddLecture.dart';
@@ -20,19 +21,78 @@ class StudentScheduleBody extends StatefulWidget {
 }
 
 class _StudentScheduleBodyState extends State<StudentScheduleBody> {
-  // Student student;
+  // User student = studentTemp;
+  // _AppointmentDataSource calendarData;
+  void initState() {
+    // List<Appointment> appointments = <Appointment>[];
+    // for (var i = 0; i < widget.student.lectureLength(); i++) {
+    //   var lecturesId = widget.student.lectureId(i);
+    //   appointments.add(Appointment(
+    //     startTime: DateTime(
+    //         2021,
+    //         4,
+    //         4 + widget.student.day(lecturesId),
+    //         widget.student.fromHr(lecturesId),
+    //         widget.student.fromMn(lecturesId),
+    //         0,
+    //         0,
+    //         0),
+    //     endTime: DateTime(
+    //         2021,
+    //         4,
+    //         4 + widget.student.day(lecturesId),
+    //         widget.student.toHr(lecturesId),
+    //         widget.student.toMn(lecturesId),
+    //         0,
+    //         0,
+    //         0),
+    //     subject: widget.student.subjectId(lecturesId),
+    //     color: Colors.purple.shade200,
+    //     location:
+    //         "${widget.student.room(lecturesId)} (${widget.student.type(lecturesId)})",
+    //     notes: widget.student.lectureId(i) +
+    //         "*" +
+    //         widget.student.subjectName(lecturesId),
+    //   ));
+    // }
+    // calendarData = _AppointmentDataSource(appointments);
+
+    // Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
+    // User student = Provider.of<Student>(context).student;
+    super.initState();
+  }
+
+// var a =Provider.of<Student>(context, listen: false).lectureLength();
   _AppointmentDataSource _getCalendarDataSource() {
     List<Appointment> appointments = <Appointment>[];
     for (var i = 0; i < widget.student.lectureLength(); i++) {
+      var lecturesId = widget.student.lectureId(i);
       appointments.add(Appointment(
-        startTime: DateTime(2021, 4, 4 + widget.student.day(i),
-            widget.student.fromHr(i), widget.student.fromMn(i), 0, 0, 0),
-        endTime: DateTime(2021, 4, 4 + widget.student.day(i),
-            widget.student.toHr(i), widget.student.toMn(i), 0, 0, 0),
-        subject: widget.student.subjectId(i),
+        startTime: DateTime(
+            2021,
+            4,
+            4 + widget.student.day(lecturesId),
+            widget.student.fromHr(lecturesId),
+            widget.student.fromMn(lecturesId),
+            0,
+            0,
+            0),
+        endTime: DateTime(
+            2021,
+            4,
+            4 + widget.student.day(lecturesId),
+            widget.student.toHr(lecturesId),
+            widget.student.toMn(lecturesId),
+            0,
+            0,
+            0),
+        subject: widget.student.subjectId(lecturesId),
         color: Colors.purple.shade200,
-        location: "${widget.student.room(i)} (${widget.student.type(i)})",
-        notes: widget.student.subjectName(i),
+        location:
+            "${widget.student.room(lecturesId)} (${widget.student.type(lecturesId)})",
+        notes: widget.student.lectureId(i) +
+            "*" +
+            widget.student.subjectName(lecturesId),
       ));
     }
     return _AppointmentDataSource(appointments);
@@ -89,12 +149,6 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
       Tab(text: "SAT"),
     ];
     CalendarController _calendarController;
-    @override
-    initState() {
-      _calendarController = CalendarController();
-      _calendarController.selectedDate = DateTime(2020, 04, 5);
-      super.initState();
-    }
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.75,
@@ -152,16 +206,20 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                           context: context,
                           builder: (context) {
                             return DialogAddLecture(
+                              addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
                               location: ((details.appointments[0].location)
                                   .split(" ("))[0],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               type: (((details.appointments[0].location)
                                       .split(" ("))[1])
                                   .substring(0, 6),
                               day: checkDay(details.appointments[0].startTime),
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
                             );
                           });
                     }
@@ -188,16 +246,20 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                           context: context,
                           builder: (context) {
                             return DialogAddLecture(
+                              addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
                               location: ((details.appointments[0].location)
                                   .split(" ("))[0],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               type: (((details.appointments[0].location)
                                       .split(" ("))[1])
                                   .substring(0, 6),
                               day: checkDay(details.appointments[0].startTime),
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
                             );
                           });
                     }
@@ -227,16 +289,20 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                           context: context,
                           builder: (context) {
                             return DialogAddLecture(
+                              addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
                               location: ((details.appointments[0].location)
                                   .split(" ("))[0],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               type: (((details.appointments[0].location)
                                       .split(" ("))[1])
                                   .substring(0, 6),
                               day: checkDay(details.appointments[0].startTime),
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
                             );
                           });
                     }
@@ -263,16 +329,20 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                           context: context,
                           builder: (context) {
                             return DialogAddLecture(
+                              addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
                               location: ((details.appointments[0].location)
                                   .split(" ("))[0],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               type: (((details.appointments[0].location)
                                       .split(" ("))[1])
                                   .substring(0, 6),
                               day: checkDay(details.appointments[0].startTime),
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
                             );
                           });
                     }
@@ -299,16 +369,20 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                           context: context,
                           builder: (context) {
                             return DialogAddLecture(
+                              addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
                               location: ((details.appointments[0].location)
                                   .split(" ("))[0],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               type: (((details.appointments[0].location)
                                       .split(" ("))[1])
                                   .substring(0, 6),
                               day: checkDay(details.appointments[0].startTime),
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
                             );
                           });
                     }
@@ -335,16 +409,20 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                           context: context,
                           builder: (context) {
                             return DialogAddLecture(
+                              addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
                               location: ((details.appointments[0].location)
                                   .split(" ("))[0],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               type: (((details.appointments[0].location)
                                       .split(" ("))[1])
                                   .substring(0, 6),
                               day: checkDay(details.appointments[0].startTime),
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
                             );
                           });
                     }
@@ -371,16 +449,20 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                           context: context,
                           builder: (context) {
                             return DialogAddLecture(
+                              addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
                               location: ((details.appointments[0].location)
                                   .split(" ("))[0],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               type: (((details.appointments[0].location)
                                       .split(" ("))[1])
                                   .substring(0, 6),
                               day: checkDay(details.appointments[0].startTime),
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
                             );
                           });
                     }
@@ -427,6 +509,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                       context: context,
                       builder: (context) {
                         return DialogAddLecture(
+                          addBool: true,
                           startTime: DateTime(2021, 4, 4, 8, 00),
                           endTime: DateTime(2021, 4, 4, 12, 00),
                           location: "",

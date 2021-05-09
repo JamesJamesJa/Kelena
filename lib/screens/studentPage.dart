@@ -3,11 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kelena/main.dart';
 import 'package:kelena/models/user.dart';
+import 'package:kelena/providers/student.dart';
 import 'package:kelena/providers/teachers.dart';
 import 'package:kelena/screens/instructorList.dart';
 import 'package:kelena/widgets/student/bottomNavBar.dart';
 import 'package:kelena/screens/favoriteInstructor.dart';
 import 'package:kelena/screens/studentSchedule.dart';
+// import 'package:provider/provider.dart';
 
 class StudentPage extends StatefulWidget {
   @override
@@ -17,24 +19,10 @@ class StudentPage extends StatefulWidget {
 class _StudentPageState extends State<StudentPage>
     with SingleTickerProviderStateMixin {
   int _selectedTabIndex = 0;
-  User student = User(
-    id: "id1",
-    name: "Thanawat Benjachatriroj",
-    email: "thanawat.bcr@gmail.com",
-    role: "student",
-    favoriteLectures: [
-      // FavoriteLectureLists(lectureId: "teacher1"),
-      // FavoriteLectureLists(lectureId: "teacher2"),
-    ],
-    appointments: [
-      AppointmentDetails(id: "app1", lectureId: "lec2", status: "Approved"),
-      AppointmentDetails(id: "app2", lectureId: "lec3", status: "Rejected"),
-      AppointmentDetails(id: "app3", lectureId: "lec1", status: "Pending"),
-    ],
-  );
 
   @override
   void initState() {
+    // Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
     // teachers.addLecturer("teacher1", "Ben Malaja", "ben.mala@gmail.com");
     // teachers.addLecture("teacher1", "lec2", "CSC217", "Operating Systems",
     //     "CB2308", "Tue", "10:30", "12:00", "Hybrid");
@@ -59,6 +47,7 @@ class _StudentPageState extends State<StudentPage>
 
   @override
   Widget build(BuildContext context) {
+    // User student = Provider.of<Student>(context).student;
     return Scaffold(
       body: Column(
         children: [

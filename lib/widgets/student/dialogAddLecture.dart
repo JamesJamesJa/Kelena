@@ -1,10 +1,27 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kelena/models/user.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:kelena/providers/student.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_core/firebase_core.dart';
+
+Future<DocumentSnapshot> getItem(
+    // BuildContext context, Map<String, dynamic> data, String documentName
+    // async
+    ) {
+  // await
+  Firebase.initializeApp();
+  return
+      // await
+      FirebaseFirestore.instance.collection("users").doc("docID").get();
+  // return FirebaseFirestore.instance.collection("users").startAtDocument(documentName).snapshots()
+}
 
 class DialogAddLecture extends StatefulWidget {
+  final bool addBool;
   final DateTime startTime;
   final DateTime endTime;
   final String subjectId;
@@ -12,21 +29,34 @@ class DialogAddLecture extends StatefulWidget {
   final String location;
   final String type;
   final int day;
-  const DialogAddLecture(
-      {Key key,
-      this.startTime,
-      this.endTime,
-      this.subjectId,
-      this.subjectName,
-      this.location,
-      this.type,
-      this.day})
-      : super(key: key);
+  final String lectureId;
+  const DialogAddLecture({
+    Key key,
+    this.addBool,
+    this.startTime,
+    this.endTime,
+    this.subjectId,
+    this.subjectName,
+    this.location,
+    this.type,
+    this.day,
+    this.lectureId,
+  }) : super(key: key);
   @override
   _DialogAddLectureState createState() => new _DialogAddLectureState();
 }
 
 class _DialogAddLectureState extends State<DialogAddLecture> {
+  // void readData() {
+  //   Firebase.initializeApp();
+  //   FirebaseFirestore.instance.collection('users').snapshots().listen((data) {
+  //     data.docs.forEach((doc) {
+  //       print(doc['text']);
+  //     });
+  //   });
+  // }
+
+  // final DBRef = FirebaseDatabase.instance.reference();
   String startTime = "Start Time";
   String endTime = "End Time";
   String subjectId, subjectName, location;
@@ -92,8 +122,16 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
     super.initState();
   }
 
+  // void addData() {
+  //   DBRef.child("1").set({
+  //     'id': 'testid1',
+  //     'name': 'testka',
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+    final Future<FirebaseApp> _initialization = Firebase.initializeApp();
     int _selectedValue = 0;
     return Scaffold(
       body: Container(
@@ -142,19 +180,46 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                           ),
                         ),
                         onPressed: () {
-                          // print(startTime);
-                          setState(() {
-                            student.addLecture(
-                                "lecTemp",
-                                subjectId,
-                                subjectName,
-                                location,
-                                allDayStringData[weeklyDay],
-                                startTime,
-                                endTime,
-                                typeCheck());
-                          });
+                          // print(startTime + " " + endTime);
 
+                          Provider.of<Student>(context, listen: false)
+                              .addLecturetoDB(
+                                  widget.lectureId,
+                                  widget.addBool,
+                                  subjectId,
+                                  subjectName,
+                                  location,
+                                  allDayStringData[weeklyDay],
+                                  startTime,
+                                  endTime,
+                                  typeCheck())
+                              .then((_) {});
+
+                          // setState(() {
+                          //   student.addLecture(
+                          //       "lecTemp",
+                          //       subjectId,
+                          //       subjectName,
+                          //       location,
+                          //       allDayStringData[weeklyDay],
+                          //       startTime,
+                          //       endTime,
+                          //       typeCheck());
+                          // }
+                          // );
+
+                          // FirebaseFirestore.instance
+                          //     .collection(
+                          //         'users/6GL6X9a0wFZNAxS8y1yb/appointment')
+                          //     .add({'lectureId': "lec3", 'status': "Rejected"});
+                          // FirebaseFirestore.instance
+                          //     .collection(
+                          //         'users/6GL6X9a0wFZNAxS8y1yb/appointment')
+                          //     .add({'lectureId': "lec1", 'status': "Pending"});
+
+                          //   AppointmentDetails(id: "app2", lectureId: "lec3", status: "Rejected"),
+                          //   AppointmentDetails(id: "app3", lectureId: "lec1", status: "Pending"),
+                          // ]});
                           // student.addLecture("lec10", "MTH999", "Mathematics II",
                           //     "CB2312", "Mon", "5:30", "06:30", "Hybrid");
                           Navigator.of(context).pop();
@@ -338,8 +403,25 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                                           setState(() {
                                             startTime = DateFormat('kk:mm a')
                                                 .format(initialTimerStart);
+                                            int tempHr = int.parse(
+                                                startTime.substring(0, 2));
+                                            if (tempHr > 12) {
+                                              if (tempHr > 21) {
+                                                if (tempHr == 24) {
+                                                  startTime = "00" +
+                                                      startTime.substring(2);
+                                                } else {
+                                                  startTime = (tempHr % 12)
+                                                          .toString() +
+                                                      startTime.substring(2);
+                                                }
+                                              } else {
+                                                startTime = "0" +
+                                                    (tempHr % 12).toString() +
+                                                    startTime.substring(2);
+                                              }
+                                            }
                                           });
-                                          // print(startTime);
                                         },
                                         mode: CupertinoDatePickerMode.time,
                                       );
@@ -366,6 +448,19 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                                           setState(() {
                                             endTime = DateFormat('kk:mm a')
                                                 .format(initialTimerEnd);
+                                            int tempHr = int.parse(
+                                                endTime.substring(0, 2));
+                                            if (tempHr > 12) {
+                                              if (tempHr > 21) {
+                                                endTime =
+                                                    (tempHr % 12).toString() +
+                                                        endTime.substring(2);
+                                              } else {
+                                                endTime = "0" +
+                                                    (tempHr % 12).toString() +
+                                                    endTime.substring(2);
+                                              }
+                                            }
                                           });
 
                                           // print(newdate);

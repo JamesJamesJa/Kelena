@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
 import 'package:kelena/widgets/instructor/firstComeBody.dart';
 import 'package:kelena/widgets/student/studentNavBar.dart';
@@ -19,20 +20,28 @@ class _StudentScheduleState extends State<StudentSchedule>
   TabController _tabController;
 
   void initState() {
-    super.initState();
+    Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
     _tabController = TabController(vsync: this, length: 7);
+    super.initState();
   }
 
   Widget build(BuildContext context) {
+    // User student = Provider.of<Student>(context).student;
     return Container(
         color: Colors.white,
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.91,
-        child: Consumer<Student>(builder: (context, student, child) {
-          return Column(children: <Widget>[
+        child:
+            //
+            Consumer<Student>(builder: (context, student, child) {
+          // print(student.toHr('SdP0hm270JzDOPIJgewr'));
+          return
+              //
+              Column(children: <Widget>[
             StudentNavBar(
               headline1: student.name(),
-              headline2: "MTH 102, CB 2301",
+              // headline1: Provider.of<Student>(context).name(),
+              headline2: "No class...",
             ),
             Container(
               padding: EdgeInsets.only(
@@ -44,7 +53,11 @@ class _StudentScheduleState extends State<StudentSchedule>
                 student: student,
               ),
             ),
-          ]);
-        }));
+          ])
+              //
+              ;
+        })
+        //
+        );
   }
 }

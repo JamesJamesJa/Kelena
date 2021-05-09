@@ -22,12 +22,15 @@ class InstructorList extends StatefulWidget {
 
 class _InstructorListState extends State<InstructorList> {
   void initState() {
+    Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
     // Teachers teachers;
     // print(teachers.teacherLength());
     super.initState();
   }
 
   Widget build(BuildContext context) {
+    User student = Provider.of<Student>(context).student;
+    List<User> teachers = Provider.of<Teachers>(context).users;
     List<Instructor> instructors = [
       Instructor(
         name: "Narogrit Eiei",
@@ -128,21 +131,34 @@ class _InstructorListState extends State<InstructorList> {
                 ),
             width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.height * 0.63,
-            child: Consumer2<Teachers, Student>(
-                builder: (context, teachers, student, child) {
-              return ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemBuilder: (ctx, index) => InstructorBox(
-                  id: teachers.id(index),
-                  name: teachers.name(index),
-                  fav: student.checkFav(teachers.id(index)),
-                  index: index,
-                  selectedTabIndex: widget.selectedTabIndex,
-                  changeIndex: widget.changeIndex,
-                ),
-                itemCount: teachers.teacherLength(),
-              );
-            }))
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemBuilder: (ctx, index) => InstructorBox(
+                id: teachers[index].id,
+                name: teachers[index].name,
+                fav: Provider.of<Student>(context).checkFav(teachers[index].id),
+                index: index,
+                selectedTabIndex: widget.selectedTabIndex,
+                changeIndex: widget.changeIndex,
+              ),
+              itemCount: student != null ? teachers.length : 0,
+            )
+            // Consumer2<Teachers, Student>(
+            //     builder: (context, teachers, student, child) {
+            //   return ListView.builder(
+            //     scrollDirection: Axis.vertical,
+            //     itemBuilder: (ctx, index) => InstructorBox(
+            //       id: teachers.id(index),
+            //       name: teachers.name(index),
+            //       fav: student.checkFav(teachers.id(index)),
+            //       index: index,
+            //       selectedTabIndex: widget.selectedTabIndex,
+            //       changeIndex: widget.changeIndex,
+            //     ),
+            //     itemCount: teachers.teacherLength(),
+            //   );
+            // })
+            )
       ]),
     );
   }

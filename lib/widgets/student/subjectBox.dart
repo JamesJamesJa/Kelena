@@ -44,7 +44,7 @@ class _SubjectBoxState extends State<SubjectBox> {
                           .difference(widget.appointment.startTime)
                           .inHours >=
                       1)
-                  ? subjectEachBox(widget.appointment.notes)
+                  ? subjectEachBox(widget.appointment.notes.split("*")[1])
                   : Container(),
               (widget.appointment.endTime
                           .difference(widget.appointment.startTime)

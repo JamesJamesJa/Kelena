@@ -126,6 +126,7 @@ class _InstructorBoxState extends State<InstructorBox> {
                 ),
               ),
               Consumer<Student>(builder: (context, student, child) {
+                // print(student.name());
                 return Container(
                   // color: Colors.green,
                   padding: EdgeInsets.only(right: 0, left: 10),
