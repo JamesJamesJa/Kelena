@@ -15,6 +15,9 @@ class DialogSubjectDetails extends StatefulWidget {
   final String to;
   final String location;
   final String teacherName;
+  final String day;
+  final String lectureId;
+  final String lecturerId;
   const DialogSubjectDetails({
     Key key,
     this.index,
@@ -24,6 +27,9 @@ class DialogSubjectDetails extends StatefulWidget {
     this.to,
     this.location,
     this.teacherName,
+    this.day,
+    this.lectureId,
+    this.lecturerId,
   }) : super(key: key);
   @override
   _DialogSubjectDetailsState createState() => new _DialogSubjectDetailsState();
@@ -76,6 +82,9 @@ class _DialogSubjectDetailsState extends State<DialogSubjectDetails> {
                             to: widget.to,
                             location: widget.location,
                             teacherName: widget.teacherName,
+                            day: widget.day,
+                            lectureId: widget.lectureId,
+                            lecturerId: widget.lecturerId,
                           );
                         });
                   },

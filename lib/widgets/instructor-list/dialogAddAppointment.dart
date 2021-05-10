@@ -14,6 +14,9 @@ class DialogAddAppointment extends StatefulWidget {
   final String to;
   final String location;
   final String teacherName;
+  final String day;
+  final String lectureId;
+  final String lecturerId;
   const DialogAddAppointment({
     Key key,
     this.index,
@@ -22,6 +25,9 @@ class DialogAddAppointment extends StatefulWidget {
     this.to,
     this.location,
     this.teacherName,
+    this.day,
+    this.lectureId,
+    this.lecturerId,
   }) : super(key: key);
   @override
   _DialogAddAppointmentState createState() => new _DialogAddAppointmentState();
@@ -73,7 +79,13 @@ class _DialogAddAppointmentState extends State<DialogAddAppointment> {
                       ),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Provider.of<Student>(context, listen: false)
+                        .addAppointtoDB(widget.lectureId, widget.lecturerId)
+                        .then((_) {});
+                    int count = 0;
+                    Navigator.of(context).popUntil((_) => count++ >= 2);
+                  },
                 ),
               ),
             ],
@@ -103,7 +115,7 @@ class _DialogAddAppointmentState extends State<DialogAddAppointment> {
             child: Container(
               padding: EdgeInsets.only(left: 0, top: 8),
               child: Text(
-                "after ${widget.subjectId}  ${widget.subjectName}",
+                "after ${widget.subjectId}  ${widget.subjectName} on ${widget.day}",
                 style: TextStyle(
                   fontSize: 10,
                   color: Color(0xff2D2D2D),

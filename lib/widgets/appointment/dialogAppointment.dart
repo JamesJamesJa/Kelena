@@ -77,10 +77,12 @@ class _DialogAppointmentState extends State<DialogAppointment> {
               return ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemBuilder: (ctx, index) => AppointmentBox(
+                    //Teacher ID : student.lecturerIdFromAppointment(index)
+                    //Lecture ID :student.lectureIdFromAppointment(index)
                     textLine1:
                         "With ${teachers.teacherNameFromLecturerId(student.lecturerIdFromAppointment(index))} on ${teachers.appointmentDayFromLecturerId(student.lecturerIdFromAppointment(index), student.lectureIdFromAppointment(index))}",
                     textLine2:
-                        "at ${student.room(student.subjectIdFromAppointment(index))} after ${student.subjectId(student.subjectIdFromAppointment(index))} ${student.subjectName(student.subjectIdFromAppointment(index))}",
+                        "at ${teachers.roomFromAppointment(student.lecturerIdFromAppointment(index), student.lectureIdFromAppointment(index))} after ${teachers.subjectIdFromAppointment(student.lecturerIdFromAppointment(index), student.lectureIdFromAppointment(index))} ${teachers.subjectNameFromAppointment(student.lecturerIdFromAppointment(index), student.lectureIdFromAppointment(index))}",
                     status: "${student.appointmentStatus(index)}"),
                 itemCount: student.appointmentLength(),
               );

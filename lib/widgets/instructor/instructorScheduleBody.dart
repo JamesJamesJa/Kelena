@@ -68,7 +68,11 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
           color: Colors.purple.shade200,
           location:
               "${widget.teachers.room(widget.index, i)} (${widget.teachers.type(widget.index, i)})",
-          notes: widget.teachers.subjectName(widget.index, i),
+          notes: widget.teachers.lecId(widget.index, i) +
+              "*" +
+              widget.teachers.subjectName(widget.index, i) +
+              "*" +
+              widget.teachers.id(widget.index),
         ));
       }
       return _AppointmentDataSource(appointments);
@@ -137,14 +141,20 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                           builder: (context) {
                             return DialogSubjectDetails(
                               index: widget.index,
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
+                              lecturerId:
+                                  details.appointments[0].notes.split('*')[2],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               from: DateFormat('hh:mm a')
                                   .format(details.appointments[0].startTime),
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
                               teacherName: widget.teachers.name(widget.index),
+                              day: "Sunday",
                             );
                           });
                     }
@@ -172,14 +182,20 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                           builder: (context) {
                             return DialogSubjectDetails(
                               index: widget.index,
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
+                              lecturerId:
+                                  details.appointments[0].notes.split('*')[2],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               from: DateFormat('hh:mm a')
                                   .format(details.appointments[0].startTime),
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
                               teacherName: widget.teachers.name(widget.index),
+                              day: "Monday",
                             );
                           });
                     }
@@ -212,14 +228,20 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                           builder: (context) {
                             return DialogSubjectDetails(
                               index: widget.index,
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
+                              lecturerId:
+                                  details.appointments[0].notes.split('*')[2],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               from: DateFormat('hh:mm a')
                                   .format(details.appointments[0].startTime),
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
                               teacherName: widget.teachers.name(widget.index),
+                              day: "Tuesday",
                             );
                           });
                     }
@@ -247,14 +269,20 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                           builder: (context) {
                             return DialogSubjectDetails(
                               index: widget.index,
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
+                              lecturerId:
+                                  details.appointments[0].notes.split('*')[2],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               from: DateFormat('hh:mm a')
                                   .format(details.appointments[0].startTime),
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
                               teacherName: widget.teachers.name(widget.index),
+                              day: "Wednesday",
                             );
                           });
                     }
@@ -282,14 +310,20 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                           builder: (context) {
                             return DialogSubjectDetails(
                               index: widget.index,
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
+                              lecturerId:
+                                  details.appointments[0].notes.split('*')[2],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               from: DateFormat('hh:mm a')
                                   .format(details.appointments[0].startTime),
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
                               teacherName: widget.teachers.name(widget.index),
+                              day: "Thursday",
                             );
                           });
                     }
@@ -317,14 +351,20 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                           builder: (context) {
                             return DialogSubjectDetails(
                               index: widget.index,
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
+                              lecturerId:
+                                  details.appointments[0].notes.split('*')[2],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               from: DateFormat('hh:mm a')
                                   .format(details.appointments[0].startTime),
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
                               teacherName: widget.teachers.name(widget.index),
+                              day: "Friday",
                             );
                           });
                     }
@@ -352,14 +392,20 @@ class _InstructorScheduleBodyState extends State<InstructorScheduleBody> {
                           builder: (context) {
                             return DialogSubjectDetails(
                               index: widget.index,
+                              lectureId:
+                                  details.appointments[0].notes.split('*')[0],
+                              lecturerId:
+                                  details.appointments[0].notes.split('*')[2],
                               subjectId: details.appointments[0].subject,
-                              subjectName: details.appointments[0].notes,
+                              subjectName:
+                                  details.appointments[0].notes.split('*')[1],
                               from: DateFormat('hh:mm a')
                                   .format(details.appointments[0].startTime),
                               to: DateFormat('hh:mm a')
                                   .format(details.appointments[0].endTime),
                               location: details.appointments[0].location,
                               teacherName: widget.teachers.name(widget.index),
+                              day: "Saturday",
                             );
                           });
                     }

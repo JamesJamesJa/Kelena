@@ -52,13 +52,9 @@ class Student with ChangeNotifier {
         ) {
           _student.appointments.add(AppointmentDetails(
             id: element.id,
-            lectureId: element.get('lectureId'),
-            lecturerId: element.get('lecturerId'),
-            status: element.get('status'),
-            //   id: element.id,
-            // lectureId: element.data()['lectureId'],
-            // lecturerId: element.data()['lecturerId'],
-            // status: element.data()['status'],
+            lectureId: element.data()['lectureId'],
+            lecturerId: element.data()['lecturerId'],
+            status: element.data()['status'],
           ));
         });
       });
@@ -190,6 +186,66 @@ class Student with ChangeNotifier {
         });
         print("Edit Lecture Success!");
       }
+      notifyListeners();
+    } catch (err) {
+      return throw (err);
+    }
+  }
+
+  Future<void> addAppointtoDB(String lectureId, String lecturerId) async {
+    try {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
+      String appointmentId = "";
+      FirebaseFirestore.instance
+          .collection('users/6GL6X9a0wFZNAxS8y1yb/appointment')
+          .add({
+        'lectureId': lectureId,
+        'lecturerId': lecturerId,
+        'status': 'Pending',
+      }).then((value) => appointmentId = value.id);
+      _student.appointments.clear();
+      await FirebaseFirestore.instance
+          .collection('users/6GL6X9a0wFZNAxS8y1yb/appointment')
+          .get()
+          .then((value) {
+        value.docs.forEach((
+          element,
+        ) {
+          _student.appointments.add(AppointmentDetails(
+            id: element.id,
+            lectureId: element.data()['lectureId'],
+            lecturerId: element.data()['lecturerId'],
+            status: element.data()['status'],
+          ));
+        });
+      });
+      print(lectureId + " AppID:" + appointmentId);
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(lecturerId)
+          .collection('appointment')
+          .doc(appointmentId)
+          .set({
+        'lectureId': lectureId,
+        'lecturerId': "6GL6X9a0wFZNAxS8y1yb",
+        'status': 'Pending',
+      });
+      student.appointments.add(AppointmentDetails(
+        id: appointmentId,
+        lectureId: lectureId,
+        lecturerId: lecturerId,
+        status: 'Pending',
+      ));
+      // FirebaseFirestore.instance
+      //     .collection('users/${lecturerId}/appointment')
+      //     .doc(appointmentId)
+      //     .set({
+      //   'lectureId': lectureId,
+      //   'lecturerId': "6GL6X9a0wFZNAxS8y1yb",
+      //   'status': 'Pending',
+      // });
+
       notifyListeners();
     } catch (err) {
       return throw (err);

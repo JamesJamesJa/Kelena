@@ -85,7 +85,9 @@ class _InstructorListState extends State<InstructorList> {
         StudentNavBar(
           headline1: "Instructors list",
           headline2: "Find  your  Instructors",
-          amountNoti: student.appointments.length,
+          // amountNoti: student.appointments.length == null
+          //     ? ""
+          //     : student.appointments.length.toString(),
         ),
         Container(
           // color: Colors.yellow,
@@ -137,14 +139,15 @@ class _InstructorListState extends State<InstructorList> {
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemBuilder: (ctx, index) => InstructorBox(
-                id: teachers[index].id,
-                name: teachers[index].name,
-                fav: Provider.of<Student>(context).checkFav(teachers[index].id),
+                id: teachersTest[index].id,
+                name: teachersTest[index].name,
+                fav: Provider.of<Student>(context)
+                    .checkFav(teachersTest[index].id),
                 index: index,
                 selectedTabIndex: widget.selectedTabIndex,
                 changeIndex: widget.changeIndex,
               ),
-              itemCount: student != null ? teachers.length : 0,
+              itemCount: student != null ? teachersTest.length : 0,
             )
             // Consumer2<Teachers, Student>(
             //     builder: (context, teachers, student, child) {

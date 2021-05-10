@@ -22,6 +22,7 @@ class Teachers with ChangeNotifier {
       await Firebase.initializeApp();
 
       await FirebaseFirestore.instance.collection('users').get().then((value) {
+        _teacher = [];
         value.docs.forEach((element) {
           if (element.get('role') == "teacher") {
             _teacher.add(User(
@@ -222,23 +223,74 @@ class Teachers with ChangeNotifier {
   }
 
   int lectureLength(int index) {
-    return _users[index].lectures.length;
+    return _teacher[index].lectures.length;
   }
 
   String subjectId(int teacherIndex, int lectureIndex) {
-    return _users[teacherIndex].lectures[lectureIndex].subjectId;
+    return _teacher[teacherIndex].lectures[lectureIndex].subjectId;
+  }
+
+  String subjectIdFromAppointment(String lecturerId, String lectureId) {
+    for (var lecturerIndex = 0;
+        lecturerIndex < _teacher.length;
+        lecturerIndex++) {
+      if (lecturerId == _teacher[lecturerIndex].id) {
+        for (var lectureIndex = 0;
+            lectureIndex < _teacher[lecturerIndex].lectures.length;
+            lectureIndex++) {
+          if (_teacher[lecturerIndex].lectures[lectureIndex].id.toString() ==
+              lectureId.toString()) {
+            return _teacher[lecturerIndex].lectures[lectureIndex].subjectId;
+          }
+        }
+      }
+    }
   }
 
   String subjectName(int teacherIndex, int lectureIndex) {
-    return _users[teacherIndex].lectures[lectureIndex].name;
+    return _teacher[teacherIndex].lectures[lectureIndex].name;
+  }
+
+  String subjectNameFromAppointment(String lecturerId, String lectureId) {
+    for (var lecturerIndex = 0;
+        lecturerIndex < _teacher.length;
+        lecturerIndex++) {
+      if (lecturerId == _teacher[lecturerIndex].id) {
+        for (var lectureIndex = 0;
+            lectureIndex < _teacher[lecturerIndex].lectures.length;
+            lectureIndex++) {
+          if (_teacher[lecturerIndex].lectures[lectureIndex].id.toString() ==
+              lectureId.toString()) {
+            return _teacher[lecturerIndex].lectures[lectureIndex].name;
+          }
+        }
+      }
+    }
   }
 
   String room(int teacherIndex, int lectureIndex) {
-    return _users[teacherIndex].lectures[lectureIndex].room;
+    return _teacher[teacherIndex].lectures[lectureIndex].room;
+  }
+
+  String roomFromAppointment(String lecturerId, String lectureId) {
+    for (var lecturerIndex = 0;
+        lecturerIndex < _teacher.length;
+        lecturerIndex++) {
+      if (lecturerId == _teacher[lecturerIndex].id) {
+        for (var lectureIndex = 0;
+            lectureIndex < _teacher[lecturerIndex].lectures.length;
+            lectureIndex++) {
+          if (_teacher[lecturerIndex].lectures[lectureIndex].id.toString() ==
+              lectureId.toString()) {
+            return _teacher[lecturerIndex].lectures[lectureIndex].room;
+          }
+        }
+      }
+    }
   }
 
   int day(int teacherIndex, int lectureIndex) {
-    switch (_users[teacherIndex].lectures[lectureIndex].day) {
+    switch (_teacher[teacherIndex].lectures[lectureIndex].day) {
       case "Sun":
         {
           return 0;
@@ -278,47 +330,65 @@ class Teachers with ChangeNotifier {
   }
 
   int fromHr(int teacherIndex, int lectureIndex) {
-    String temp = _users[teacherIndex].lectures[lectureIndex].from;
-    temp = temp.substring(0, 2);
-    return int.parse(temp);
+    // String temp = _teacher[teacherIndex].lectures[lectureIndex].from;
+    // temp = temp.substring(0, 2);
+    // return int.parse(temp);
+    String tempTime = _teacher[teacherIndex].lectures[lectureIndex].from;
+    String tempHr = tempTime.substring(0, 2);
+    if (tempTime.substring(tempTime.length - 2) == "AM" ||
+        (tempTime.substring(tempTime.length - 2).toString() == "PM" &&
+            tempHr.toString() == "12")) {
+      return int.parse(tempHr);
+    } else {
+      return int.parse(tempHr) + 12;
+    }
   }
 
   int toHr(int teacherIndex, int lectureIndex) {
-    String temp = _users[teacherIndex].lectures[lectureIndex].to;
-    temp = temp.substring(0, 2);
-    return int.parse(temp);
+    // String temp = _teacher[teacherIndex].lectures[lectureIndex].to;
+    // temp = temp.substring(0, 2);
+    // return int.parse(temp);
+    String tempTime = _teacher[teacherIndex].lectures[lectureIndex].to;
+    String tempHr = tempTime.substring(0, 2);
+    if (tempTime.substring(tempTime.length - 2) == "AM" ||
+        (tempTime.substring(tempTime.length - 2).toString() == "PM" &&
+            tempHr.toString() == "12")) {
+      return int.parse(tempHr);
+    } else {
+      return int.parse(tempHr) + 12;
+    }
   }
 
   int fromMn(int teacherIndex, int lectureIndex) {
-    String temp = _users[teacherIndex].lectures[lectureIndex].from;
+    String temp = _teacher[teacherIndex].lectures[lectureIndex].from;
     temp = temp.substring(3, 5);
     return int.parse(temp);
   }
 
   int toMn(int teacherIndex, int lectureIndex) {
-    String temp = _users[teacherIndex].lectures[lectureIndex].to;
+    String temp = _teacher[teacherIndex].lectures[lectureIndex].to;
     temp = temp.substring(3, 5);
     return int.parse(temp);
   }
 
   String type(int teacherIndex, int lectureIndex) {
-    return _users[teacherIndex].lectures[lectureIndex].type;
+    return _teacher[teacherIndex].lectures[lectureIndex].type;
   }
 
   int teacherLength() {
-    return _users.length;
+    return _teacher.length;
   }
 
   String id(int index) {
-    return _users[index].id;
+    return _teacher[index].id;
   }
 
   String name(int index) {
-    return _users[index].name;
+    return _teacher[index].name;
   }
 
   String lecId(int teacherIndex, int lectureIndex) {
-    return _users[teacherIndex].lectures[lectureIndex].id;
+    return _teacher[teacherIndex].lectures[lectureIndex].id;
   }
 
   // String name(int index) {
