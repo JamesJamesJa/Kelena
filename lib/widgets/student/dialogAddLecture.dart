@@ -30,6 +30,7 @@ class DialogAddLecture extends StatefulWidget {
   final String type;
   final int day;
   final String lectureId;
+  final String userId;
   const DialogAddLecture({
     Key key,
     this.addBool,
@@ -41,6 +42,7 @@ class DialogAddLecture extends StatefulWidget {
     this.type,
     this.day,
     this.lectureId,
+    this.userId,
   }) : super(key: key);
   @override
   _DialogAddLectureState createState() => new _DialogAddLectureState();
@@ -184,15 +186,17 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
 
                           Provider.of<Student>(context, listen: false)
                               .addLecturetoDB(
-                                  widget.lectureId,
-                                  widget.addBool,
-                                  subjectId,
-                                  subjectName,
-                                  location,
-                                  allDayStringData[weeklyDay],
-                                  startTime,
-                                  endTime,
-                                  typeCheck())
+                                widget.lectureId,
+                                widget.addBool,
+                                subjectId,
+                                subjectName,
+                                location,
+                                allDayStringData[weeklyDay],
+                                startTime,
+                                endTime,
+                                typeCheck(),
+                                widget.userId,
+                              )
                               .then((_) {});
 
                           // setState(() {

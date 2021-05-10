@@ -40,7 +40,7 @@ class Login extends StatelessWidget {
             alignment: Alignment.center,
             child: Container(
               margin: EdgeInsets.only(top: 10.0),
-              child: Text("Welcome back to Kelena,\nPlease sign in to continue",
+              child: Text("Welcome back to Kalena,\nPlease sign in to continue",
                   style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                           color: Color(0xFF8675A9),
@@ -56,7 +56,8 @@ class Login extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => StudentPage()),
+                    // MaterialPageRoute(builder: (context) => StudentPage()),
+                    MaterialPageRoute(builder: (context) => FirstCome()),
                     // MaterialPageRoute(builder: (context) => InstructorsList()),
                   );
                 },

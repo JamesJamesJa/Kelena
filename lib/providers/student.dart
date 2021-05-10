@@ -86,36 +86,23 @@ class Student with ChangeNotifier {
   }
 
   Future<void> addLecturetoDB(
-      String lectureId,
-      bool addBool,
-      String subjectId,
-      String subjectName,
-      String location,
-      String day,
-      String from,
-      String to,
-      String type) async {
+    String lectureId,
+    bool addBool,
+    String subjectId,
+    String subjectName,
+    String location,
+    String day,
+    String from,
+    String to,
+    String type,
+    String userId,
+  ) async {
     try {
       WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp();
 
-      // FirebaseFirestore.instance
-      //     .collection('users/cjreWa9KOQom1YywjMBw/lectures')
-      //     .doc(lectureId)
-      //     .set({
-      //   'subjectId': subjectId,
-      //   'subjectName': subjectName,
-      //   'room': location,
-      //   'day': day,
-      //   'from': from,
-      //   'to': to,
-      //   'type': type
-      // });
-
       if (addBool) {
-        FirebaseFirestore.instance
-            .collection('users/6GL6X9a0wFZNAxS8y1yb/lectures')
-            .add({
+        FirebaseFirestore.instance.collection('users/${userId}/lectures').add({
           'subjectId': subjectId,
           'subjectName': subjectName,
           'room': location,
@@ -126,11 +113,10 @@ class Student with ChangeNotifier {
         });
         student.lectures.clear();
         await FirebaseFirestore.instance
-            .collection('users/6GL6X9a0wFZNAxS8y1yb/lectures')
+            .collection('users/${userId}/lectures')
             .get()
             .then((value) {
           value.docs.forEach((element) {
-            // print(element.id);
             _student.lectures.add(LectureDetails(
               id: element.id,
               subjectId: element.get('subjectId'),
@@ -141,14 +127,11 @@ class Student with ChangeNotifier {
               to: element.get('to'),
               type: element.get('type'),
             ));
-            // print(element.data());
           });
         });
 
         print("Add Lecture Success!");
       } else {
-        // print("In student: " + from + " " + to);
-
         var tempIndex = 0;
         for (var lectureIndex = 0;
             lectureIndex < student.lectures.length;
@@ -171,7 +154,7 @@ class Student with ChangeNotifier {
               ));
         }
         FirebaseFirestore.instance
-            .collection('users/6GL6X9a0wFZNAxS8y1yb/lectures')
+            .collection('users/${userId}/lectures')
             .doc(lectureId)
             .set({
           'subjectId': subjectId,
@@ -220,7 +203,7 @@ class Student with ChangeNotifier {
           ));
         });
       });
-      print(lectureId + " AppID:" + appointmentId);
+      // print(lectureId + " AppID:" + appointmentId);
       FirebaseFirestore.instance
           .collection('users')
           .doc(lecturerId)
@@ -237,15 +220,67 @@ class Student with ChangeNotifier {
         lecturerId: lecturerId,
         status: 'Pending',
       ));
-      // FirebaseFirestore.instance
-      //     .collection('users/${lecturerId}/appointment')
-      //     .doc(appointmentId)
-      //     .set({
-      //   'lectureId': lectureId,
-      //   'lecturerId': "6GL6X9a0wFZNAxS8y1yb",
-      //   'status': 'Pending',
-      // });
 
+      notifyListeners();
+    } catch (err) {
+      return throw (err);
+    }
+  }
+
+  Future<void> teacherDetails() async {
+    try {
+      // await Future.delayed(Duration(seconds: 5));
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
+
+      await FirebaseFirestore.instance
+          .doc('users/cjreWa9KOQom1YywjMBw')
+          .get()
+          .then((querySnapshot) async {
+        User temp = User(
+          name: querySnapshot.get('name'),
+          email: querySnapshot.get('email'),
+          id: 'cjreWa9KOQom1YywjMBw',
+          role: querySnapshot.get('role'),
+          appointments: [],
+          lectures: [],
+        );
+        _student = temp;
+      });
+
+      await FirebaseFirestore.instance
+          .collection('users/cjreWa9KOQom1YywjMBw/appointment')
+          .get()
+          .then((value) {
+        value.docs.forEach((
+          element,
+        ) {
+          _student.appointments.add(AppointmentDetails(
+            id: element.id,
+            lectureId: element.data()['lectureId'],
+            lecturerId: element.data()['lecturerId'],
+            status: element.data()['status'],
+          ));
+        });
+      });
+
+      await FirebaseFirestore.instance
+          .collection('users/cjreWa9KOQom1YywjMBw/lectures')
+          .get()
+          .then((value) {
+        value.docs.forEach((element) {
+          _student.lectures.add(LectureDetails(
+            id: element.id,
+            subjectId: element.get('subjectId'),
+            name: element.get('subjectName'),
+            room: element.get('room'),
+            day: element.get('day'),
+            from: element.get('from'),
+            to: element.get('to'),
+            type: element.get('type'),
+          ));
+        });
+      });
       notifyListeners();
     } catch (err) {
       return throw (err);
@@ -357,6 +392,10 @@ class Student with ChangeNotifier {
 
   String name() {
     return _student.name;
+  }
+
+  String id() {
+    return _student.id;
   }
 
   String printFav() {

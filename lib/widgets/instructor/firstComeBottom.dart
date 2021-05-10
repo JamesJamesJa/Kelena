@@ -22,64 +22,57 @@ class _FirstComeBottomState extends State<FirstComeBottom> {
   ];
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.only(left: 20, right: 20),
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                      side: BorderSide(color: Colors.grey))),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.add,
-                    color: Colors.grey,
-                    size: 16,
-                  ),
-                  Text(
-                    'Add your lecture class',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      // fontWeight: FontWeight.w200,
-                      fontSize: 12,
-                    ),
-                  )
-                ],
-              ),
-              onPressed: () {
-                // showDialog(
-                //     context: context,
-                //     builder: (context) {
-                //       return DialogAddSchedule();
-                //     });
-              },
-            ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Color(0xff8675A9),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        side: BorderSide(color: Color(0xff8675A9)))),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  child: Text(
-                    'Finish',
-                    style: TextStyle(
-                      color: Colors.white,
-                      // fontWeight: FontWeight.w200,
-                      fontSize: 12,
-                    ),
-                  ),
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.16,
+      padding: EdgeInsets.only(left: 20, right: 20),
+      color: Colors.white,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: Colors.grey))),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.add,
+                  color: Colors.grey,
+                  size: 16,
                 ),
-                onPressed: () {}),
-          ],
-        ),
+                Text(
+                  'Add your lecture class',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    // fontWeight: FontWeight.w200,
+                    fontSize: 12,
+                  ),
+                )
+              ],
+            ),
+            onPressed: () {},
+          ),
+          // ElevatedButton(
+          //     style: ElevatedButton.styleFrom(
+          //         primary: Color(0xff8675A9),
+          //         shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(30.0),
+          //             side: BorderSide(color: Color(0xff8675A9)))),
+          //     child: Padding(
+          //       padding: EdgeInsets.only(left: 10, right: 10),
+          //       child: Text(
+          //         'Finish',
+          //         style: TextStyle(
+          //           color: Colors.white,
+          //           // fontWeight: FontWeight.w200,
+          //           fontSize: 12,
+          //         ),
+          //       ),
+          //     ),
+          //     onPressed: () {}),
+        ],
       ),
     );
   }

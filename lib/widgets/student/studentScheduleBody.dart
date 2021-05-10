@@ -220,6 +220,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                               day: checkDay(details.appointments[0].startTime),
                               lectureId:
                                   details.appointments[0].notes.split('*')[0],
+                              userId: "6GL6X9a0wFZNAxS8y1yb",
                             );
                           });
                     }
@@ -260,6 +261,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                               day: checkDay(details.appointments[0].startTime),
                               lectureId:
                                   details.appointments[0].notes.split('*')[0],
+                              userId: "6GL6X9a0wFZNAxS8y1yb",
                             );
                           });
                     }
@@ -303,6 +305,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                               day: checkDay(details.appointments[0].startTime),
                               lectureId:
                                   details.appointments[0].notes.split('*')[0],
+                              userId: "6GL6X9a0wFZNAxS8y1yb",
                             );
                           });
                     }
@@ -343,6 +346,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                               day: checkDay(details.appointments[0].startTime),
                               lectureId:
                                   details.appointments[0].notes.split('*')[0],
+                              userId: "6GL6X9a0wFZNAxS8y1yb",
                             );
                           });
                     }
@@ -383,6 +387,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                               day: checkDay(details.appointments[0].startTime),
                               lectureId:
                                   details.appointments[0].notes.split('*')[0],
+                              userId: "6GL6X9a0wFZNAxS8y1yb",
                             );
                           });
                     }
@@ -423,6 +428,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                               day: checkDay(details.appointments[0].startTime),
                               lectureId:
                                   details.appointments[0].notes.split('*')[0],
+                              userId: "6GL6X9a0wFZNAxS8y1yb",
                             );
                           });
                     }
@@ -463,6 +469,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                               day: checkDay(details.appointments[0].startTime),
                               lectureId:
                                   details.appointments[0].notes.split('*')[0],
+                              userId: "6GL6X9a0wFZNAxS8y1yb",
                             );
                           });
                     }
@@ -517,6 +524,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                           subjectName: "",
                           type: "",
                           day: 0,
+                          userId: widget.student.id(),
                         );
                       });
                 },
