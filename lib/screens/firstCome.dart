@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
+import 'package:kelena/providers/teacher.dart';
 import 'package:provider/provider.dart';
 import '../widgets/instructor/firstComeNavBar.dart';
 import '../widgets/instructor/firstComeBody.dart';
@@ -18,7 +19,8 @@ class _FirstComeState extends State<FirstCome>
 
   @override
   void initState() {
-    Provider.of<Student>(context, listen: false).teacherDetails().then((_) {});
+    Provider.of<Teacher>(context, listen: false).teacherDetails().then((_) {});
+    Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
     _tabController = TabController(vsync: this, length: 7);
 
     super.initState();
@@ -32,7 +34,8 @@ class _FirstComeState extends State<FirstCome>
         body: Container(
       height: MediaQuery.of(context).size.height,
       // width: double.infinity,
-      child: Consumer<Student>(builder: (context, teacher, child) {
+      child: Consumer<Teacher>(builder: (context, teacher, child) {
+        // print(teacher.lectureLength() == 0);
         return Container(
           color: Colors.white,
           child: Column(children: [

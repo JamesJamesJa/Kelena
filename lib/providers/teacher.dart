@@ -3,10 +3,65 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kelena/models/user.dart';
 
-class Student with ChangeNotifier {
-  User _student;
-  User get student {
-    return _student;
+class Teacher with ChangeNotifier {
+  User _teacher = new User(name: "", lectures: []);
+  User get teacher {
+    return _teacher;
+  }
+
+  Future<void> changeAppointmentStatus(
+    String userId,
+    String appointId,
+    int index,
+    bool accept,
+  ) async {
+    try {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
+      String lectureId = teacher.appointments[index].lectureId;
+      String lecturerId = teacher.appointments[index].lecturerId;
+      String status = "Pending";
+      if (accept) {
+        status = "Approved";
+      } else {
+        status = "Rejected";
+      }
+      await FirebaseFirestore.instance
+          .collection('users/${userId}/appointment')
+          .doc(appointId)
+          .update({
+        'lectureId': lectureId,
+        'lecturerId': lecturerId,
+        'status': status
+      });
+      teacher.appointments.removeAt(index);
+      teacher.appointments.insert(
+          index,
+          AppointmentDetails(
+            lectureId: lectureId,
+            lecturerId: lecturerId,
+            status: status,
+          ));
+      await FirebaseFirestore.instance
+          .collection('users/6GL6X9a0wFZNAxS8y1yb/appointment')
+          .doc(appointId)
+          .update({
+        'lectureId': lectureId,
+        'lecturerId': lecturerId,
+        'status': status
+      });
+      teacher.appointments.removeAt(index);
+      teacher.appointments.insert(
+          index,
+          AppointmentDetails(
+            lectureId: lectureId,
+            lecturerId: lecturerId,
+            status: status,
+          ));
+      notifyListeners();
+    } catch (err) {
+      return throw (err);
+    }
   }
 
   Future<void> studentDetails() async {
@@ -30,15 +85,15 @@ class Student with ChangeNotifier {
           favoriteLectures: [],
           // favoriteLectures: querySnapshot.get('favLecturers'),
         );
-        _student = temp;
+        _teacher = temp;
 
         List<dynamic> favTemp = querySnapshot.get('favLecturers');
         favTemp.forEach((element) {
-          _student.favoriteLectures.add(element);
-          // print(_student.favoriteLectures);
+          _teacher.favoriteLectures.add(element);
+          // print(_teacher.favoriteLectures);
         });
 
-        // _student. = querySnapshot.get('name');
+        // _teacher. = querySnapshot.get('name');
 
         // print(querySnapshot.data());
       });
@@ -50,7 +105,7 @@ class Student with ChangeNotifier {
         value.docs.forEach((
           element,
         ) {
-          _student.appointments.add(AppointmentDetails(
+          _teacher.appointments.add(AppointmentDetails(
             id: element.id,
             lectureId: element.data()['lectureId'],
             lecturerId: element.data()['lecturerId'],
@@ -65,7 +120,7 @@ class Student with ChangeNotifier {
           .then((value) {
         value.docs.forEach((element) {
           // print(element.id);
-          _student.lectures.add(LectureDetails(
+          _teacher.lectures.add(LectureDetails(
             id: element.id,
             subjectId: element.get('subjectId'),
             name: element.get('subjectName'),
@@ -78,7 +133,7 @@ class Student with ChangeNotifier {
           // print(element.data());
         });
       });
-      // print(_student.name);
+      // print(_teacher.name);
       notifyListeners();
     } catch (err) {
       return throw (err);
@@ -111,13 +166,13 @@ class Student with ChangeNotifier {
           'to': to,
           'type': type,
         });
-        student.lectures.clear();
+        _teacher.lectures.clear();
         await FirebaseFirestore.instance
             .collection('users/${userId}/lectures')
             .get()
             .then((value) {
           value.docs.forEach((element) {
-            _student.lectures.add(LectureDetails(
+            _teacher.lectures.add(LectureDetails(
               id: element.id,
               subjectId: element.get('subjectId'),
               name: element.get('subjectName'),
@@ -134,13 +189,14 @@ class Student with ChangeNotifier {
       } else {
         var tempIndex = 0;
         for (var lectureIndex = 0;
-            lectureIndex < student.lectures.length;
+            lectureIndex < _teacher.lectures.length;
             lectureIndex++) {
-          if (student.lectures[lectureIndex].id == lectureId) {
+          print(_teacher.lectures[lectureIndex].id + " " + lectureId);
+          if (_teacher.lectures[lectureIndex].id == lectureId) {
             tempIndex = lectureIndex;
           }
-          student.lectures.removeAt(tempIndex);
-          student.lectures.insert(
+          _teacher.lectures.removeAt(tempIndex);
+          _teacher.lectures.insert(
               tempIndex,
               LectureDetails(
                 id: lectureId,
@@ -153,6 +209,8 @@ class Student with ChangeNotifier {
                 type: type,
               ));
         }
+        // print(lectureId+" "+subjectId+" "+subjectName+" "+location+" "++" "++" "++" "+)
+
         FirebaseFirestore.instance
             .collection('users/${userId}/lectures')
             .doc(lectureId)
@@ -167,7 +225,8 @@ class Student with ChangeNotifier {
         }).catchError((err) {
           print(err);
         });
-        print("Edit Lecture Success!");
+        // print();
+        print("Edit Lecture Success!" + _teacher.lectures.toString() + " ");
       }
       notifyListeners();
     } catch (err) {
@@ -186,21 +245,8 @@ class Student with ChangeNotifier {
         'lectureId': lectureId,
         'lecturerId': lecturerId,
         'status': 'Pending',
-      }).then((value) {
-        appointmentId = value.id;
-        FirebaseFirestore.instance
-            .collection('users')
-            // .collection('users/${lectureId}/appointment')
-            .doc(lecturerId)
-            .collection('appointment')
-            .doc(appointmentId)
-            .set({
-          'lectureId': lectureId,
-          'lecturerId': "6GL6X9a0wFZNAxS8y1yb",
-          'status': 'Pending',
-        });
-      });
-      _student.appointments.clear();
+      }).then((value) => appointmentId = value.id);
+      _teacher.appointments.clear();
       await FirebaseFirestore.instance
           .collection('users/6GL6X9a0wFZNAxS8y1yb/appointment')
           .get()
@@ -208,7 +254,7 @@ class Student with ChangeNotifier {
         value.docs.forEach((
           element,
         ) {
-          _student.appointments.add(AppointmentDetails(
+          _teacher.appointments.add(AppointmentDetails(
             id: element.id,
             lectureId: element.data()['lectureId'],
             lecturerId: element.data()['lecturerId'],
@@ -216,14 +262,23 @@ class Student with ChangeNotifier {
           ));
         });
       });
-
-      // .then((value) => print("AppID:" + appointmentId));
-      // student.appointments.add(AppointmentDetails(
-      //   id: appointmentId,
-      //   lectureId: lectureId,
-      //   lecturerId: lecturerId,
-      //   status: 'Pending',
-      // ));
+      // print(lectureId + " AppID:" + appointmentId);
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(lecturerId)
+          .collection('appointment')
+          .doc(appointmentId)
+          .set({
+        'lectureId': lectureId,
+        'lecturerId': "6GL6X9a0wFZNAxS8y1yb",
+        'status': 'Pending',
+      });
+      _teacher.appointments.add(AppointmentDetails(
+        id: appointmentId,
+        lectureId: lectureId,
+        lecturerId: lecturerId,
+        status: 'Pending',
+      ));
 
       notifyListeners();
     } catch (err) {
@@ -249,7 +304,7 @@ class Student with ChangeNotifier {
           appointments: [],
           lectures: [],
         );
-        _student = temp;
+        _teacher = temp;
       });
 
       await FirebaseFirestore.instance
@@ -259,7 +314,7 @@ class Student with ChangeNotifier {
         value.docs.forEach((
           element,
         ) {
-          _student.appointments.add(AppointmentDetails(
+          _teacher.appointments.add(AppointmentDetails(
             id: element.id,
             lectureId: element.data()['lectureId'],
             lecturerId: element.data()['lecturerId'],
@@ -273,7 +328,7 @@ class Student with ChangeNotifier {
           .get()
           .then((value) {
         value.docs.forEach((element) {
-          _student.lectures.add(LectureDetails(
+          _teacher.lectures.add(LectureDetails(
             id: element.id,
             subjectId: element.get('subjectId'),
             name: element.get('subjectName'),
@@ -291,7 +346,7 @@ class Student with ChangeNotifier {
     }
   }
 
-  // User _student = User(
+  // User _teacher = User(
   //   id: "id1",
   //   name: "Thanawat Benjachatriroj",
   //   email: "thanawat.bcr@gmail.com",
@@ -388,40 +443,44 @@ class Student with ChangeNotifier {
   //     AppointmentDetails(id: "app3", lectureId: "lec1", status: "Pending"),
   //   ],
   // );
-  // _student.lectures.addLecture();
+  // _teacher.lectures.addLecture();
 
   // String print() {
-  //   return _student.toString();
+  //   return _teacher.toString();
   // }
 
   String name() {
-    return _student.name;
+    return _teacher.name.toString();
   }
 
   String id() {
-    return _student.id;
+    return _teacher.id;
   }
 
   String printFav() {
-    return _student.favoriteLectures.toString();
+    return _teacher.favoriteLectures.toString();
+  }
+
+  String appointmentId(int index) {
+    return _teacher.appointments[index].id;
   }
 
   void manageFav(String id) {
-    int index = _student.favoriteLectures.indexOf(id);
-    // print(_student.favoriteLectures.toString());
+    int index = _teacher.favoriteLectures.indexOf(id);
+    // print(_teacher.favoriteLectures.toString());
     if (index == -1) {
-      _student.favoriteLectures.add(id);
+      _teacher.favoriteLectures.add(id);
     } else {
-      _student.favoriteLectures.remove(id);
+      _teacher.favoriteLectures.remove(id);
     }
     FirebaseFirestore.instance
         .doc('users/6GL6X9a0wFZNAxS8y1yb')
-        .update({'favLecturers': _student.favoriteLectures});
+        .update({'favLecturers': _teacher.favoriteLectures});
     notifyListeners();
   }
 
   bool checkFav(String id) {
-    int index = _student.favoriteLectures.indexOf(id);
+    int index = _teacher.favoriteLectures.indexOf(id);
     if (index == -1) {
       return false;
     } else {
@@ -434,7 +493,7 @@ class Student with ChangeNotifier {
   }
 
   int appointmentLength() {
-    return _student.appointments.length;
+    return _teacher.appointments.length;
   }
 
   void addLecture(String id, String subjectId, String name, String room,
@@ -458,7 +517,7 @@ class Student with ChangeNotifier {
     //           ));
     // } else {
     // _lectures.addEntries(newEntries)
-    _student.lectures.add(LectureDetails(
+    _teacher.lectures.add(LectureDetails(
         id: id,
         name: name,
         subjectId: subjectId,
@@ -471,69 +530,80 @@ class Student with ChangeNotifier {
   }
 
   String subjectIdFromAppointment(int appointmentIndex) {
-    return _student.appointments[appointmentIndex].lectureId;
+    return _teacher.appointments[appointmentIndex].lectureId;
   }
 
   String appointmentStatus(int appointmentIndex) {
-    return _student.appointments[appointmentIndex].status;
+    return _teacher.appointments[appointmentIndex].status;
   }
 
   String lecturerIdFromAppointment(int appointmentIndex) {
-    return _student.appointments[appointmentIndex].lecturerId;
+    return _teacher.appointments[appointmentIndex].lecturerId;
   }
 
   String lectureIdFromAppointment(int appointmentIndex) {
-    return _student.appointments[appointmentIndex].lectureId;
+    return _teacher.appointments[appointmentIndex].lectureId;
   }
 
   int lectureLength() {
-    return _student.lectures.length;
+    return _teacher.lectures.length;
   }
 
   String lectureId(int lectureIndex) {
-    return _student.lectures[lectureIndex].id;
+    return _teacher.lectures[lectureIndex].id;
   }
 
   String subjectId(String lectureId) {
     for (var lectureIndex = 0;
-        lectureIndex < _student.lectures.length;
+        lectureIndex < _teacher.lectures.length;
         lectureIndex++) {
-      if (_student.lectures[lectureIndex].id.toString() ==
+      if (_teacher.lectures[lectureIndex].id.toString() ==
           lectureId.toString()) {
-        return _student.lectures[lectureIndex].subjectId;
+        return _teacher.lectures[lectureIndex].subjectId;
       }
     }
   }
 
   String subjectName(String lectureId) {
     for (var lectureIndex = 0;
-        lectureIndex < _student.lectures.length;
+        lectureIndex < _teacher.lectures.length;
         lectureIndex++) {
-      if (_student.lectures[lectureIndex].id.toString() ==
+      if (_teacher.lectures[lectureIndex].id.toString() ==
           lectureId.toString()) {
-        return _student.lectures[lectureIndex].name;
+        return _teacher.lectures[lectureIndex].name;
       }
     }
   }
 
   String room(String lectureId) {
     for (var lectureIndex = 0;
-        lectureIndex < _student.lectures.length;
+        lectureIndex < _teacher.lectures.length;
         lectureIndex++) {
-      if (_student.lectures[lectureIndex].id.toString() ==
+      if (_teacher.lectures[lectureIndex].id.toString() ==
           lectureId.toString()) {
-        return _student.lectures[lectureIndex].room;
+        return _teacher.lectures[lectureIndex].room;
       }
     }
   }
 
+  // String roomFromAppointment(String lectureId) {
+  //   for (var lectureIndex = 0;
+  //       lectureIndex < _teacher.lectures.length;
+  //       lectureIndex++) {
+  //     if (_teacher.lectures[lectureIndex].id.toString() ==
+  //         lectureId.toString()) {
+  //       return _teacher.lectures[lectureIndex].;
+  //     }
+  //   }
+  // }
+
   int day(String lectureId) {
     for (var lectureIndex = 0;
-        lectureIndex < _student.lectures.length;
+        lectureIndex < _teacher.lectures.length;
         lectureIndex++) {
-      if (_student.lectures[lectureIndex].id.toString() ==
+      if (_teacher.lectures[lectureIndex].id.toString() ==
           lectureId.toString()) {
-        switch (_student.lectures[lectureIndex].day) {
+        switch (_teacher.lectures[lectureIndex].day) {
           case "Sun":
             {
               return 0;
@@ -574,13 +644,60 @@ class Student with ChangeNotifier {
     }
   }
 
+  String daytoAppointment(String lectureId) {
+    for (var lectureIndex = 0;
+        lectureIndex < _teacher.lectures.length;
+        lectureIndex++) {
+      if (_teacher.lectures[lectureIndex].id.toString() ==
+          lectureId.toString()) {
+        switch (_teacher.lectures[lectureIndex].day) {
+          case "Sun":
+            {
+              return "Sunday";
+            }
+            break;
+          case "Mon":
+            {
+              return "Monday";
+            }
+            break;
+          case "Tue":
+            {
+              return "Tuesday";
+            }
+            break;
+          case "Wed":
+            {
+              return "Wednesday";
+            }
+            break;
+          case "Thu":
+            {
+              return "Thursday";
+            }
+            break;
+          case "Fri":
+            {
+              return "Friday";
+            }
+            break;
+          case "Sat":
+            {
+              return "Saturday";
+            }
+            break;
+        }
+      }
+    }
+  }
+
   int fromHr(String lectureId) {
     for (var lectureIndex = 0;
-        lectureIndex < _student.lectures.length;
+        lectureIndex < _teacher.lectures.length;
         lectureIndex++) {
-      if (_student.lectures[lectureIndex].id.toString() ==
+      if (_teacher.lectures[lectureIndex].id.toString() ==
           lectureId.toString()) {
-        String tempTime = _student.lectures[lectureIndex].from;
+        String tempTime = _teacher.lectures[lectureIndex].from;
         String tempHr = tempTime.substring(0, 2);
         if (tempTime.substring(tempTime.length - 2) == "AM" ||
             (tempTime.substring(tempTime.length - 2).toString() == "PM" &&
@@ -596,11 +713,11 @@ class Student with ChangeNotifier {
 
   int toHr(String lectureId) {
     for (var lectureIndex = 0;
-        lectureIndex < _student.lectures.length;
+        lectureIndex < _teacher.lectures.length;
         lectureIndex++) {
-      if (_student.lectures[lectureIndex].id.toString() ==
+      if (_teacher.lectures[lectureIndex].id.toString() ==
           lectureId.toString()) {
-        String tempTime = _student.lectures[lectureIndex].to;
+        String tempTime = _teacher.lectures[lectureIndex].to;
         String tempHr = tempTime.substring(0, 2);
         if (tempTime.substring(tempTime.length - 2) == "AM" ||
             (tempTime.substring(tempTime.length - 2).toString() == "PM" &&
@@ -616,11 +733,11 @@ class Student with ChangeNotifier {
 
   int fromMn(String lectureId) {
     for (var lectureIndex = 0;
-        lectureIndex < _student.lectures.length;
+        lectureIndex < _teacher.lectures.length;
         lectureIndex++) {
-      if (_student.lectures[lectureIndex].id.toString() ==
+      if (_teacher.lectures[lectureIndex].id.toString() ==
           lectureId.toString()) {
-        String temp = _student.lectures[lectureIndex].from;
+        String temp = _teacher.lectures[lectureIndex].from;
         temp = temp.substring(3, 5);
         return int.parse(temp);
       }
@@ -629,11 +746,11 @@ class Student with ChangeNotifier {
 
   int toMn(String lectureId) {
     for (var lectureIndex = 0;
-        lectureIndex < _student.lectures.length;
+        lectureIndex < _teacher.lectures.length;
         lectureIndex++) {
-      if (_student.lectures[lectureIndex].id.toString() ==
+      if (_teacher.lectures[lectureIndex].id.toString() ==
           lectureId.toString()) {
-        String temp = _student.lectures[lectureIndex].to;
+        String temp = _teacher.lectures[lectureIndex].to;
         temp = temp.substring(3, 5);
         return int.parse(temp);
       }
@@ -642,11 +759,11 @@ class Student with ChangeNotifier {
 
   String type(String lectureId) {
     for (var lectureIndex = 0;
-        lectureIndex < _student.lectures.length;
+        lectureIndex < _teacher.lectures.length;
         lectureIndex++) {
-      if (_student.lectures[lectureIndex].id.toString() ==
+      if (_teacher.lectures[lectureIndex].id.toString() ==
           lectureId.toString()) {
-        return _student.lectures[lectureIndex].type;
+        return _teacher.lectures[lectureIndex].type;
       }
     }
   }

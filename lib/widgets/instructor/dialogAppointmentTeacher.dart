@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
+import 'package:kelena/providers/teacher.dart';
 import 'package:kelena/providers/teachers.dart';
 import 'package:kelena/widgets/appointment/appointmentBox.dart';
+import 'package:kelena/widgets/appointment/appointmentBoxForTeacher.dart';
 import 'package:provider/provider.dart';
 
 class DialogAppointmentTeacher extends StatefulWidget {
@@ -67,19 +69,27 @@ class _DialogAppointmentTeacherState extends State<DialogAppointmentTeacher> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.7,
-            child: Consumer2<Student, Teachers>(
-                builder: (context, student, teachers, child) {
+            child: Consumer2<Student, Teacher>(
+                builder: (context, student, teacher, child) {
               return ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemBuilder: (ctx, index) => AppointmentBox(
-                    //Teacher ID : student.lecturerIdFromAppointment(index)
-                    //Lecture ID :student.lectureIdFromAppointment(index)
-                    textLine1:
-                        "With ${teachers.teacherNameFromLecturerId(student.lecturerIdFromAppointment(index))} on ${teachers.appointmentDayFromLecturerId(student.lecturerIdFromAppointment(index), student.lectureIdFromAppointment(index))}",
-                    textLine2:
-                        "at ${teachers.roomFromAppointment(student.lecturerIdFromAppointment(index), student.lectureIdFromAppointment(index))} after ${teachers.subjectIdFromAppointment(student.lecturerIdFromAppointment(index), student.lectureIdFromAppointment(index))} ${teachers.subjectNameFromAppointment(student.lecturerIdFromAppointment(index), student.lectureIdFromAppointment(index))}",
-                    status: "${student.appointmentStatus(index)}"),
-                itemCount: student.appointmentLength(),
+                itemBuilder: (ctx, index) => teacher.appointmentStatus(index) ==
+                        "Pending"
+                    ? AppointmentBoxForTeacher(
+                        name: student.name(),
+                        day: teacher.daytoAppointment(
+                            teacher.lectureIdFromAppointment(index)),
+                        room: teacher
+                            .room(teacher.lectureIdFromAppointment(index)),
+                        subjectId: teacher
+                            .subjectId(teacher.lectureIdFromAppointment(index)),
+                        subjectName: teacher.subjectName(
+                            teacher.lectureIdFromAppointment(index)),
+                        status: teacher.appointmentStatus(index),
+                        index: index,
+                        appointmentId: teacher.appointmentId(index))
+                    : Container(),
+                itemCount: teacher.appointmentLength(),
               );
             }),
           )

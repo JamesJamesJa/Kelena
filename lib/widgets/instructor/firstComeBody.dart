@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kelena/providers/student.dart';
+import 'package:kelena/providers/teacher.dart';
 import 'package:kelena/widgets/student/dialogAddLecture.dart';
 import 'package:kelena/widgets/student/subjectBox.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -9,7 +10,7 @@ import '../student/subjectBox.dart';
 
 class FirstComeBody extends StatefulWidget {
   final TabController tabController;
-  final Student teacher;
+  final Teacher teacher;
   const FirstComeBody({Key key, this.tabController, this.teacher})
       : super(key: key);
   @override
@@ -61,7 +62,11 @@ class _FirstComeBodyState extends State<FirstComeBody> {
     CalendarController _calendarController;
     _AppointmentDataSource _getCalendarDataSource() {
       List<Appointment> appointments = <Appointment>[];
-      for (var i = 0; i < widget.teacher.lectureLength(); i++) {
+      var length = 0;
+      if (widget.teacher != null) {
+        length = widget.teacher.lectureLength();
+      }
+      for (var i = 0; i < length; i++) {
         // print(widget.teacher.id());
         var lecturesId = widget.teacher.lectureId(i);
         appointments.add(Appointment(

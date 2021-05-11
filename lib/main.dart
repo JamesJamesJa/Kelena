@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kelena/providers/student.dart';
+import 'package:kelena/providers/teacher.dart';
 import 'package:kelena/providers/teachers.dart';
 import 'package:kelena/screens/studentPage.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ void main() => runApp(
         providers: [
           ChangeNotifierProvider(create: (context) => Student()),
           ChangeNotifierProvider(create: (context) => Teachers()),
+          ChangeNotifierProvider(create: (context) => Teacher()),
           // Provider(create: (context) => SomeOtherClass()),
         ],
         child: App(),

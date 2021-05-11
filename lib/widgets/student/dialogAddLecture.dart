@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kelena/models/user.dart';
+import 'package:kelena/providers/teacher.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:kelena/providers/student.dart';
@@ -183,21 +184,37 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                         ),
                         onPressed: () {
                           // print(startTime + " " + endTime);
-
-                          Provider.of<Student>(context, listen: false)
-                              .addLecturetoDB(
-                                widget.lectureId,
-                                widget.addBool,
-                                subjectId,
-                                subjectName,
-                                location,
-                                allDayStringData[weeklyDay],
-                                startTime,
-                                endTime,
-                                typeCheck(),
-                                widget.userId,
-                              )
-                              .then((_) {});
+                          if (widget.userId == "6GL6X9a0wFZNAxS8y1yb") {
+                            Provider.of<Student>(context, listen: false)
+                                .addLecturetoDB(
+                                  widget.lectureId,
+                                  widget.addBool,
+                                  subjectId,
+                                  subjectName,
+                                  location,
+                                  allDayStringData[weeklyDay],
+                                  startTime,
+                                  endTime,
+                                  typeCheck(),
+                                  widget.userId,
+                                )
+                                .then((_) {});
+                          } else {
+                            Provider.of<Teacher>(context, listen: false)
+                                .addLecturetoDB(
+                                  widget.lectureId,
+                                  widget.addBool,
+                                  subjectId,
+                                  subjectName,
+                                  location,
+                                  allDayStringData[weeklyDay],
+                                  startTime,
+                                  endTime,
+                                  typeCheck(),
+                                  widget.userId,
+                                )
+                                .then((_) {});
+                          }
 
                           // setState(() {
                           //   student.addLecture(

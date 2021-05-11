@@ -55,8 +55,8 @@ class AppointmentBox extends StatelessWidget {
                             color: (status == "Approved")
                                 ? Color(0xff9C8CBE)
                                 : (status == "Rejected")
-                                    ? Color(0xffFFD5CD)
-                                    : Color(0xffC9C9C9),
+                                    ? Color(0xffFFA999)
+                                    : Color(0xff696969),
                             fontSize: 12.0,
                             fontWeight: FontWeight.w400))),
               ],
