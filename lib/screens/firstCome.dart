@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
 import 'package:kelena/providers/teacher.dart';
 import 'package:provider/provider.dart';
 import '../widgets/instructor/firstComeNavBar.dart';
 import '../widgets/instructor/firstComeBody.dart';
-import '../widgets/instructor/firstComeBottom.dart';
 
 class FirstCome extends StatefulWidget {
   @override
@@ -28,14 +25,10 @@ class _FirstComeState extends State<FirstCome>
 
   @override
   Widget build(BuildContext context) {
-    // User teacher = Provider.of<Student>(context).student;
-
     return Scaffold(
         body: Container(
       height: MediaQuery.of(context).size.height,
-      // width: double.infinity,
       child: Consumer<Teacher>(builder: (context, teacher, child) {
-        // print(teacher.lectureLength() == 0);
         return Container(
           color: Colors.white,
           child: Column(children: [
@@ -45,7 +38,6 @@ class _FirstComeState extends State<FirstCome>
               tabController: _tabController,
               teacher: teacher,
             ),
-            // FirstComeBottom(),
           ]),
         );
       }),

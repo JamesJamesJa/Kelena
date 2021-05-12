@@ -68,19 +68,9 @@ class _InstructTimeState extends State<InstructTime>
                 selectedTabIndex: widget.selectedTabIndex,
                 changeIndex: widget.changeIndex),
           ),
-          onTap: () {
-            // print("a");
-          },
+          onTap: () {},
         ),
       ),
     );
-    // decoration: BoxDecoration(
-    // border: Border(
-    //   bottom: BorderSide(
-    //     color: Color(0xff67676C),
-    //     width: 0.5,
-    //   ),
-    // ),
-    // ),
   }
 }

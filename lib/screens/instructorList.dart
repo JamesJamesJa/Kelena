@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
 import 'package:kelena/providers/teachers.dart';
@@ -24,8 +23,6 @@ class _InstructorListState extends State<InstructorList> {
   void initState() {
     Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
     Provider.of<Teachers>(context, listen: false).teachersFromDB().then((_) {});
-    // Teachers teachers;
-    // print(teachers.teacherLength());
     super.initState();
   }
 
@@ -85,12 +82,8 @@ class _InstructorListState extends State<InstructorList> {
         StudentNavBar(
           headline1: "Instructors list",
           headline2: "Find  your  Instructors",
-          // amountNoti: student.appointments.length == null
-          //     ? ""
-          //     : student.appointments.length.toString(),
         ),
         Container(
-          // color: Colors.yellow,
           height: MediaQuery.of(context).size.height * 0.1,
           child: Align(
             alignment: Alignment.center,
@@ -99,7 +92,6 @@ class _InstructorListState extends State<InstructorList> {
                 height: 40,
                 margin: EdgeInsets.only(top: 10.0),
                 decoration: BoxDecoration(
-                  // borderRadius: BorderRadius.circular(12),
                   border: Border(
                     bottom: BorderSide(
                       color: Color(0xFF8675A9),
@@ -131,9 +123,6 @@ class _InstructorListState extends State<InstructorList> {
           ),
         ),
         Container(
-            padding: EdgeInsets.only(
-                // top: 10.0,
-                ),
             width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.height * 0.63,
             child: ListView.builder(
@@ -148,23 +137,7 @@ class _InstructorListState extends State<InstructorList> {
                 changeIndex: widget.changeIndex,
               ),
               itemCount: student != null ? teachersTest.length : 0,
-            )
-            // Consumer2<Teachers, Student>(
-            //     builder: (context, teachers, student, child) {
-            //   return ListView.builder(
-            //     scrollDirection: Axis.vertical,
-            //     itemBuilder: (ctx, index) => InstructorBox(
-            //       id: teachers.id(index),
-            //       name: teachers.name(index),
-            //       fav: student.checkFav(teachers.id(index)),
-            //       index: index,
-            //       selectedTabIndex: widget.selectedTabIndex,
-            //       changeIndex: widget.changeIndex,
-            //     ),
-            //     itemCount: teachers.teacherLength(),
-            //   );
-            // })
-            )
+            ))
       ]),
     );
   }

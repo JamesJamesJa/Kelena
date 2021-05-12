@@ -91,11 +91,6 @@ class AppointmentBoxForTeacher extends StatelessWidget {
                                       accept: true,
                                     );
                                   });
-                              // showModalBottomSheet(
-                              //     context: context,
-                              //     builder: (context) {
-                              //       return
-                              //     });
                             },
                           ),
                           GestureDetector(
@@ -125,34 +120,6 @@ class AppointmentBoxForTeacher extends StatelessWidget {
                                   });
                             },
                           ),
-                          // IconButton(
-                          //   icon: Icon(
-                          //     Icons.notifications_active,
-                          //     size: 20,
-                          //     color: Color(0xFFA5A5A9),
-                          //   ),
-                          //   onPressed: () {
-                          //     // Navigator.push(
-                          //     //     context,
-                          //     //     MaterialPageRoute(
-                          //     //         builder: (context) =>
-                          //     //             DialogAppointmentTeacher()));
-                          //   },
-                          // ),
-                          // IconButton(
-                          //   icon: Icon(
-                          //     Icons.notifications_active,
-                          //     size: 20,
-                          //     color: Color(0xFFA5A5A9),
-                          //   ),
-                          //   onPressed: () {
-                          //     //   Navigator.push(
-                          //     //       context,
-                          //     //       MaterialPageRoute(
-                          //     //           builder: (context) =>
-                          //     //               DialogAppointmentTeacher()));
-                          //   },
-                          // ),
                         ],
                       )
               ],

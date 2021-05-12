@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
-import 'package:kelena/widgets/instructor-list/dialogSubjectDetails.dart';
 import 'package:kelena/widgets/student/dialogAddLecture.dart';
+import 'package:kelena/widgets/student/dialogSubjectDetauilswithEdit.dart';
 import 'package:kelena/widgets/student/subjectBox.dart';
-import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../student/subjectBox.dart';
@@ -21,48 +19,6 @@ class StudentScheduleBody extends StatefulWidget {
 }
 
 class _StudentScheduleBodyState extends State<StudentScheduleBody> {
-  // User student = studentTemp;
-  // _AppointmentDataSource calendarData;
-  void initState() {
-    // List<Appointment> appointments = <Appointment>[];
-    // for (var i = 0; i < widget.student.lectureLength(); i++) {
-    //   var lecturesId = widget.student.lectureId(i);
-    //   appointments.add(Appointment(
-    //     startTime: DateTime(
-    //         2021,
-    //         4,
-    //         4 + widget.student.day(lecturesId),
-    //         widget.student.fromHr(lecturesId),
-    //         widget.student.fromMn(lecturesId),
-    //         0,
-    //         0,
-    //         0),
-    //     endTime: DateTime(
-    //         2021,
-    //         4,
-    //         4 + widget.student.day(lecturesId),
-    //         widget.student.toHr(lecturesId),
-    //         widget.student.toMn(lecturesId),
-    //         0,
-    //         0,
-    //         0),
-    //     subject: widget.student.subjectId(lecturesId),
-    //     color: Colors.purple.shade200,
-    //     location:
-    //         "${widget.student.room(lecturesId)} (${widget.student.type(lecturesId)})",
-    //     notes: widget.student.lectureId(i) +
-    //         "*" +
-    //         widget.student.subjectName(lecturesId),
-    //   ));
-    // }
-    // calendarData = _AppointmentDataSource(appointments);
-
-    // Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
-    // User student = Provider.of<Student>(context).student;
-    super.initState();
-  }
-
-// var a =Provider.of<Student>(context, listen: false).lectureLength();
   _AppointmentDataSource _getCalendarDataSource() {
     List<Appointment> appointments = <Appointment>[];
     for (var i = 0; i < widget.student.lectureLength(); i++) {
@@ -205,7 +161,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogSubjectDetailswithEdit(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -246,7 +202,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogSubjectDetailswithEdit(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -290,7 +246,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogSubjectDetailswithEdit(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -331,7 +287,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogSubjectDetailswithEdit(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -372,7 +328,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogSubjectDetailswithEdit(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -413,7 +369,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogSubjectDetailswithEdit(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -454,7 +410,7 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogSubjectDetailswithEdit(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -505,7 +461,6 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
                       'Add your lecture class',
                       style: TextStyle(
                         color: Colors.grey,
-                        // fontWeight: FontWeight.w200,
                         fontSize: 12,
                       ),
                     )
@@ -536,121 +491,6 @@ class _StudentScheduleBodyState extends State<StudentScheduleBody> {
     );
   }
 }
-
-_AppointmentDataSource _getCalendarDataSourceMon() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 5, 10, 30, 0, 0, 0),
-    endTime: DateTime(2021, 4, 5, 12, 30, 0, 0, 0)
-    // .add(Duration(minutes: 120))
-    ,
-    subject: 'MTH102',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2312 (Hybrid)',
-    notes: 'Mathematics II',
-  ));
-  return _AppointmentDataSource(appointments);
-}
-
-_AppointmentDataSource _getCalendarDataSourceTue() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 6, 10, 30, 0, 0, 0),
-    endTime: DateTime(2021, 4, 6, 12, 00, 0, 0, 0),
-    subject: 'CSC217',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2308 (Hybrid)',
-    notes: 'Operating Systems',
-  ));
-
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 6, 13, 30, 0, 0, 0),
-    endTime: DateTime(2021, 4, 6, 16, 30, 0, 0, 0),
-    subject: 'CSC231',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2306 (Online)',
-    notes: 'Agile Software Engineering',
-  ));
-  return _AppointmentDataSource(appointments);
-}
-
-_AppointmentDataSource _getCalendarDataSourceWed() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 7, 9, 00, 0, 0, 0),
-    endTime: DateTime(2021, 4, 7, 12, 00, 0, 0, 0),
-    subject: 'LNG322',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2305 (Online)',
-    notes: 'Academic Writting',
-  ));
-  return _AppointmentDataSource(appointments);
-}
-
-_AppointmentDataSource _getCalendarDataSourceThu() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 8, 10, 30, 0, 0, 0),
-    endTime: DateTime(2021, 4, 8, 12, 30, 0, 0, 0),
-    subject: 'MTH102',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2301 (Hybrid)',
-    notes: 'Mathematics II',
-  ));
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 8, 14, 00, 0, 0, 0),
-    endTime: DateTime(2021, 4, 8, 18, 00, 0, 0, 0),
-    subject: 'CSC234',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'Classroom 4/2 (Online)',
-    notes: 'Mobile Application',
-  ));
-  return _AppointmentDataSource(appointments);
-}
-
-_AppointmentDataSource _getCalendarDataSourceFri() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 9, 8, 30, 0, 0, 0),
-    endTime: DateTime(2021, 4, 9, 11, 30, 0, 0, 0),
-    subject: 'GEN351',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: '(Online)',
-    notes: 'Management and Leadership',
-  ));
-
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 9, 12, 50, 0, 0, 0),
-    endTime: DateTime(2021, 4, 9, 14, 20, 0, 0, 0),
-    subject: 'CSC217',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2306 (Hybrid)',
-    notes: 'Operating Systems',
-  ));
-  return _AppointmentDataSource(appointments);
-}
-
-// _AppointmentDataSource _getCalendarDataSource() {
-//   List<Appointment> appointments = <Appointment>[];
-
-//   return _AppointmentDataSource(appointments);
-// }
 
 class _AppointmentDataSource extends CalendarDataSource {
   _AppointmentDataSource(List<Appointment> source) {

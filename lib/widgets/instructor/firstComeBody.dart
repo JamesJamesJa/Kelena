@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kelena/providers/student.dart';
 import 'package:kelena/providers/teacher.dart';
+import 'package:kelena/widgets/instructor/dialogEditTeacherSubject.dart';
 import 'package:kelena/widgets/student/dialogAddLecture.dart';
 import 'package:kelena/widgets/student/subjectBox.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -67,7 +67,6 @@ class _FirstComeBodyState extends State<FirstComeBody> {
         length = widget.teacher.lectureLength();
       }
       for (var i = 0; i < length; i++) {
-        // print(widget.teacher.id());
         var lecturesId = widget.teacher.lectureId(i);
         appointments.add(Appointment(
           startTime: DateTime(
@@ -132,7 +131,7 @@ class _FirstComeBodyState extends State<FirstComeBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogEditTeacherSubject(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -173,7 +172,7 @@ class _FirstComeBodyState extends State<FirstComeBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogEditTeacherSubject(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -217,7 +216,7 @@ class _FirstComeBodyState extends State<FirstComeBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogEditTeacherSubject(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -258,7 +257,7 @@ class _FirstComeBodyState extends State<FirstComeBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogEditTeacherSubject(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -299,7 +298,7 @@ class _FirstComeBodyState extends State<FirstComeBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogEditTeacherSubject(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -340,7 +339,7 @@ class _FirstComeBodyState extends State<FirstComeBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogEditTeacherSubject(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -381,7 +380,7 @@ class _FirstComeBodyState extends State<FirstComeBody> {
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
-                            return DialogAddLecture(
+                            return DialogEditTeacherSubject(
                               addBool: false,
                               startTime: details.appointments[0].startTime,
                               endTime: details.appointments[0].endTime,
@@ -427,7 +426,6 @@ class _FirstComeBodyState extends State<FirstComeBody> {
                         'Add your lecture class',
                         style: TextStyle(
                           color: Colors.grey,
-                          // fontWeight: FontWeight.w200,
                           fontSize: 12,
                         ),
                       )
@@ -460,153 +458,8 @@ class _FirstComeBodyState extends State<FirstComeBody> {
   }
 }
 
-_AppointmentDataSource _getCalendarDataSourceMon() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 5, 10, 30, 0, 0, 0),
-    endTime: DateTime(2021, 4, 5, 12, 30, 0, 0, 0)
-    // .add(Duration(minutes: 120))
-    ,
-    subject: 'MTH102',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2312 (Hybrid)',
-    notes: 'Mathematics II',
-  ));
-  return _AppointmentDataSource(appointments);
-}
-
-_AppointmentDataSource _getCalendarDataSourceTue() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 6, 10, 30, 0, 0, 0),
-    endTime: DateTime(2021, 4, 6, 12, 00, 0, 0, 0),
-    subject: 'CSC217',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2308 (Hybrid)',
-    notes: 'Operating Systems',
-  ));
-
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 6, 13, 30, 0, 0, 0),
-    endTime: DateTime(2021, 4, 6, 16, 30, 0, 0, 0),
-    subject: 'CSC231',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2306 (Online)',
-    notes: 'Agile Software Engineering',
-  ));
-  return _AppointmentDataSource(appointments);
-}
-
-_AppointmentDataSource _getCalendarDataSourceWed() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 7, 9, 00, 0, 0, 0),
-    endTime: DateTime(2021, 4, 7, 12, 00, 0, 0, 0),
-    subject: 'LNG322',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2305 (Online)',
-    notes: 'Academic Writting',
-  ));
-  return _AppointmentDataSource(appointments);
-}
-
-_AppointmentDataSource _getCalendarDataSourceThu() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 8, 10, 30, 0, 0, 0),
-    endTime: DateTime(2021, 4, 8, 12, 30, 0, 0, 0),
-    subject: 'MTH102',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2301 (Hybrid)',
-    notes: 'Mathematics II',
-  ));
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 8, 14, 00, 0, 0, 0),
-    endTime: DateTime(2021, 4, 8, 18, 00, 0, 0, 0),
-    subject: 'CSC234',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'Classroom 4/2 (Online)',
-    notes: 'Mobile Application',
-  ));
-  return _AppointmentDataSource(appointments);
-}
-
-_AppointmentDataSource _getCalendarDataSourceFri() {
-  List<Appointment> appointments = <Appointment>[];
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 9, 8, 30, 0, 0, 0),
-    endTime: DateTime(2021, 4, 9, 11, 30, 0, 0, 0),
-    subject: 'GEN351',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: '(Online)',
-    notes: 'Management and Leadership',
-  ));
-
-  appointments.add(Appointment(
-    startTime: DateTime(2021, 4, 9, 12, 50, 0, 0, 0),
-    endTime: DateTime(2021, 4, 9, 14, 20, 0, 0, 0),
-    subject: 'CSC217',
-    color: Colors.purple.shade200,
-    startTimeZone: '',
-    endTimeZone: '',
-    location: 'CB2306 (Hybrid)',
-    notes: 'Operating Systems',
-  ));
-  return _AppointmentDataSource(appointments);
-}
-
-// _AppointmentDataSource _getCalendarDataSource() {
-//   List<Appointment> appointments = <Appointment>[];
-
-//   return _AppointmentDataSource(appointments);
-// }
-
 class _AppointmentDataSource extends CalendarDataSource {
   _AppointmentDataSource(List<Appointment> source) {
     appointments = source;
   }
 }
-
-// ListView.builder(
-//   padding: EdgeInsets.only(top: 0, right: 40, bottom: 5, left: 40),
-//   // controller: widget.tabController,
-//   itemBuilder: (ctx, i) => Container(
-//     padding: EdgeInsets.only(top: 10, right: 0, bottom: 10, left: 10),
-//     child: Row(
-//       children: [
-//         Container(
-//             width: 50,
-//             child: Text(
-//               timeFormat(i),
-//               style: TextStyle(
-//                 fontSize: 10,
-//                 color: Color(0xffB9B9B9),
-//               ),
-//             )),
-//         Expanded(
-//           child: Divider(
-//             thickness: 1.2,
-//             indent: 10,
-//             endIndent: 10,
-//             color: Color(0xff9C8CBE),
-//           ),
-//         ),
-//       ],
-//     ),
-//   ),
-//   itemCount: 25,
-// ),

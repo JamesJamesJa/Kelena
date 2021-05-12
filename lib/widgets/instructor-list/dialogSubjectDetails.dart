@@ -1,9 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kelena/main.dart';
-import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
-import 'package:kelena/providers/student.dart';
 
 import 'dialogAddAppointment.dart';
 

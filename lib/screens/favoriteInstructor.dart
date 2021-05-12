@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kelena/models/instructor.dart';
-import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
 import 'package:kelena/providers/teachers.dart';
 import 'package:kelena/widgets/instructor-list/InstructorBox.dart';
@@ -21,20 +20,6 @@ class FavoriteInstructor extends StatefulWidget {
 
 class _FavoriteInstructorState extends State<FavoriteInstructor> {
   Widget build(BuildContext context) {
-    List<Instructor> instructors = [
-      Instructor(
-        name: "Wirawan Calcal",
-        place: "CB2302",
-        time: "12:30",
-        fav: 1,
-      ),
-      Instructor(
-        name: "Pornchai Yo",
-        place: "CB2303",
-        time: "14:20",
-        fav: 1,
-      ),
-    ];
     return Container(
         color: Colors.white,
         width: MediaQuery.of(context).size.width,
@@ -75,13 +60,5 @@ class _FavoriteInstructorState extends State<FavoriteInstructor> {
                 );
               }))
         ]));
-    // decoration: BoxDecoration(
-    // border: Border(
-    //   bottom: BorderSide(
-    //     color: Color(0xff67676C),
-    //     width: 0.5,
-    //   ),
-    // ),
-    // ),
   }
 }

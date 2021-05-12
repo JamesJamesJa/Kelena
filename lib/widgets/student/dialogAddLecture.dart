@@ -7,18 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:kelena/providers/student.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_core/firebase_core.dart';
 
-Future<DocumentSnapshot> getItem(
-    // BuildContext context, Map<String, dynamic> data, String documentName
-    // async
-    ) {
-  // await
+Future<DocumentSnapshot> getItem() {
   Firebase.initializeApp();
-  return
-      // await
-      FirebaseFirestore.instance.collection("users").doc("docID").get();
-  // return FirebaseFirestore.instance.collection("users").startAtDocument(documentName).snapshots()
+  return FirebaseFirestore.instance.collection("users").doc("docID").get();
 }
 
 class DialogAddLecture extends StatefulWidget {
@@ -50,16 +42,6 @@ class DialogAddLecture extends StatefulWidget {
 }
 
 class _DialogAddLectureState extends State<DialogAddLecture> {
-  // void readData() {
-  //   Firebase.initializeApp();
-  //   FirebaseFirestore.instance.collection('users').snapshots().listen((data) {
-  //     data.docs.forEach((doc) {
-  //       print(doc['text']);
-  //     });
-  //   });
-  // }
-
-  // final DBRef = FirebaseDatabase.instance.reference();
   String startTime = "Start Time";
   String endTime = "End Time";
   String subjectId, subjectName, location;
@@ -111,7 +93,6 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
     initialTimerStart = widget.startTime;
     initialTimerEnd = widget.endTime;
     subjectId = widget.subjectId;
-    // print(widget.day);
     subjectName = widget.subjectName;
     location = widget.location;
     weeklyDay = widget.day;
@@ -125,20 +106,11 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
     super.initState();
   }
 
-  // void addData() {
-  //   DBRef.child("1").set({
-  //     'id': 'testid1',
-  //     'name': 'testka',
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-    int _selectedValue = 0;
     return Scaffold(
       body: Container(
-          // color: Colors.red,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.6,
           child: Consumer<Student>(builder: (context, student, child) {
@@ -172,18 +144,15 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                                 borderRadius: BorderRadius.circular(4.0),
                                 side: BorderSide(color: Color(0xff8675A9)))),
                         child: Container(
-                          // padding: EdgeInsets.only(top: 0, bottom: 0),
                           child: Text(
                             'Save',
                             style: TextStyle(
                               color: Colors.white,
-                              // fontWeight: FontWeight.w200,
                               fontSize: 12,
                             ),
                           ),
                         ),
                         onPressed: () {
-                          // print(startTime + " " + endTime);
                           if (widget.userId == "6GL6X9a0wFZNAxS8y1yb") {
                             Provider.of<Student>(context, listen: false)
                                 .addLecturetoDB(
@@ -215,41 +184,10 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                                 )
                                 .then((_) {});
                           }
-
-                          // setState(() {
-                          //   student.addLecture(
-                          //       "lecTemp",
-                          //       subjectId,
-                          //       subjectName,
-                          //       location,
-                          //       allDayStringData[weeklyDay],
-                          //       startTime,
-                          //       endTime,
-                          //       typeCheck());
-                          // }
-                          // );
-
-                          // FirebaseFirestore.instance
-                          //     .collection(
-                          //         'users/6GL6X9a0wFZNAxS8y1yb/appointment')
-                          //     .add({'lectureId': "lec3", 'status': "Rejected"});
-                          // FirebaseFirestore.instance
-                          //     .collection(
-                          //         'users/6GL6X9a0wFZNAxS8y1yb/appointment')
-                          //     .add({'lectureId': "lec1", 'status': "Pending"});
-
-                          //   AppointmentDetails(id: "app2", lectureId: "lec3", status: "Rejected"),
-                          //   AppointmentDetails(id: "app3", lectureId: "lec1", status: "Pending"),
-                          // ]});
-                          // student.addLecture("lec10", "MTH999", "Mathematics II",
-                          //     "CB2312", "Mon", "5:30", "06:30", "Hybrid");
+                          if (!widget.addBool) {
+                            Navigator.of(context).pop();
+                          }
                           Navigator.of(context).pop();
-                          // print("$student");
-                          // showDialog(
-                          //     context: context,
-                          //     builder: (context) {
-                          //       return DialogAddSchedule();
-                          //     });
                         },
                       ),
                     ),
@@ -268,15 +206,7 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                       setState(() {
                         subjectId = value;
                       });
-
-                      // This optional block of code can be used to run
-                      // code when the user saves the form.
                     },
-                    // validator: (String value) {
-                    //   return (value != null && value.contains('@'))
-                    //       ? 'Do not use the @ char.'
-                    //       : null;
-                    // },
                   ),
                 ),
                 Container(
@@ -292,15 +222,7 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                       setState(() {
                         subjectName = value;
                       });
-
-                      // This optional block of code can be used to run
-                      // code when the user saves the form.
                     },
-                    // validator: (String value) {
-                    //   return (value != null && value.contains('@'))
-                    //       ? 'Do not use the @ char.'
-                    //       : null;
-                    // },
                   ),
                 ),
                 Container(
@@ -316,15 +238,7 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                       setState(() {
                         location = value;
                       });
-
-                      // This optional block of code can be used to run
-                      // code when the user saves the form.
                     },
-                    // validator: (String value) {
-                    //   return (value != null && value.contains('@'))
-                    //       ? 'Do not use the @ char.'
-                    //       : null;
-                    // },
                   ),
                 ),
                 Container(
@@ -483,8 +397,6 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                                               }
                                             }
                                           });
-
-                                          // print(newdate);
                                         },
                                         mode: CupertinoDatePickerMode.time,
                                       );
@@ -520,7 +432,6 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                                 context: context,
                                 builder: (context) {
                                   return CupertinoPicker(
-                                    // key: _selectedValue,
                                     backgroundColor: Colors.white,
                                     itemExtent: 30,
                                     scrollController:
@@ -530,7 +441,6 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                                     onSelectedItemChanged: (value) {
                                       setState(() {
                                         weeklyDay = value;
-                                        // print(_selectedValue);
                                       });
                                     },
                                   );
@@ -541,35 +451,6 @@ class _DialogAddLectureState extends State<DialogAddLecture> {
                     ],
                   ),
                 ),
-
-                // Divider(
-                //   thickness: 1,
-                //   indent: 40,
-                //   endIndent: 40,
-                //   color: Color(0xff9C8CBE),
-                // ),
-
-                // Container(
-                //   width: MediaQuery.of(context).size.width * 0.7,
-                //   height: 56,
-                //   child: Row(
-                //     children: [
-                //       CheckboxListTile(
-                //           title: Text('Onsite'),
-                //           value: onWhat['Onsite'],
-                //           activeColor: Colors.pink,
-                //           checkColor: Colors.white,
-                //           onChanged: (bool value) {
-                //             setState(() {
-                //               onWhat['Onsite'] = value;
-                //             });
-                //           })
-                //     ],
-                //   ),
-                // ),
-                Container(),
-                Container(),
-                Container(),
               ],
             );
           })),

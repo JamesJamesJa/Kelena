@@ -6,7 +6,6 @@ class InstructorTimeNavBar extends StatelessWidget {
   final String headline2;
   const InstructorTimeNavBar({this.headline1, this.headline2});
   Widget build(BuildContext context) {
-    //Bottom Nav Bar Widget
     return Row(
       children: [
         Container(
@@ -24,7 +23,6 @@ class InstructorTimeNavBar extends StatelessWidget {
         Column(children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.13,
-            // color: Colors.green,
             child: Container(
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -62,7 +60,6 @@ class InstructorTimeNavBar extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.only(
               top: 66.0,
-              // left: MediaQuery.of(context).size.width * 0.1,
             ),
             child: Image.asset(
               'images/teacher1.png',

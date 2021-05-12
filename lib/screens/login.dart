@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kelena/providers/teachers.dart';
-
 import 'firstCome.dart';
-import 'instructorList.dart';
 import 'studentPage.dart';
 
 class Login extends StatelessWidget {
@@ -17,7 +14,7 @@ class Login extends StatelessWidget {
             alignment: Alignment.center,
             child: Container(
               margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.22),
+                  top: MediaQuery.of(context).size.height * 0.18),
               child: Image.asset(
                 'images/kelena_logo.png',
                 height: 180,
@@ -40,7 +37,7 @@ class Login extends StatelessWidget {
             alignment: Alignment.center,
             child: Container(
               margin: EdgeInsets.only(top: 10.0),
-              child: Text("Welcome back to Kalena,\nPlease sign in to continue",
+              child: Text("Welcome back to Kalena,\n  Please select your roles",
                   style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                           color: Color(0xFF8675A9),
@@ -51,22 +48,21 @@ class Login extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Container(
-              margin: EdgeInsets.only(top: 40.0),
+              width: MediaQuery.of(context).size.width * 0.6,
+              margin: EdgeInsets.only(top: 50.0),
               child: OutlinedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
-                    // MaterialPageRoute(builder: (context) => StudentPage()),
-                    MaterialPageRoute(builder: (context) => FirstCome()),
-                    // MaterialPageRoute(builder: (context) => InstructorsList()),
+                    MaterialPageRoute(builder: (context) => StudentPage()),
                   );
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                  backgroundColor: MaterialStateProperty.all(Color(0xff9C8CBE)),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       side: BorderSide(
-                          color: Colors.black, //Not show black border
+                          color: Colors.grey,
                           width: 2,
                           style: BorderStyle.solid),
                       borderRadius: BorderRadius.circular(40),
@@ -79,18 +75,62 @@ class Login extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Image(
-                        image: AssetImage("images/google_logo.png"),
-                        height: 35.0,
-                      ),
                       Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 30),
+                          padding: const EdgeInsets.only(left: 0, right: 30),
                           child: Text(
-                            'Sign In with Google',
+                            'Student',
                             style: GoogleFonts.montserrat(
                               textStyle: TextStyle(
                                 fontSize: 17,
-                                color: Colors.black,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              margin: EdgeInsets.only(top: 10.0),
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FirstCome()),
+                  );
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color(0xff9C8CBE)),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      side: BorderSide(
+                          color: Colors.grey,
+                          width: 2,
+                          style: BorderStyle.solid),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                          padding: const EdgeInsets.only(left: 0, right: 30),
+                          child: Text(
+                            'Teacher',
+                            style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                fontSize: 17,
+                                color: Colors.white,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -103,7 +143,6 @@ class Login extends StatelessWidget {
           ),
         ],
       ),
-      // bottomNavigationBar: _bottomNavBar(),
     );
   }
 }

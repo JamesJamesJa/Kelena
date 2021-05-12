@@ -14,17 +14,6 @@ class Lectures with ChangeNotifier {
 
   void addLecture(String id, String subjectId, String name, String room,
       String day, String from, String to, String type) {
-    // if (_lectures.containsKey(id)) {
-    //   _lectures.update(
-    //       id,
-    //       (value) => LectureDetails(
-    //             id: value.id,
-    //             name: value.name,
-    //             email: value.email,
-    //             role: "teacher",
-    //           ));
-    // } else {
-    // _lectures.addEntries(newEntries)
     _lectures.putIfAbsent(
         id,
         () => LectureDetails(
@@ -36,13 +25,6 @@ class Lectures with ChangeNotifier {
             from: from,
             to: to,
             type: type));
-    // }
     notifyListeners();
-  }
-
-  void addFav(LectureDetails student, String lectureId) {
-    // FavoriteLectureLists tempLectureId;
-    // tempLectureId.lectureId = lectureId;
-    // student.favoriteLectures.add(lectureId);
   }
 }

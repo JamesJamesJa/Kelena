@@ -11,7 +11,6 @@ class Student with ChangeNotifier {
 
   Future<void> studentDetails() async {
     try {
-      // await Future.delayed(Duration(seconds: 5));
       WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp();
 
@@ -19,7 +18,6 @@ class Student with ChangeNotifier {
           .doc('users/6GL6X9a0wFZNAxS8y1yb')
           .get()
           .then((querySnapshot) async {
-        // List<dynamic> favTemp = querySnapshot.get('favLecturers');
         User temp = User(
           name: querySnapshot.get('name'),
           email: querySnapshot.get('email'),
@@ -28,19 +26,13 @@ class Student with ChangeNotifier {
           appointments: [],
           lectures: [],
           favoriteLectures: [],
-          // favoriteLectures: querySnapshot.get('favLecturers'),
         );
         _student = temp;
 
         List<dynamic> favTemp = querySnapshot.get('favLecturers');
         favTemp.forEach((element) {
           _student.favoriteLectures.add(element);
-          // print(_student.favoriteLectures);
         });
-
-        // _student. = querySnapshot.get('name');
-
-        // print(querySnapshot.data());
       });
 
       await FirebaseFirestore.instance
@@ -64,7 +56,6 @@ class Student with ChangeNotifier {
           .get()
           .then((value) {
         value.docs.forEach((element) {
-          // print(element.id);
           _student.lectures.add(LectureDetails(
             id: element.id,
             subjectId: element.get('subjectId'),
@@ -75,10 +66,8 @@ class Student with ChangeNotifier {
             to: element.get('to'),
             type: element.get('type'),
           ));
-          // print(element.data());
         });
       });
-      // print(_student.name);
       notifyListeners();
     } catch (err) {
       return throw (err);
@@ -129,8 +118,6 @@ class Student with ChangeNotifier {
             ));
           });
         });
-
-        print("Add Lecture Success!");
       } else {
         var tempIndex = 0;
         for (var lectureIndex = 0;
@@ -167,9 +154,21 @@ class Student with ChangeNotifier {
         }).catchError((err) {
           print(err);
         });
-        print("Edit Lecture Success!");
       }
       notifyListeners();
+    } catch (err) {
+      return throw (err);
+    }
+  }
+
+  Future<void> deleteLecture(String lectureId) async {
+    try {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
+      FirebaseFirestore.instance
+          .doc('users/6GL6X9a0wFZNAxS8y1yb/lectures/${lectureId}')
+          .delete();
+      this.studentDetails();
     } catch (err) {
       return throw (err);
     }
@@ -190,7 +189,6 @@ class Student with ChangeNotifier {
         appointmentId = value.id;
         FirebaseFirestore.instance
             .collection('users')
-            // .collection('users/${lectureId}/appointment')
             .doc(lecturerId)
             .collection('appointment')
             .doc(appointmentId)
@@ -216,15 +214,6 @@ class Student with ChangeNotifier {
           ));
         });
       });
-
-      // .then((value) => print("AppID:" + appointmentId));
-      // student.appointments.add(AppointmentDetails(
-      //   id: appointmentId,
-      //   lectureId: lectureId,
-      //   lecturerId: lecturerId,
-      //   status: 'Pending',
-      // ));
-
       notifyListeners();
     } catch (err) {
       return throw (err);
@@ -233,7 +222,6 @@ class Student with ChangeNotifier {
 
   Future<void> teacherDetails() async {
     try {
-      // await Future.delayed(Duration(seconds: 5));
       WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp();
 
@@ -291,109 +279,6 @@ class Student with ChangeNotifier {
     }
   }
 
-  // User _student = User(
-  //   id: "id1",
-  //   name: "Thanawat Benjachatriroj",
-  //   email: "thanawat.bcr@gmail.com",
-  //   role: "student",
-  //   lectures: [
-  //     LectureDetails(
-  //       id: "lec1",
-  //       subjectId: "MTH102",
-  //       name: "Mathematics II",
-  //       room: "CB2312",
-  //       day: "Mon",
-  //       from: "10:30",
-  //       to: "12:30",
-  //       type: "Hybrid",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec2",
-  //       subjectId: "CSC217",
-  //       name: "Operating Systems",
-  //       room: "CB2308",
-  //       day: "Tue",
-  //       from: "10:30",
-  //       to: "12:00",
-  //       type: "Hybrid",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec3",
-  //       subjectId: "CSC231",
-  //       name: "Agile Software Engineering",
-  //       room: "CB2306",
-  //       day: "Tue",
-  //       from: "13:30",
-  //       to: "16:30",
-  //       type: "Online",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec4",
-  //       subjectId: "LNG322",
-  //       name: "Academic Writting",
-  //       room: "CB2305",
-  //       day: "Wed",
-  //       from: "09:00",
-  //       to: "12:00",
-  //       type: "Online",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec5",
-  //       subjectId: "MTH102",
-  //       name: "Mathematics II",
-  //       room: "CB2301",
-  //       day: "Thu",
-  //       from: "10:30",
-  //       to: "12:30",
-  //       type: "Hybrid",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec6",
-  //       subjectId: "CSC234",
-  //       name: "Mobile Application",
-  //       room: "Classroom 4/2",
-  //       day: "Thu",
-  //       from: "14:00",
-  //       to: "18:00",
-  //       type: "Online",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec7",
-  //       subjectId: "GEN351",
-  //       name: "Management and Leadership",
-  //       room: "SCL261",
-  //       day: "Fri",
-  //       from: "08:30",
-  //       to: "11:30",
-  //       type: "Online",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec8",
-  //       subjectId: "CSC217",
-  //       name: "Operating Systems",
-  //       room: "CB2306",
-  //       day: "Fri",
-  //       from: "12:50",
-  //       to: "14:20",
-  //       type: "Hybrid",
-  //     ),
-  //   ],
-  //   favoriteLectures: [
-  //     // "teacher1",
-  //     // "teacher2",
-  //   ],
-  //   appointments: [
-  //     AppointmentDetails(id: "app1", lectureId: "lec2", status: "Approved"),
-  //     AppointmentDetails(id: "app2", lectureId: "lec3", status: "Rejected"),
-  //     AppointmentDetails(id: "app3", lectureId: "lec1", status: "Pending"),
-  //   ],
-  // );
-  // _student.lectures.addLecture();
-
-  // String print() {
-  //   return _student.toString();
-  // }
-
   String name() {
     return _student.name;
   }
@@ -408,7 +293,6 @@ class Student with ChangeNotifier {
 
   void manageFav(String id) {
     int index = _student.favoriteLectures.indexOf(id);
-    // print(_student.favoriteLectures.toString());
     if (index == -1) {
       _student.favoriteLectures.add(id);
     } else {
@@ -439,25 +323,6 @@ class Student with ChangeNotifier {
 
   void addLecture(String id, String subjectId, String name, String room,
       String day, String from, String to, String type) {
-    print(id);
-    print(subjectId);
-    print(name);
-    print(room);
-    print(day);
-    print(from);
-    print(to);
-    print(type);
-    // if (_lectures.containsKey(id)) {
-    //   _lectures.update(
-    //       id,
-    //       (value) => LectureDetails(
-    //             id: value.id,
-    //             name: value.name,
-    //             email: value.email,
-    //             role: "teacher",
-    //           ));
-    // } else {
-    // _lectures.addEntries(newEntries)
     _student.lectures.add(LectureDetails(
         id: id,
         name: name,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
 import 'package:kelena/providers/teachers.dart';
 import 'package:provider/provider.dart';
@@ -14,19 +13,7 @@ class DialogAppointment extends StatefulWidget {
 
 class _DialogAppointmentState extends State<DialogAppointment> {
   @override
-  // void initState() {
-  //   Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
-  //   super.initState();
-  // }
-  @override
   Widget build(BuildContext context) {
-    // User student = Provider.of<Student>(context).student;
-    Map<String, bool> onWhat = {
-      'Onsite': false,
-      'Online': false,
-      'Hybrid': false,
-    };
-    int onWhatSelected = -1;
     return Scaffold(
         body: Container(
       color: Colors.white,
@@ -52,7 +39,6 @@ class _DialogAppointmentState extends State<DialogAppointment> {
                 ),
               ),
               Container(
-                // color: Colors.amber,
                 padding: EdgeInsets.only(
                   top: 60,
                   left: 30,
@@ -77,8 +63,6 @@ class _DialogAppointmentState extends State<DialogAppointment> {
               return ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemBuilder: (ctx, index) => AppointmentBox(
-                    //Teacher ID : student.lecturerIdFromAppointment(index)
-                    //Lecture ID :student.lectureIdFromAppointment(index)
                     textLine1:
                         "With ${teachers.teacherNameFromLecturerId(student.lecturerIdFromAppointment(index))} on ${teachers.appointmentDayFromLecturerId(student.lecturerIdFromAppointment(index), student.lectureIdFromAppointment(index))}",
                     textLine2:
@@ -88,19 +72,6 @@ class _DialogAppointmentState extends State<DialogAppointment> {
               );
             }),
           )
-
-          // AppointmentBox(
-          //     textLine1: "Dr. Ronald Robertson",
-          //     textLine2: "at CB 2301 after CSC261 Statistics for data science",
-          //     status: "Approved"),
-          // AppointmentBox(
-          //     textLine1: "Dr. Ronald Robertson",
-          //     textLine2: "at CB 2301 after CSC261 Statistics for data science",
-          //     status: "Rejected"),
-          // AppointmentBox(
-          //     textLine1: "Dr. Ronald Robertson",
-          //     textLine2: "at CB 2301 after CSC261 Statistics for data science",
-          //     status: "Pending"),
         ],
       ),
     ));

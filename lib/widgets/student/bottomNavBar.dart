@@ -8,7 +8,6 @@ class BottomNavBar extends StatelessWidget {
   const BottomNavBar(
       {this.selectedTabIndex, this.changeIndex, this.isPop = false});
   Widget build(BuildContext context) {
-    //Bottom Nav Bar Widget
     return new Theme(
       data: Theme.of(context).copyWith(canvasColor: Colors.white),
       child: SizedBox(
@@ -18,14 +17,7 @@ class BottomNavBar extends StatelessWidget {
           onTap: (_) {
             changeIndex(_);
             if (isPop) {
-              // if (selectedTabIndex == 0) {
               Navigator.pop(context);
-              // print("Kuay");
-              // } else {
-              //   Navigator.pushReplacement(context,
-              //       MaterialPageRoute(builder: (context) => Student()));
-              //   print("asd");
-              // }
             }
           },
           items: [

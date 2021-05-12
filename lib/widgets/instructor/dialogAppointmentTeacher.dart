@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kelena/models/user.dart';
 import 'package:kelena/providers/student.dart';
 import 'package:kelena/providers/teacher.dart';
-import 'package:kelena/providers/teachers.dart';
-import 'package:kelena/widgets/appointment/appointmentBox.dart';
 import 'package:kelena/widgets/appointment/appointmentBoxForTeacher.dart';
 import 'package:provider/provider.dart';
 
@@ -16,14 +13,7 @@ class DialogAppointmentTeacher extends StatefulWidget {
 
 class _DialogAppointmentTeacherState extends State<DialogAppointmentTeacher> {
   @override
-  // void initState() {
-  //   Provider.of<Student>(context, listen: false).studentDetails().then((_) {});
-  //   super.initState();
-  // }
-  @override
   Widget build(BuildContext context) {
-    // User student = Provider.of<Student>(context).student;
-    int onWhatSelected = -1;
     return Scaffold(
         body: Container(
       color: Colors.white,
@@ -49,14 +39,13 @@ class _DialogAppointmentTeacherState extends State<DialogAppointmentTeacher> {
                 ),
               ),
               Container(
-                // color: Colors.amber,
                 padding: EdgeInsets.only(
                   top: 60,
                   left: 30,
                   bottom: 20,
                 ),
                 child: Text(
-                  "Your Appointment",
+                  "Appointment List",
                   style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
                           color: Color(0xff67676C),
@@ -71,41 +60,30 @@ class _DialogAppointmentTeacherState extends State<DialogAppointmentTeacher> {
             height: MediaQuery.of(context).size.height * 0.7,
             child: Consumer2<Student, Teacher>(
                 builder: (context, student, teacher, child) {
-              return ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemBuilder: (ctx, index) => teacher.appointmentStatus(index) ==
-                        "Pending"
-                    ? AppointmentBoxForTeacher(
-                        name: student.name(),
-                        day: teacher.daytoAppointment(
-                            teacher.lectureIdFromAppointment(index)),
-                        room: teacher
-                            .room(teacher.lectureIdFromAppointment(index)),
-                        subjectId: teacher
-                            .subjectId(teacher.lectureIdFromAppointment(index)),
-                        subjectName: teacher.subjectName(
-                            teacher.lectureIdFromAppointment(index)),
-                        status: teacher.appointmentStatus(index),
-                        index: index,
-                        appointmentId: teacher.appointmentId(index))
-                    : Container(),
-                itemCount: teacher.appointmentLength(),
-              );
+              return teacher.appointmentPendingLength() == 0
+                  ? Center(child: Text("There is no appointment."))
+                  : ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (ctx, index) =>
+                          teacher.appointmentStatus(index) == "Pending"
+                              ? AppointmentBoxForTeacher(
+                                  name: student.name(),
+                                  day: teacher.daytoAppointment(
+                                      teacher.lectureIdFromAppointment(index)),
+                                  room: teacher.room(
+                                      teacher.lectureIdFromAppointment(index)),
+                                  subjectId: teacher.subjectId(
+                                      teacher.lectureIdFromAppointment(index)),
+                                  subjectName: teacher.subjectName(
+                                      teacher.lectureIdFromAppointment(index)),
+                                  status: teacher.appointmentStatus(index),
+                                  index: index,
+                                  appointmentId: teacher.appointmentId(index))
+                              : Container(),
+                      itemCount: teacher.appointmentLength(),
+                    );
             }),
           )
-
-          // AppointmentBox(
-          //     textLine1: "Dr. Ronald Robertson",
-          //     textLine2: "at CB 2301 after CSC261 Statistics for data science",
-          //     status: "Approved"),
-          // AppointmentBox(
-          //     textLine1: "Dr. Ronald Robertson",
-          //     textLine2: "at CB 2301 after CSC261 Statistics for data science",
-          //     status: "Rejected"),
-          // AppointmentBox(
-          //     textLine1: "Dr. Ronald Robertson",
-          //     textLine2: "at CB 2301 after CSC261 Statistics for data science",
-          //     status: "Pending"),
         ],
       ),
     ));

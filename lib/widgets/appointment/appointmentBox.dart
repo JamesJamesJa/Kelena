@@ -9,18 +9,7 @@ class AppointmentBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.only(top: 10),
-
-        // color: Colors.red,
         width: MediaQuery.of(context).size.width * 0.9,
-        // decoration: BoxDecoration(
-        //   // borderRadius: BorderRadius.circular(10),
-        //   border: Border(
-        //     bottom: BorderSide(
-        //       color: Color(0xff9C8CBE),
-        //       width: 1,
-        //     ),
-        //   ),
-        // ),
         child: Column(
           children: [
             Row(

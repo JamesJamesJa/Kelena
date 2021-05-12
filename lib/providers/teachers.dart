@@ -1,10 +1,3 @@
-// class FavoriteManagement with ChangeNotifier {
-//   Map<String, FavoriteLectureLists> _lectures = {};
-//   void add(String id) {
-//     _lectures.addEntries(id);
-//   }
-// }
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +47,6 @@ class Teachers with ChangeNotifier {
                     type: element.get('type'),
                   ),
                 );
-            // print(element.data());
           });
         });
         await FirebaseFirestore.instance
@@ -162,12 +154,9 @@ class Teachers with ChangeNotifier {
     }
   }
 
-  // int length(){
-  //   return _teacher.length;
-  // }
-
   String teacherNameFromLecturerId(String lecturerId) {
     for (var i = 0; i < _teacher.length; i++) {
+      print("id: ${_teacher[i].id} ${lecturerId}");
       if (_teacher[i].id == lecturerId) {
         return _teacher[i].name;
       }
@@ -330,9 +319,6 @@ class Teachers with ChangeNotifier {
   }
 
   int fromHr(int teacherIndex, int lectureIndex) {
-    // String temp = _teacher[teacherIndex].lectures[lectureIndex].from;
-    // temp = temp.substring(0, 2);
-    // return int.parse(temp);
     String tempTime = _teacher[teacherIndex].lectures[lectureIndex].from;
     String tempHr = tempTime.substring(0, 2);
     if (tempTime.substring(tempTime.length - 2) == "AM" ||
@@ -345,9 +331,6 @@ class Teachers with ChangeNotifier {
   }
 
   int toHr(int teacherIndex, int lectureIndex) {
-    // String temp = _teacher[teacherIndex].lectures[lectureIndex].to;
-    // temp = temp.substring(0, 2);
-    // return int.parse(temp);
     String tempTime = _teacher[teacherIndex].lectures[lectureIndex].to;
     String tempHr = tempTime.substring(0, 2);
     if (tempTime.substring(tempTime.length - 2) == "AM" ||
@@ -389,50 +372,5 @@ class Teachers with ChangeNotifier {
 
   String lecId(int teacherIndex, int lectureIndex) {
     return _teacher[teacherIndex].lectures[lectureIndex].id;
-  }
-
-  // String name(int index) {
-  //   return _users[index].name;
-  // }
-
-  // void addLecturer(String id, String name, String email) {
-  //   _users.putIfAbsent(
-  //       id,
-  //       () => User(
-  //             id: id,
-  //             name: name,
-  //             email: email,
-  //             role: "teacher",
-  //           ));
-  //   notifyListeners();
-  // }
-
-  // void addLecture(String id, String lectureId, String subjectId, String name,
-  //     String room, String day, String from, String to, String type) {
-  //   _users.putIfAbsent(
-  //       id,
-  //       () => User(
-  //             id: id,
-  //             lectures: [
-  //               LectureDetails(
-  //                 id: lectureId,
-  //                 subjectId: subjectId,
-  //                 name: name,
-  //                 room: room,
-  //                 day: day,
-  //                 from: from,
-  //                 to: to,
-  //                 type: type,
-  //               ),
-  //             ],
-  //           ));
-  //   // }
-  //   notifyListeners();
-  // }
-
-  void addFav(User student, String lectureId) {
-    // FavoriteLectureLists tempLectureId;
-    // tempLectureId.lectureId = lectureId;
-    // student.favoriteLectures.add(lectureId);
   }
 }

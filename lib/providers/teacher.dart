@@ -29,11 +29,7 @@ class Teacher with ChangeNotifier {
       await FirebaseFirestore.instance
           .collection('users/${userId}/appointment')
           .doc(appointId)
-          .update({
-        'lectureId': lectureId,
-        'lecturerId': lecturerId,
-        'status': status
-      });
+          .update({'status': status});
       teacher.appointments.removeAt(index);
       teacher.appointments.insert(
           index,
@@ -45,11 +41,7 @@ class Teacher with ChangeNotifier {
       await FirebaseFirestore.instance
           .collection('users/6GL6X9a0wFZNAxS8y1yb/appointment')
           .doc(appointId)
-          .update({
-        'lectureId': lectureId,
-        'lecturerId': lecturerId,
-        'status': status
-      });
+          .update({'status': status});
       teacher.appointments.removeAt(index);
       teacher.appointments.insert(
           index,
@@ -64,9 +56,21 @@ class Teacher with ChangeNotifier {
     }
   }
 
+  Future<void> deleteLecture(String lectureId, String userId) async {
+    try {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
+      FirebaseFirestore.instance
+          .doc('users/${userId}/lectures/${lectureId}')
+          .delete();
+      this.teacherDetails();
+    } catch (err) {
+      return throw (err);
+    }
+  }
+
   Future<void> studentDetails() async {
     try {
-      // await Future.delayed(Duration(seconds: 5));
       WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp();
 
@@ -74,7 +78,6 @@ class Teacher with ChangeNotifier {
           .doc('users/6GL6X9a0wFZNAxS8y1yb')
           .get()
           .then((querySnapshot) async {
-        // List<dynamic> favTemp = querySnapshot.get('favLecturers');
         User temp = User(
           name: querySnapshot.get('name'),
           email: querySnapshot.get('email'),
@@ -83,19 +86,13 @@ class Teacher with ChangeNotifier {
           appointments: [],
           lectures: [],
           favoriteLectures: [],
-          // favoriteLectures: querySnapshot.get('favLecturers'),
         );
         _teacher = temp;
 
         List<dynamic> favTemp = querySnapshot.get('favLecturers');
         favTemp.forEach((element) {
           _teacher.favoriteLectures.add(element);
-          // print(_teacher.favoriteLectures);
         });
-
-        // _teacher. = querySnapshot.get('name');
-
-        // print(querySnapshot.data());
       });
 
       await FirebaseFirestore.instance
@@ -119,7 +116,6 @@ class Teacher with ChangeNotifier {
           .get()
           .then((value) {
         value.docs.forEach((element) {
-          // print(element.id);
           _teacher.lectures.add(LectureDetails(
             id: element.id,
             subjectId: element.get('subjectId'),
@@ -130,10 +126,8 @@ class Teacher with ChangeNotifier {
             to: element.get('to'),
             type: element.get('type'),
           ));
-          // print(element.data());
         });
       });
-      // print(_teacher.name);
       notifyListeners();
     } catch (err) {
       return throw (err);
@@ -184,14 +178,11 @@ class Teacher with ChangeNotifier {
             ));
           });
         });
-
-        print("Add Lecture Success!");
       } else {
         var tempIndex = 0;
         for (var lectureIndex = 0;
             lectureIndex < _teacher.lectures.length;
             lectureIndex++) {
-          print(_teacher.lectures[lectureIndex].id + " " + lectureId);
           if (_teacher.lectures[lectureIndex].id == lectureId) {
             tempIndex = lectureIndex;
           }
@@ -209,7 +200,6 @@ class Teacher with ChangeNotifier {
                 type: type,
               ));
         }
-        // print(lectureId+" "+subjectId+" "+subjectName+" "+location+" "++" "++" "++" "+)
 
         FirebaseFirestore.instance
             .collection('users/${userId}/lectures')
@@ -225,8 +215,6 @@ class Teacher with ChangeNotifier {
         }).catchError((err) {
           print(err);
         });
-        // print();
-        print("Edit Lecture Success!" + _teacher.lectures.toString() + " ");
       }
       notifyListeners();
     } catch (err) {
@@ -262,7 +250,6 @@ class Teacher with ChangeNotifier {
           ));
         });
       });
-      // print(lectureId + " AppID:" + appointmentId);
       FirebaseFirestore.instance
           .collection('users')
           .doc(lecturerId)
@@ -288,7 +275,6 @@ class Teacher with ChangeNotifier {
 
   Future<void> teacherDetails() async {
     try {
-      // await Future.delayed(Duration(seconds: 5));
       WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp();
 
@@ -346,109 +332,6 @@ class Teacher with ChangeNotifier {
     }
   }
 
-  // User _teacher = User(
-  //   id: "id1",
-  //   name: "Thanawat Benjachatriroj",
-  //   email: "thanawat.bcr@gmail.com",
-  //   role: "student",
-  //   lectures: [
-  //     LectureDetails(
-  //       id: "lec1",
-  //       subjectId: "MTH102",
-  //       name: "Mathematics II",
-  //       room: "CB2312",
-  //       day: "Mon",
-  //       from: "10:30",
-  //       to: "12:30",
-  //       type: "Hybrid",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec2",
-  //       subjectId: "CSC217",
-  //       name: "Operating Systems",
-  //       room: "CB2308",
-  //       day: "Tue",
-  //       from: "10:30",
-  //       to: "12:00",
-  //       type: "Hybrid",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec3",
-  //       subjectId: "CSC231",
-  //       name: "Agile Software Engineering",
-  //       room: "CB2306",
-  //       day: "Tue",
-  //       from: "13:30",
-  //       to: "16:30",
-  //       type: "Online",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec4",
-  //       subjectId: "LNG322",
-  //       name: "Academic Writting",
-  //       room: "CB2305",
-  //       day: "Wed",
-  //       from: "09:00",
-  //       to: "12:00",
-  //       type: "Online",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec5",
-  //       subjectId: "MTH102",
-  //       name: "Mathematics II",
-  //       room: "CB2301",
-  //       day: "Thu",
-  //       from: "10:30",
-  //       to: "12:30",
-  //       type: "Hybrid",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec6",
-  //       subjectId: "CSC234",
-  //       name: "Mobile Application",
-  //       room: "Classroom 4/2",
-  //       day: "Thu",
-  //       from: "14:00",
-  //       to: "18:00",
-  //       type: "Online",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec7",
-  //       subjectId: "GEN351",
-  //       name: "Management and Leadership",
-  //       room: "SCL261",
-  //       day: "Fri",
-  //       from: "08:30",
-  //       to: "11:30",
-  //       type: "Online",
-  //     ),
-  //     LectureDetails(
-  //       id: "lec8",
-  //       subjectId: "CSC217",
-  //       name: "Operating Systems",
-  //       room: "CB2306",
-  //       day: "Fri",
-  //       from: "12:50",
-  //       to: "14:20",
-  //       type: "Hybrid",
-  //     ),
-  //   ],
-  //   favoriteLectures: [
-  //     // "teacher1",
-  //     // "teacher2",
-  //   ],
-  //   appointments: [
-  //     AppointmentDetails(id: "app1", lectureId: "lec2", status: "Approved"),
-  //     AppointmentDetails(id: "app2", lectureId: "lec3", status: "Rejected"),
-  //     AppointmentDetails(id: "app3", lectureId: "lec1", status: "Pending"),
-  //   ],
-  // );
-  // _teacher.lectures.addLecture();
-
-  // String print() {
-  //   return _teacher.toString();
-  // }
-
   String name() {
     return _teacher.name.toString();
   }
@@ -467,7 +350,6 @@ class Teacher with ChangeNotifier {
 
   void manageFav(String id) {
     int index = _teacher.favoriteLectures.indexOf(id);
-    // print(_teacher.favoriteLectures.toString());
     if (index == -1) {
       _teacher.favoriteLectures.add(id);
     } else {
@@ -496,27 +378,18 @@ class Teacher with ChangeNotifier {
     return _teacher.appointments.length;
   }
 
+  int appointmentPendingLength() {
+    int appCount = 0;
+    for (var appIndex = 0;
+        appIndex < _teacher.appointments.length;
+        appIndex++) {
+      if (_teacher.appointments[appIndex].status == "Pending") appCount++;
+    }
+    return appCount;
+  }
+
   void addLecture(String id, String subjectId, String name, String room,
       String day, String from, String to, String type) {
-    print(id);
-    print(subjectId);
-    print(name);
-    print(room);
-    print(day);
-    print(from);
-    print(to);
-    print(type);
-    // if (_lectures.containsKey(id)) {
-    //   _lectures.update(
-    //       id,
-    //       (value) => LectureDetails(
-    //             id: value.id,
-    //             name: value.name,
-    //             email: value.email,
-    //             role: "teacher",
-    //           ));
-    // } else {
-    // _lectures.addEntries(newEntries)
     _teacher.lectures.add(LectureDetails(
         id: id,
         name: name,
@@ -585,17 +458,6 @@ class Teacher with ChangeNotifier {
       }
     }
   }
-
-  // String roomFromAppointment(String lectureId) {
-  //   for (var lectureIndex = 0;
-  //       lectureIndex < _teacher.lectures.length;
-  //       lectureIndex++) {
-  //     if (_teacher.lectures[lectureIndex].id.toString() ==
-  //         lectureId.toString()) {
-  //       return _teacher.lectures[lectureIndex].;
-  //     }
-  //   }
-  // }
 
   int day(String lectureId) {
     for (var lectureIndex = 0;

@@ -8,11 +8,9 @@ class StudentNavBar extends StatelessWidget {
   final String amountNoti;
   const StudentNavBar({this.headline1, this.headline2, this.amountNoti});
   Widget build(BuildContext context) {
-    //Bottom Nav Bar Widget
     return Column(children: [
       Container(
           height: MediaQuery.of(context).size.height * 0.13,
-          // color: Colors.green,
           child: Row(children: <Widget>[
             Container(
               child: Align(
@@ -66,7 +64,6 @@ class StudentNavBar extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.only(left: 30, top: 24),
                       child: Text(
-                        // amountNoti,
                         "3",
                         style: TextStyle(color: Colors.white, fontSize: 6),
                       ),

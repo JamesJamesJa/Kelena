@@ -55,7 +55,6 @@ class _DialogConfirmAppointmentState extends State<DialogConfirmAppointment> {
           child: Container(
             padding: EdgeInsets.only(left: 10),
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
@@ -97,26 +96,26 @@ class _DialogConfirmAppointmentState extends State<DialogConfirmAppointment> {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('Confirm',
-                style: GoogleFonts.montserrat(
-                    textStyle: TextStyle(
-                        color: Color(0xff9C8CBE),
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500))),
-            onPressed: () {
-              teacher.changeAppointmentStatus("cjreWa9KOQom1YywjMBw",
-                  widget.appointmentId, widget.index, widget.accept);
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
             child: Text('Cancel',
                 style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                         color: Color(0xff9C8CBE),
                         fontSize: 14.0,
-                        fontWeight: FontWeight.w500))),
+                        fontWeight: FontWeight.w400))),
             onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('Confirm',
+                style: GoogleFonts.montserrat(
+                    textStyle: TextStyle(
+                        color: Color(0xff9C8CBE),
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w400))),
+            onPressed: () {
+              teacher.changeAppointmentStatus("cjreWa9KOQom1YywjMBw",
+                  widget.appointmentId, widget.index, widget.accept);
               Navigator.of(context).pop();
             },
           ),
